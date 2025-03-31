@@ -27,9 +27,9 @@ void Mode2::Update([[maybe_unused]] double dt) {
         Engine::GetGameStateManager().ReloadState();
     }
 
-    if (player.GetIndex() == map.GetExitIndex()) {
+    /*if (player.GetIndex() == map.GetExitIndex()) {
         Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Splash));
-    }
+    }*/
 }
 
 void Mode2::Unload() {

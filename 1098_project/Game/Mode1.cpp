@@ -27,7 +27,8 @@ void Mode1::Update([[maybe_unused]] double dt) {
         Engine::GetGameStateManager().ReloadState();
     }
 
-    if (player.GetIndex() == map.GetExitIndex()) {
+    if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::One)) {
+        //Engine::GetGameStateManager().ClearNextGameState();
         Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Mode2));
     }
 }
