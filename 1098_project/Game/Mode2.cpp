@@ -11,7 +11,12 @@ Created:    March 12, 2025
 #include "Mode2.h"
 #include "States.h"
 
-Mode2::Mode2() : map({ 5,5 }), player(map) , enemy(map,player){}
+Mode2::Mode2() : map({ 5,5 }), player(map) , enemy(map,player){
+    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+    camera.offset = { 200.f,200.f };
+    camera.rotation = 0.f;
+    camera.zoom = 1.f;
+}
 
 void Mode2::Load() {
 
@@ -22,7 +27,17 @@ void Mode2::Load() {
 
 void Mode2::Update([[maybe_unused]] double dt) {
     map.Update();
-    player.Update();
+    player.Update(dt);
+    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+    if (player.GetTimeLimit() > 2) {
+        camera.zoom = 1.f;
+    }
+    else if (player.GetTimeLimit() <= 2 && player.GetTimeLimit() > 1) {
+        camera.zoom = 1.5f;
+    }
+    else {
+        camera.zoom = 2.f;
+    }
 
     if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
         Engine::GetGameStateManager().ReloadState();
@@ -41,8 +56,10 @@ void Mode2::Unload() {
 }
 
 void Mode2::Draw() {
+    BeginMode2D(camera);
     Engine::GetWindow().Clear(0xFFFFFF00);
     map.Draw();
     player.Draw();
     enemy.Draw();
+    EndMode2D();
 }

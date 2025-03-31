@@ -26,6 +26,13 @@ Math::vec2& Math::vec2::operator+=(const vec2& v) {
     return *this;
 }
 
+Math::vec2& Math::vec2::operator+=(const ivec2& v)
+{
+    x += double(v.x);
+    y += double(v.y);
+    return *this;
+}
+
 Math::vec2 Math::vec2::operator-(const vec2& v)
 {
     return { x - v.x, y - v.y };
@@ -40,6 +47,13 @@ Math::vec2& Math::vec2::operator-=(const vec2& v)
 {
     x -= v.x;
     y -= v.y;
+    return *this;
+}
+
+Math::vec2& Math::vec2::operator-=(const ivec2& v)
+{
+    x -= double(v.x);
+    y -= double(v.y);
     return *this;
 }
 
@@ -60,6 +74,13 @@ Math::vec2& Math::vec2::operator*=(double scale)
     return *this;
 }
 
+Math::vec2& Math::vec2::operator*=(const ivec2& v)
+{
+    x *= double(v.x);
+    y *= double(v.y);
+    return *this;
+}
+
 
 
 Math::vec2 Math::vec2::operator/(double divisor)
@@ -76,6 +97,13 @@ Math::vec2& Math::vec2::operator/=(double divisor)
 {
     x /= divisor;
     y /= divisor;
+    return *this;
+}
+
+Math::vec2& Math::vec2::operator/=(const ivec2& v)
+{
+    x /= double(v.x);
+    y /= double(v.y);
     return *this;
 }
 
@@ -111,6 +139,7 @@ Math::ivec2& Math::ivec2::operator+=(const ivec2& v) {
     return *this;
 }
 
+
 Math::ivec2 Math::ivec2::operator-(const ivec2& v)
 {
     return { x - v.x, y - v.y };
@@ -127,6 +156,8 @@ Math::ivec2& Math::ivec2::operator-=(const ivec2& v)
     y -= v.y;
     return *this;
 }
+
+
 
 Math::ivec2 Math::ivec2::operator*(int scale)
 {
@@ -145,6 +176,7 @@ Math::ivec2& Math::ivec2::operator*=(int scale)
     return *this;
 }
 
+
 Math::ivec2 Math::ivec2::operator/(int divisor)
 {
     return { x / divisor, y / divisor };
@@ -161,6 +193,7 @@ Math::ivec2& Math::ivec2::operator/=(int divisor)
     y /= divisor;
     return *this;
 }
+
 
 Math::vec2 Math::ivec2::operator*(double scale)
 {

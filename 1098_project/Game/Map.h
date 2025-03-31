@@ -23,11 +23,11 @@ public:
 	void Update();
 	void Draw();
 	void Unload();
-	Math::ivec2 GetIndex() { return index; }
-	Math::ivec2 GetExitIndex() { return exit_index; }
-	Math::ivec2 GetStartPosition() { return start_position; }
-	Math::ivec2 GetTileSize() { return tile_size; }
-	Math::ivec2 GetGridSize() { return grid_size; }
+	Math::ivec2 GetIndex() const{ return index; }
+	Math::ivec2 GetExitIndex() const { return exit_index; }
+	Math::ivec2 GetStartPosition() const { return start_position; }
+	Math::ivec2 GetTileSize() const { return tile_size; }
+	Math::ivec2 GetGridSize()const { return grid_size; }
 	std::vector<std::vector<Tile>>& GetGrid() { return grid; }
 
 private:

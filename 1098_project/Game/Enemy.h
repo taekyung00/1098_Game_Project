@@ -18,7 +18,7 @@ public:
 	void Update();
 	void Draw();
 	void Unload();
-	Math::ivec2 GetIndex() { return index; }
+	Math::ivec2 GetIndex() const { return index; }
 
 private:
 	Map& map;

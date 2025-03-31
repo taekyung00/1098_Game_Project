@@ -36,6 +36,7 @@ private:
     Map map;
     Player player;
     Enemy enemy;
+    Camera2D camera;
 
 };
 #endif // !MODE_H

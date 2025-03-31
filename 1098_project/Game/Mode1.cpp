@@ -11,10 +11,15 @@ Created:    March 12, 2025
 #include "Mode1.h"
 #include "States.h"
 
-Mode1::Mode1() : map( {8,8}), player(map) , enemy(map,player){}
+Mode1::Mode1() : map({ 8,8 }), player(map), enemy(map, player) {
+    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+    camera.offset = { 200.f,200.f };
+    camera.rotation = 0.f;
+    camera.zoom = 1.f;
+}
 
 void Mode1::Load() {
-    Engine::GetWindow().Clear(0x00000000);
+    
     map.Load();
     player.Load();
     enemy.Load();    
@@ -22,8 +27,18 @@ void Mode1::Load() {
 
 void Mode1::Update([[maybe_unused]] double dt) {
     map.Update();
-    player.Update();
+    player.Update(dt);
     enemy.Update();
+    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+    if (player.GetTimeLimit() > 2) {
+        camera.zoom = 1.f;
+    }
+    else if (player.GetTimeLimit() <= 2 && player.GetTimeLimit() > 1) {
+        camera.zoom = 1.5f;
+    }
+    else {
+        camera.zoom = 2.f;
+    }
 
     if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
         Engine::GetGameStateManager().ReloadState();
@@ -41,8 +56,11 @@ void Mode1::Unload() {
 }
 
 void Mode1::Draw() {
+    BeginMode2D(camera);
     Engine::GetWindow().Clear(0xFFFFFF00);
+
     map.Draw();
     player.Draw();
     enemy.Draw();
+    EndMode2D();
 }

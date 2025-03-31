@@ -12,6 +12,7 @@ Created:    March 18, 2025
 #include <limits>
 
 namespace Math {
+    struct ivec2;
     struct vec2 {
         double x{ 0.0 };
         double y{ 0.0 };
@@ -25,20 +26,24 @@ namespace Math {
         vec2 operator+(const vec2& v);
         vec2 operator+(const vec2& v)const;
         vec2& operator+=(const vec2& v);
+        vec2& operator+=(const ivec2& v);
 
         vec2 operator-(const vec2& v);
         vec2 operator-(const vec2& v)const;
         vec2& operator-=(const vec2& v);
+        vec2& operator-=(const ivec2& v);
 
         vec2 operator*(double scale);
         vec2 operator*(double scale) const;
         vec2& operator*=(double scale);
+        vec2& operator*=(const ivec2& v);
 
         
 
         vec2 operator/(double divisor);
         vec2 operator/(double divisor)const;
         vec2& operator/=(double divisor);
+        vec2& operator/=(const ivec2& v);
     };
 
     vec2 operator*(double scale, const vec2& v);

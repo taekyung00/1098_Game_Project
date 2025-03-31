@@ -32,10 +32,12 @@ public:
     }
 
 private:
-    //CS230::Camera camera;
+    
     Map map;
     Player player;
     Enemy enemy;
+    //CS230::Camera camera;
+    Camera2D camera;
 
 
 };
