@@ -36,6 +36,10 @@ void CS230::Window::Update() {
     BeginDrawing();
 }
 
+void CS230::Window::Update(Math::ivec2 newsize){
+    SetWindowSize(newsize.x, newsize.y);
+}
+
 bool CS230::Window::IsClosed() const {
     return WindowShouldClose();
 }

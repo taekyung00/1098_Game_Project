@@ -56,6 +56,9 @@
     <ClCompile Include="Game\Mode2.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Enemy.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h">
@@ -107,6 +110,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Mode2.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

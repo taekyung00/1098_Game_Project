@@ -12,7 +12,6 @@ Created:    March 11, 2025
 #include <string>
 #include <raylib.h>
 #include <rlgl.h>
-#include <string>
 #include "Vec2.h"
 
 namespace CS230 {
@@ -20,6 +19,7 @@ namespace CS230 {
     public:
         void Start(std::string title);
         void Update();
+        void Update(Math::ivec2 newsize);
         bool IsClosed() const;
         Math::ivec2 GetSize() const;
         void Clear(unsigned int color);

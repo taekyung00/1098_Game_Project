@@ -27,17 +27,19 @@ public:
 	Math::ivec2 GetExitIndex() { return exit_index; }
 	Math::ivec2 GetStartPosition() { return start_position; }
 	Math::ivec2 GetTileSize() { return tile_size; }
+	Math::ivec2 GetGridSize() { return grid_size; }
 	std::vector<std::vector<Tile>>& GetGrid() { return grid; }
 
 private:
-	
+	const Math::ivec2 tile_size = { 40,40 };
+	const Math::ivec2 start_position = { 50, 50 };
 	std::vector<std::vector<Tile>> grid;
 
 	Math::ivec2 index;
 	Math::ivec2 exit_index;
+	Math::ivec2 grid_size;
 
-	const Math::ivec2 tile_size = { 40,40 };
-	const Math::ivec2 start_position = { 50, 50 };
+	
 	
 
 };

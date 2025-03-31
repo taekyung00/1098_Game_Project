@@ -16,6 +16,7 @@ Created:    March 12, 2025
 #include "../Engine/Camera.h"
 #include "../Game/Map.h"
 #include "../Game/Player.h"
+#include "../Game/Enemy.h"
 
 
 class Mode1 : public CS230::GameState {
@@ -34,6 +35,8 @@ private:
     //CS230::Camera camera;
     Map map;
     Player player;
+    Enemy enemy;
+
 
 };
 #endif // !MODE_H

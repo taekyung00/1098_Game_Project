@@ -1,5 +1,5 @@
 #include "Map.h"
-Map::Map(Math::ivec2 index) : index(index) , exit_index(index){}
+Map::Map(Math::ivec2 index) : index(index), exit_index(index), grid_size(tile_size.x*(Math::ivec2{ index } + Math::ivec2{ 2,2 })) {}
 
 void Map::Load() {
 	if (grid.size() < ((index.x + 2) * (index.y + 2))) {
@@ -34,6 +34,7 @@ void Map::Load() {
 			grid[i][j] = Tile::ground;
 		}
 	}
+	Engine::GetWindow().Update(grid_size + 2 * start_position);
 }
 
 void Map::Update() {

@@ -16,8 +16,7 @@ void Player::Load() {
 	else {
 		index_start.y = map.GetIndex().y / 2 + 1;
 	}
-	index.x = index_start.x;
-	index.y = index_start.y;
+	index = index_start;
 }
 
 void Player::Update() {
