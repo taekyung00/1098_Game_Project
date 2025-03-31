@@ -13,7 +13,7 @@ Created:    March 12, 2025
 
 Mode1::Mode1() : map({ 8,8 }), player(map), enemy(map, player) {
     camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
-    camera.offset = { 200.f,200.f };
+    camera.offset = { float(Engine::GetWindow().GetSize().x / 2)-150.f,float(Engine::GetWindow().GetSize().y / 2)-150.f };
     camera.rotation = 0.f;
     camera.zoom = 1.f;
 }
