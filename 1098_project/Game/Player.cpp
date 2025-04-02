@@ -78,6 +78,7 @@ void Player::Update(double dt,const Enemy& enemy) {
 		for (int i = 0; i < enemy.GetArms().size(); i++) {
 			if (CheckCollisionCircles(temp_player_position, radius, enemy.GetArms()[i].center, enemy.GetArms()[i].radius)) {
 				moving_count--;
+				break;
 			}
 		}
 	}
