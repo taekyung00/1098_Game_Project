@@ -38,6 +38,24 @@ private:
 	Math::ivec2 index;
 	Math::ivec2 exit_index;
 	Math::ivec2 grid_size;
+	
+	std::vector<std::string> stage1_tile_paths = {
+		"Assets/Stage_1_32_tile1_1.png",
+		"Assets/Stage_1_32_tile1_2.png",
+		"Assets/Stage_1_32_tile1_3.png",
+		"Assets/Stage_1_32_tile1_4.png",
+		"Assets/Stage_1_32_tile1_5.png",
+		"Assets/Stage_1_32_tile1_6.png",
+		"Assets/Stage_1_32_tile1_7.png",
+		"Assets/Stage_1_32_tile1_8.png",
+		"Assets/Stage_1_32_tile1_9.png"
+	};
+
+	std::vector<std::string> stage1_wall_paths = {
+		"Assets/Stage_1_32_wall1_Corner.png",
+		"Assets/Stage_1_32_wall1_Plain.png"
+	};
+
 
 	
 	

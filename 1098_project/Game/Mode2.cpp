@@ -23,6 +23,7 @@ void Mode2::Load() {
     map.Load();
     player.Load();
     enemy.Load();
+    camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 }
 
 void Mode2::Update([[maybe_unused]] double dt) {

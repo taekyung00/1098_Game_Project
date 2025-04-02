@@ -12,8 +12,10 @@ Created:    March 12, 2025
 #include "States.h"
 
 Mode1::Mode1() : map({ 8,8 }), player(map), enemy(map, player) {
+    
     camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
-    camera.offset = { float(Engine::GetWindow().GetSize().x / 2)-150.f,float(Engine::GetWindow().GetSize().y / 2)-150.f };
+    camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
+    
     camera.rotation = 0.f;
     camera.zoom = 1.f;
 }
@@ -22,14 +24,14 @@ void Mode1::Load() {
     
     map.Load();
     player.Load();
-    enemy.Load();    
+    enemy.Load();   
+    camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 }
 
 void Mode1::Update([[maybe_unused]] double dt) {
     map.Update();
     player.Update(dt);
     enemy.Update();
-    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
     if (player.GetTimeLimit() > 2) {
         camera.zoom = 1.f;
     }
@@ -39,6 +41,7 @@ void Mode1::Update([[maybe_unused]] double dt) {
     else {
         camera.zoom = 2.f;
     }
+    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 
     if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
         Engine::GetGameStateManager().ReloadState();
