@@ -28,7 +28,8 @@ void Mode2::Load() {
 
 void Mode2::Update([[maybe_unused]] double dt) {
     map.Update();
-    player.Update(dt);
+    enemy.Update(dt);
+    player.Update(dt,enemy);
     camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
     if (player.GetTimeLimit() > 2) {
         camera.zoom = 1.f;

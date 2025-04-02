@@ -1,6 +1,9 @@
 #include "Player.h"
+#include "Enemy.h"
 
-Player::Player(Map& map) : map(map) , moving_count(10), is_moving(true){}
+Player::Player(Map& map) : map(map) , moving_count(10), is_moving(true){
+	radius = map.GetTileSize().y / 2;
+}
 
 void Player::Load() {
 	if (map.GetIndex().x % 2 == 0) {
@@ -23,7 +26,7 @@ void Player::Load() {
 	
 }
 
-void Player::Update(double dt) {
+void Player::Update(double dt,const Enemy& enemy) {
 	if (is_moving == true) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
 			if (map.GetGrid()[index.x - 1][index.y] != Tile::wall) {
@@ -69,12 +72,23 @@ void Player::Update(double dt) {
 	player_position = {
 		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
 		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
+
+	if (enemy.GetArms().size() > 0) {
+		Vector2 temp_player_position = { player_position.x,player_position.y };
+		for (int i = 0; i < enemy.GetArms().size(); i++) {
+			if (CheckCollisionCircles(temp_player_position, radius, enemy.GetArms()[i].center, enemy.GetArms()[i].radius)) {
+				moving_count--;
+			}
+		}
+	}
+
+
 	
 }
 
 void Player::Draw() {
 
-	int radius = map.GetTileSize().y / 2;
+	
 
 	DrawCircle(
 		player_position.x,

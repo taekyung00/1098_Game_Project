@@ -12,13 +12,15 @@
 
 class Enemy {
 public:
+	struct attackarm;
 
 	Enemy(Map& map, Player& player);
 	void Load();
-	void Update();
+	void Update(double dt);
 	void Draw();
 	void Unload();
 	Math::ivec2 GetIndex() const { return index; }
+	const std::vector<attackarm>& GetArms() const { return attackarms; }
 
 private:
 	Map& map;
@@ -27,6 +29,17 @@ private:
 	Math::ivec2 index_start;
 	Math::ivec2 index;
 
+	Math::ivec2 position;
+
+	bool is_attacking;
+	double attcak_count;
+
+	struct attackarm {
+		Vector2 center;
+		int radius;
+	};
+
+	std::vector<attackarm> attackarms;
 	//bool is_moving;
 
 };
