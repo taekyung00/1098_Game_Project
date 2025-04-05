@@ -1,11 +1,12 @@
 #include "Player.h"
 #include "Enemy.h"
 
-Player::Player(Map& map) : map(map) , moving_count(10), is_moving(true){
+Player::Player(Map& map, FloorStateManager& floorstatemanager) : map(map) ,floorstatemanager(floorstatemanager), moving_count(10), is_moving(true), time_limit(start_time_limit){
 	radius = map.GetTileSize().y / 2;
 }
 
 void Player::Load() {
+	time_limit = start_time_limit;
 	if (map.GetIndex().x % 2 == 0) {
 		index_start.x = map.GetIndex().x / 2 ;
 	}
@@ -32,28 +33,28 @@ void Player::Update(double dt,const Enemy& enemy) {
 			if (map.GetGrid()[index.x - 1][index.y] != Tile::wall) {
 				index.x--;
 				moving_count--;
-				time_limit = 3;
+				time_limit = max_time_limit;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
 			if (map.GetGrid()[index.x + 1][index.y] != Tile::wall) {
 				index.x++;
 				moving_count--;
-				time_limit = 3;
+				time_limit = max_time_limit;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 			if (map.GetGrid()[index.x][index.y - 1] != Tile::wall) {
 				index.y--;
 				moving_count--;
-				time_limit = 3;
+				time_limit = max_time_limit;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 			if (map.GetGrid()[index.x][index.y + 1] != Tile::wall) {
 				index.y++;
 				moving_count--;
-				time_limit = 3;
+				time_limit = max_time_limit;
 			}
 		}
 	}
@@ -63,11 +64,10 @@ void Player::Update(double dt,const Enemy& enemy) {
 	}
 
 	time_limit -= dt;
-	Engine::GetLogger().LogDebug(std::to_string(time_limit));
+	Engine::GetLogger().LogDebug("Time Limit :"+std::to_string(time_limit));
 
 	if (time_limit <= 0.0) {
-		Engine::GetGameStateManager().ReloadState();
-		time_limit = 3;
+		floorstatemanager.ReloadFloor();
 	}
 	player_position = {
 		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
@@ -103,7 +103,24 @@ void Player::Draw() {
 		player_position.y-radius-20,
 		20,
 		RED);
-	if (time_limit > 2) {
+	
+	if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
+		DrawText(
+			TextFormat("5"),
+			player_position.x,
+			player_position.y,
+			20,
+			RED);
+	}
+	else if (time_limit <= start_time_limit-1 && time_limit > start_time_limit - 2) {
+		DrawText(
+			TextFormat("4"),
+			player_position.x,
+			player_position.y,
+			20,
+			RED);
+	}
+	else if (time_limit <= start_time_limit - 2 && time_limit > start_time_limit - 3) {
 		DrawText(
 			TextFormat("3"),
 			player_position.x,
@@ -111,7 +128,7 @@ void Player::Draw() {
 			20,
 			RED);
 	}
-	else if (time_limit <= 2 && time_limit > 1) {
+	else if (time_limit <= start_time_limit -3 && time_limit > start_time_limit - 4) {
 		DrawText(
 			TextFormat("2"),
 			player_position.x,

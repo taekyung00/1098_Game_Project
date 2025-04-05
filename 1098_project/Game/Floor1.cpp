@@ -7,30 +7,32 @@ Project:    CS230 Engine
 Author:     Taekyung Ho
 Created:    March 12, 2025
 */
-#include "../Engine/Engine.h"
-#include "Mode2.h"
+
+#include "Floor1.h"
 #include "States.h"
 
-Mode2::Mode2() : map({ 5,5 }), player(map) , enemy(map,player){
+Floor1::Floor1(FloorStateManager& floorstatemanager) : map({ 8,8 }), player(map,floorstatemanager), enemy(map, player), floorstatemanager(floorstatemanager) {
+    
     camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
-    camera.offset = { float(Engine::GetWindow().GetSize().x / 2) - 150.f,float(Engine::GetWindow().GetSize().y / 2) - 150.f };
+    camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
+    
     camera.rotation = 0.f;
     camera.zoom = 1.f;
 }
 
-void Mode2::Load() {
-
+void Floor1::Load() {
+    
     map.Load();
     player.Load();
-    enemy.Load();
+    enemy.Load();   
     camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 }
 
-void Mode2::Update([[maybe_unused]] double dt) {
+void Floor1::Update([[maybe_unused]] double dt) {
     map.Update();
+    
     enemy.Update(dt);
     player.Update(dt,enemy);
-    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
     if (player.GetTimeLimit() > 2) {
         camera.zoom = 1.f;
     }
@@ -40,26 +42,27 @@ void Mode2::Update([[maybe_unused]] double dt) {
     else {
         camera.zoom = 2.f;
     }
+    camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 
     if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
-        Engine::GetGameStateManager().ReloadState();
+        floorstatemanager.ReloadFloor();
     }
 
     if (player.GetIndex() == map.GetExitIndex()) {
-        /*Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Splash));*/
-        Engine::GetGameStateManager().ClearNextGameState();
+        floorstatemanager.SetNextFloor(static_cast<int>(Floors::floor2));
     }
 }
 
-void Mode2::Unload() {
+void Floor1::Unload() {
     map.Unload();
     player.Unload();
     enemy.Unload();
 }
 
-void Mode2::Draw() {
+void Floor1::Draw() {
     BeginMode2D(camera);
     Engine::GetWindow().Clear(0xFFFFFF00);
+
     map.Draw();
     player.Draw();
     enemy.Draw();

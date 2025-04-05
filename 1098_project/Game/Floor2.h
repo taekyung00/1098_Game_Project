@@ -14,21 +14,23 @@ Created:    March 12, 2025
 #include <vector>
 #include "../Engine/GameState.h"
 #include "../Engine/Camera.h"
-#include "../Game/Map.h"
-#include "../Game/Player.h"
-#include "../Game/Enemy.h"
+#include "Map.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "FloorState.h"
+#include "FloorStateManager.h"
 
 
-class Mode2 : public CS230::GameState {
+class Floor2 : public FloorState {
 public:
-    Mode2();
+    Floor2(FloorStateManager& floorstatemanager);
     void Load() override;
     void Update(double) override;
     void Unload() override;
     void Draw() override;
 
     std::string GetName() override {
-        return "Mode2";
+        return "Floor2";
     }
 
 private:
@@ -37,6 +39,6 @@ private:
     Player player;
     Enemy enemy;
     Camera2D camera;
-
+    FloorStateManager& floorstatemanager;
 };
 #endif // !MODE_H

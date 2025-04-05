@@ -1,22 +1,17 @@
-/*
-Copyright (C) 2023 DigiPen Institute of Technology
-Reproduction or distribution of this file or its contents without
-prior written consent is prohibited
-File Name:  Mode1.h
-Project:    CS230 Engine
-Author:     Taekyung Ho
-Created:    March 12, 2025
-*/
-
 #ifndef MODE1_H
 #define MODE1_H
 #pragma once
-#include <vector>
-#include "../Engine/GameState.h"
+
+#include "../Engine/Texture.h"
+#include "../Engine/Sprite.h"
 #include "../Engine/Camera.h"
-#include "../Game/Map.h"
-#include "../Game/Player.h"
-#include "../Game/Enemy.h"
+#include "../Engine/GameState.h"
+
+#include "FloorStateManager.h"
+#include "Floor1.h"
+#include "Floor2.h"
+
+#include <vector>
 
 
 class Mode1 : public CS230::GameState {
@@ -27,19 +22,16 @@ public:
     void Unload() override;
     void Draw() override;
 
+    FloorStateManager GetFloorStateManager() { return floorstatemanager; }
     std::string GetName() override {
         return "Mode1";
     }
+    
 
 private:
-    
-    Map map;
-    Player player;
-    Enemy enemy;
-    //CS230::Camera camera;
-    Camera2D camera;
-
-
+    FloorStateManager floorstatemanager;
+    Floor1 floor1;
+    Floor2 floor2;
 };
 #endif // !MODE_H
 
