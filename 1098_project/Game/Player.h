@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Map.h"
+#include "TurnManager.h"
 
 #include "../Engine/Engine.h"
 #include "../Engine/Vec2.h"
@@ -12,7 +13,7 @@ class Enemy;
 class Player {
 public:
 
-	Player(Map& map);
+	Player(TurnManager& turnmanager, Map& map);
 	void Load();
 	void Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn);
 	void Draw();
@@ -23,7 +24,9 @@ public:
 	bool GetIsAttacked() { return is_attacked; }
 
 private:
+	TurnManager& turnmanager;
 	Map& map;
+	
 
 	//CS230::Camera& camera;
 
@@ -42,7 +45,6 @@ private:
 	bool is_moving;
 	bool is_attacked = false;
 
-	double player_turn_count = 3;
 
 };
 #endif // !PLAYER_H

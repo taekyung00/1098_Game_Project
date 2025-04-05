@@ -1,12 +1,16 @@
 #include "Player.h"
 #include "Enemy.h"
 
-Player::Player(Map& map) : map(map) , moving_count(10), is_moving(true), time_limit(start_time_limit){
+Player::Player(TurnManager& turnmanager, Map& map) : 
+	turnmanager(turnmanager),
+	map(map) , 
+	moving_count(10), 
+	is_moving(true), 
+	time_limit(start_time_limit){
 	radius = map.GetTileSize().y / 2;
 }
 
 void Player::Load() {
-	player_turn_count = 3;
 	time_limit = start_time_limit;
 	is_attacked = false;
 
@@ -30,8 +34,8 @@ void Player::Load() {
 	
 }
 
-void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEnemyTurn) {
-	player_turn_count -= dt;
+void Player::Update(double dt,const Enemy& enemy, bool& isPlayerTurn , bool& isEnemyTurn) {
+
 	if (is_moving == true) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
 			if (map.GetGrid()[current_index.x - 1][current_index.y] != Tile::wall) {
@@ -40,6 +44,7 @@ void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEn
 				time_limit = max_time_limit;
 				is_attacked = false;
 			}
+			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
 			if (map.GetGrid()[current_index.x + 1][current_index.y] != Tile::wall) {
@@ -48,6 +53,7 @@ void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEn
 				time_limit = max_time_limit;
 				is_attacked = false;
 			}
+			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 			if (map.GetGrid()[current_index.x][current_index.y - 1] != Tile::wall) {
@@ -56,6 +62,7 @@ void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEn
 				time_limit = max_time_limit;
 				is_attacked = false;
 			}
+			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 			if (map.GetGrid()[current_index.x][current_index.y + 1] != Tile::wall) {
@@ -64,11 +71,13 @@ void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEn
 				time_limit = max_time_limit;
 				is_attacked = false;
 			}
+			turnmanager.PlayerToEnemy();
 		}
 	}
 
 	if (moving_count == 0) {
 		is_moving = false;
+		Engine::GetGameStateManager().ReloadState();
 	}
 
 	time_limit -= dt;
@@ -88,17 +97,11 @@ void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEn
 				(is_attacked == false)) {
 				moving_count--;
 				is_attacked = true;
+				turnmanager.PlayerToEnemy();
 				break;
 			}
 		}
 	}
-
-	if (player_turn_count <= 0.0) {
-		isPlayerTurn = false;
-		isEnemyTurn = true;
-	}
-
-
 	
 }
 

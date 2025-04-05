@@ -4,12 +4,23 @@
 
 class TurnManager {
 public:
+	TurnManager();
+	void Load();
+	void Update(double dt);
+	void PlayerToEnemy();
+	void EnemyToPlayer();
+	void Unload();
 
-	void Update();
 private:
+	static constexpr double max_turn_count = 3.0;
+
+	
+
+	double player_turn_count;
+	double enemy_turn_count;
+public:
 	bool isplayerturn = true;
 	bool isenemyturn = false;
-	
 };
 #endif // !TURNMANAGER_H
 

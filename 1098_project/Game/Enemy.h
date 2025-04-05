@@ -9,12 +9,13 @@
 #include "../Engine/Vec2.h"
 #include "Map.h"
 #include "Player.h"
+#include "TurnManager.h"
 
 class Enemy {
 public:
 	struct attackarm;
 
-	Enemy(Map& map, Player& player);
+	Enemy(TurnManager& turnmanager, Map& map, Player& player);
 	void Load();
 	void Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn);
 	void Draw();
@@ -23,6 +24,7 @@ public:
 	const std::vector<attackarm>& GetArms() const { return attackarms; }
 
 private:
+	TurnManager& turnmanager;
 	Map& map;
 	Player& player;
 
@@ -34,7 +36,6 @@ private:
 	bool is_attacking;
 	double attcak_count;
 
-	double enemy_turn_count = 3;
 
 	struct attackarm {
 		Vector2 center;

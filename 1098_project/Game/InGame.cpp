@@ -2,7 +2,7 @@
 
 
 
-InGame::InGame() : current_map_index(floor1_index),map(current_map_index), player(map),enemy(map,player){
+InGame::InGame() : current_map_index(floor1_index),map(current_map_index), player(turnmanager,map),enemy(turnmanager,map,player){
 	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 
@@ -11,8 +11,7 @@ InGame::InGame() : current_map_index(floor1_index),map(current_map_index), playe
 }
 
 void InGame::Load(){
-	isPlayerTurn = true;
-	isEnemyTurn = false;
+	turnmanager.Load();
 	map.Load(current_map_index);
 	player.Load();
 	enemy.Load();
@@ -20,13 +19,14 @@ void InGame::Load(){
 }
 
 void InGame::Update(double dt){
+	turnmanager.Update(dt);
 	map.Update(current_map_index);
-	if (isPlayerTurn) {
-		player.Update(dt, enemy, isPlayerTurn, isEnemyTurn);
+	if (turnmanager.isplayerturn) {
+		player.Update(dt, enemy, turnmanager.isplayerturn, turnmanager.isenemyturn);
 	}
 
-	if (isEnemyTurn) {
-		enemy.Update(dt, isEnemyTurn, isPlayerTurn);
+	if (turnmanager.isenemyturn) {
+		enemy.Update(dt, turnmanager.isenemyturn, turnmanager.isplayerturn);
 	}
 
 	if (player.GetTimeLimit() > 2) {
@@ -64,10 +64,10 @@ void InGame::Unload(){
 
 void InGame::Draw(){
 	BeginMode2D(camera);
-	if (isPlayerTurn == true) {
+	if (turnmanager.isplayerturn == true) {
 		Engine::GetLogger().LogDebug("player turn");
 	}
-	else if (isEnemyTurn == true) {
+	else if (turnmanager.isenemyturn == true) {
 		Engine::GetLogger().LogDebug("enemy turn");
 	}
 	Engine::GetWindow().Clear(0xffffff00);

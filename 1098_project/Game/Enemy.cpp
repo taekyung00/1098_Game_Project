@@ -1,12 +1,16 @@
 #include "Enemy.h"
 
-Enemy::Enemy(Map& map, Player& player) : map(map), player(player), is_attacking(false),attcak_count(1.0){
+Enemy::Enemy(TurnManager& turnmanager, Map& map, Player& player) :
+	turnmanager(turnmanager),
+	map(map), 
+	player(player),
+	is_attacking(false),
+	attcak_count(1.0){
 	
 }
 
 void Enemy::Load(){
 	
-	enemy_turn_count = 3;
 	Math::ivec2 index_temp = { 0,0 };
 
 	std::srand(std::time(nullptr));
@@ -36,7 +40,7 @@ void Enemy::Load(){
 }
 
 void Enemy::Update(double dt,bool& isEnemyTurn, bool& isPlayerTurn){
-	enemy_turn_count -= dt;
+
 	attcak_count -= dt;
 	if (attcak_count <= 0.0) {
 		is_attacking = !is_attacking;
@@ -71,10 +75,7 @@ void Enemy::Update(double dt,bool& isEnemyTurn, bool& isPlayerTurn){
 	else {
 		attackarms.clear();
 	}
-	if (enemy_turn_count <= 0.0) {
-		isEnemyTurn = false;
-		isPlayerTurn = true;
-	}
+
 }
 
 void Enemy::Draw(){
