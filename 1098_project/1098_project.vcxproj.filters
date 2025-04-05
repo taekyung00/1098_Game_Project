@@ -44,25 +44,16 @@
     <ClCompile Include="Game\Map.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Floor1.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Splash.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Floor2.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Enemy.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Mode1.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\FloorStateManager.cpp">
+    <ClCompile Include="Game\InGame.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\TurnManager.cpp">
@@ -106,9 +97,6 @@
     <ClInclude Include="Game\Map.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Floor1.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Player.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -118,25 +106,13 @@
     <ClInclude Include="Game\States.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Floor2.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Enemy.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Mode1.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\FloorState.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Floors.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\FloorStateManager.h">
+    <ClInclude Include="Game\InGame.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\TurnManager.h">

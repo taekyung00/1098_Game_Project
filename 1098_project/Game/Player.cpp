@@ -1,60 +1,68 @@
 #include "Player.h"
 #include "Enemy.h"
 
-Player::Player(Map& map, FloorStateManager& floorstatemanager) : map(map) ,floorstatemanager(floorstatemanager), moving_count(10), is_moving(true), time_limit(start_time_limit){
+Player::Player(Map& map) : map(map) , moving_count(10), is_moving(true), time_limit(start_time_limit){
 	radius = map.GetTileSize().y / 2;
 }
 
 void Player::Load() {
+	player_turn_count = 3;
 	time_limit = start_time_limit;
-	if (map.GetIndex().x % 2 == 0) {
-		index_start.x = map.GetIndex().x / 2 ;
+	is_attacked = false;
+
+	if (map.GetCurrentIndex().x % 2 == 0) {
+		index_start.x = map.GetCurrentIndex().x / 2 ;
 	}
 	else {
-		index_start.x = map.GetIndex().y / 2 + 1;
+		index_start.x = map.GetCurrentIndex().y / 2 + 1;
 	}
 
-	if (map.GetIndex().y % 2 == 0) {
-		index_start.y = map.GetIndex().y / 2 ;
+	if (map.GetCurrentIndex().y % 2 == 0) {
+		index_start.y = map.GetCurrentIndex().y / 2 ;
 	}
 	else {
-		index_start.y = map.GetIndex().y / 2 + 1;
+		index_start.y = map.GetCurrentIndex().y / 2 + 1;
 	}
-	index = index_start;
+	current_index = index_start;
 	player_position = {
-		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
+		map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
 	
 }
 
-void Player::Update(double dt,const Enemy& enemy) {
+void Player::Update(double dt,const Enemy& enemy,bool& isPlayerTurn , bool& isEnemyTurn) {
+	player_turn_count -= dt;
 	if (is_moving == true) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
-			if (map.GetGrid()[index.x - 1][index.y] != Tile::wall) {
-				index.x--;
+			if (map.GetGrid()[current_index.x - 1][current_index.y] != Tile::wall) {
+				current_index.x--;
 				moving_count--;
 				time_limit = max_time_limit;
+				is_attacked = false;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
-			if (map.GetGrid()[index.x + 1][index.y] != Tile::wall) {
-				index.x++;
+			if (map.GetGrid()[current_index.x + 1][current_index.y] != Tile::wall) {
+				current_index.x++;
 				moving_count--;
 				time_limit = max_time_limit;
+				is_attacked = false;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
-			if (map.GetGrid()[index.x][index.y - 1] != Tile::wall) {
-				index.y--;
+			if (map.GetGrid()[current_index.x][current_index.y - 1] != Tile::wall) {
+				current_index.y--;
 				moving_count--;
 				time_limit = max_time_limit;
+				is_attacked = false;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-			if (map.GetGrid()[index.x][index.y + 1] != Tile::wall) {
-				index.y++;
+			if (map.GetGrid()[current_index.x][current_index.y + 1] != Tile::wall) {
+				current_index.y++;
 				moving_count--;
 				time_limit = max_time_limit;
+				is_attacked = false;
 			}
 		}
 	}
@@ -64,23 +72,30 @@ void Player::Update(double dt,const Enemy& enemy) {
 	}
 
 	time_limit -= dt;
-	Engine::GetLogger().LogDebug("Time Limit :"+std::to_string(time_limit));
+	//Engine::GetLogger().LogDebug("Time Limit :"+std::to_string(time_limit));
 
 	if (time_limit <= 0.0) {
-		floorstatemanager.ReloadFloor();
+		Engine::GetGameStateManager().ReloadState();
 	}
 	player_position = {
-		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
+		map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
 
 	if (enemy.GetArms().size() > 0) {
 		Vector2 temp_player_position = { player_position.x,player_position.y };
 		for (int i = 0; i < enemy.GetArms().size(); i++) {
-			if (CheckCollisionCircles(temp_player_position, radius, enemy.GetArms()[i].center, enemy.GetArms()[i].radius)) {
+			if (CheckCollisionCircles(temp_player_position, radius, enemy.GetArms()[i].center, enemy.GetArms()[i].radius)&&
+				(is_attacked == false)) {
 				moving_count--;
+				is_attacked = true;
 				break;
 			}
 		}
+	}
+
+	if (player_turn_count <= 0.0) {
+		isPlayerTurn = false;
+		isEnemyTurn = true;
 	}
 
 

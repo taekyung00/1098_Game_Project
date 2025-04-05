@@ -3,8 +3,8 @@
 #pragma once
 
 #include "Map.h"
-#include "FloorStateManager.h"
 
+#include "../Engine/Engine.h"
 #include "../Engine/Vec2.h"
 #include "../Engine/Camera.h"
 
@@ -12,25 +12,25 @@ class Enemy;
 class Player {
 public:
 
-	Player(Map& map, FloorStateManager& floorstatemanager);
+	Player(Map& map);
 	void Load();
-	void Update(double dt, const Enemy& enemy);
+	void Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn);
 	void Draw();
 	void Unload();
-	Math::ivec2 GetIndex() const { return index; }
+	Math::ivec2 GetCurrentIndex() const { return current_index; }
 	Math::ivec2 GetPosition() const { return player_position; }
 	double GetTimeLimit() const { return time_limit; }
+	bool GetIsAttacked() { return is_attacked; }
 
 private:
 	Map& map;
-	FloorStateManager& floorstatemanager;
 
 	//CS230::Camera& camera;
 
 
 
 	Math::ivec2 index_start;
-	Math::ivec2 index;
+	Math::ivec2 current_index;
 	Math::ivec2 player_position;
 
 	int radius;
@@ -40,6 +40,9 @@ private:
 	double max_time_limit = 2;
 	double time_limit;
 	bool is_moving;
+	bool is_attacked = false;
+
+	double player_turn_count = 3;
 
 };
 #endif // !PLAYER_H

@@ -1,7 +1,7 @@
 
 #include "raylib.h"
 #include "Engine/Engine.h"
-#include "Game/Mode1.h"
+#include "Game/InGame.h"
 #include "Game/Splash.h"
 
 
@@ -12,8 +12,8 @@ int main(void) {
 
     Splash splash;
     engine.GetGameStateManager().AddGameState(splash);
-    Mode1 mode1;
-    engine.GetGameStateManager().AddGameState(mode1);
+    InGame ingame;
+    engine.GetGameStateManager().AddGameState(ingame);
     
 
     while (engine.HasGameEnded() == false) {

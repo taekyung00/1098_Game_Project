@@ -4,13 +4,11 @@
 
 class TurnManager {
 public:
-	TurnManager();
-	void Update(double);
-	bool GetIsTurnEnd() { return isturnend; }
+
+	void Update();
 private:
-	const double max_turn_count = 3;
-	bool isturnend;	
-	double turn_count;
+	bool isplayerturn = true;
+	bool isenemyturn = false;
 	
 };
 #endif // !TURNMANAGER_H

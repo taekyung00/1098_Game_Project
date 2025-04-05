@@ -19,11 +19,11 @@ class Map {
 public:
 	
 	Map(Math::ivec2 index);
-	void Load();
-	void Update();
+	void Load(Math::ivec2 index);
+	void Update(const Math::ivec2& new_index);
 	void Draw();
 	void Unload();
-	Math::ivec2 GetIndex() const{ return index; }
+	Math::ivec2 GetCurrentIndex() const{ return current_index; }
 	Math::ivec2 GetExitIndex() const { return exit_index; }
 	Math::ivec2 GetStartPosition() const { return start_position; }
 	Math::ivec2 GetTileSize() const { return tile_size; }
@@ -31,11 +31,12 @@ public:
 	std::vector<std::vector<Tile>>& GetGrid() { return grid; }
 
 private:
+
 	const Math::ivec2 tile_size = { 40,40 };
 	const Math::ivec2 start_position = { 50, 50 };
 	std::vector<std::vector<Tile>> grid;
 
-	Math::ivec2 index;
+	Math::ivec2 current_index;
 	Math::ivec2 exit_index;
 	Math::ivec2 grid_size;
 	

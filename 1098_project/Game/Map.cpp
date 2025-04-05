@@ -1,44 +1,50 @@
 #include "Map.h"
-Map::Map(Math::ivec2 index) : index(index), exit_index(index), grid_size(tile_size.x*(Math::ivec2{ index } + Math::ivec2{ 2,2 })) {}
+Map::Map(Math::ivec2 current_index) : current_index(current_index), exit_index(current_index), grid_size(tile_size.x*(Math::ivec2{ current_index } + Math::ivec2{ 2,2 })) {}
 
-void Map::Load() {
-	if (grid.size() < ((index.x + 2) * (index.y + 2))) {
-		grid.resize((index.x + 2) * (index.y + 2));
+void Map::Load(Math::ivec2 new_index) {
+	
+	current_index = new_index;
+	exit_index = current_index;
+	grid_size = tile_size.x * (Math::ivec2{ current_index } + Math::ivec2{ 2,2 });
+	if (grid.size() < ((current_index.x + 2) * (current_index.y + 2))) {
+		grid.resize((current_index.x + 2) * (current_index.y + 2));
 	}
 	
 
-	for (int i = 0; i < index.y + 2; ++i) {
-		for (int j = 0; j < index.x + 2; ++j) {
+	for (int i = 0; i < current_index.y + 2; ++i) {
+		for (int j = 0; j < current_index.x + 2; ++j) {
 			grid[i].push_back(Tile::nothing);
 		}
 	}
 
-	for (int i = 0; i < index.x + 2; i++) {
+	for (int i = 0; i < current_index.x + 2; i++) {
 		grid[0][i] = Tile::wall;
 	}
 
-	for (int i = 0; i < index.x + 2; i++) {
-		grid[index.y + 1][i] = Tile::wall;
+	for (int i = 0; i < current_index.x + 2; i++) {
+		grid[current_index.y + 1][i] = Tile::wall;
 	}
 
-	for (int i = 0; i < index.y + 2; i++) {
+	for (int i = 0; i < current_index.y + 2; i++) {
 		grid[i][0] = Tile::wall;
 	}
 
-	for (int i = 0; i < index.y + 2; i++) {
-		grid[i][index.x + 1] = Tile::wall;
+	for (int i = 0; i < current_index.y + 2; i++) {
+		grid[i][current_index.x + 1] = Tile::wall;
 	}
 
-	for (int i = 1; i < index.y + 1; i++) {
-		for (int j = 1; j < index.x + 1; j++) {
+	for (int i = 1; i < current_index.y + 1; i++) {
+		for (int j = 1; j < current_index.x + 1; j++) {
 			grid[i][j] = Tile::ground;
 		}
 	}
 	Engine::GetWindow().Update(grid_size + 2 * start_position);
 }
 
-void Map::Update() {
-
+void Map::Update(const Math::ivec2& new_index) {
+	if (current_index != new_index) {
+		current_index = new_index;
+	}
 }
 
 void Map::Draw() {

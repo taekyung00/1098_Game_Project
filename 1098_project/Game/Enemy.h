@@ -16,7 +16,7 @@ public:
 
 	Enemy(Map& map, Player& player);
 	void Load();
-	void Update(double dt);
+	void Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn);
 	void Draw();
 	void Unload();
 	Math::ivec2 GetIndex() const { return index; }
@@ -33,6 +33,8 @@ private:
 
 	bool is_attacking;
 	double attcak_count;
+
+	double enemy_turn_count = 3;
 
 	struct attackarm {
 		Vector2 center;

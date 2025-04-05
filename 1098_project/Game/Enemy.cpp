@@ -6,22 +6,25 @@ Enemy::Enemy(Map& map, Player& player) : map(map), player(player), is_attacking(
 
 void Enemy::Load(){
 	
+	enemy_turn_count = 3;
 	Math::ivec2 index_temp = { 0,0 };
 
 	std::srand(std::time(nullptr));
 	//take many times!!
 	while (1) {
-		index_temp = { rand() % map.GetIndex().x + 1 ,rand() % map.GetIndex().y + 1 };
+		index_temp = { rand() % map.GetCurrentIndex().x + 1 ,rand() % map.GetCurrentIndex().y + 1 };
 
 		if ( 
-			( ( (player.GetIndex().x - index_temp.x) >= 2) || ( (index_temp.x - player.GetIndex().x) >= 2) ) &&
-			( ( (player.GetIndex().y - index_temp.y) >= 2) || ( (index_temp.y - player.GetIndex().y) >= 2) )
+			( ( (player.GetCurrentIndex().x - index_temp.x) >= 2) || ( (index_temp.x - player.GetCurrentIndex().x) >= 2) ) &&
+			( ( (player.GetCurrentIndex().y - index_temp.y) >= 2) || ( (index_temp.y - player.GetCurrentIndex().y) >= 2) ) &&
+			( ( (map.GetExitIndex().x       - index_temp.x) >= 2) || ( (index_temp.x - map.GetExitIndex().x      ) >= 2) ) &&
+			( ( (map.GetExitIndex().y       - index_temp.y) >= 2) || ( (index_temp.y - map.GetExitIndex().y      ) >= 2) )
 			) {
 
-			if (index_temp != map.GetExitIndex()) {
-				index_start = index_temp;
-				break;
-			}
+			
+			index_start = index_temp;
+			break;
+			
 			
 		}
 	}
@@ -32,7 +35,8 @@ void Enemy::Load(){
 		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
 }
 
-void Enemy::Update(double dt){
+void Enemy::Update(double dt,bool& isEnemyTurn, bool& isPlayerTurn){
+	enemy_turn_count -= dt;
 	attcak_count -= dt;
 	if (attcak_count <= 0.0) {
 		is_attacking = !is_attacking;
@@ -66,6 +70,10 @@ void Enemy::Update(double dt){
 	}
 	else {
 		attackarms.clear();
+	}
+	if (enemy_turn_count <= 0.0) {
+		isEnemyTurn = false;
+		isPlayerTurn = true;
 	}
 }
 
