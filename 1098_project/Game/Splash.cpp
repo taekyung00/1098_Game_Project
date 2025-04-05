@@ -26,14 +26,14 @@ void Splash::Update([[maybe_unused]] double dt) {
         //Engine::GetGameStateManager().ClearNextGameState();
         Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::InGame));
     }
-    counter+=dt;
+    counter += dt;
 }
 
 void Splash::Unload() {
 
 }
 
-void Splash::Draw(){
+void Splash::Draw() {
     Engine::GetWindow().Clear(UINT_MAX);
 
     texture.Draw({ (Engine::GetWindow().GetSize() - texture.GetSize()) / 2.0 });

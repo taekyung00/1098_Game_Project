@@ -1,12 +1,12 @@
 #include "Player.h"
 #include "Enemy.h"
 
-Player::Player(TurnManager& turnmanager, Map& map) : 
+Player::Player(TurnManager& turnmanager, Map& map) :
 	turnmanager(turnmanager),
-	map(map) , 
-	moving_count(10), 
-	is_moving(true), 
-	time_limit(start_time_limit){
+	map(map),
+	moving_count(10),
+	is_moving(true),
+	time_limit(start_time_limit) {
 	radius = map.GetTileSize().y / 2;
 }
 
@@ -15,14 +15,14 @@ void Player::Load() {
 	is_attacked = false;
 
 	if (map.GetCurrentIndex().x % 2 == 0) {
-		index_start.x = map.GetCurrentIndex().x / 2 ;
+		index_start.x = map.GetCurrentIndex().x / 2;
 	}
 	else {
 		index_start.x = map.GetCurrentIndex().y / 2 + 1;
 	}
 
 	if (map.GetCurrentIndex().y % 2 == 0) {
-		index_start.y = map.GetCurrentIndex().y / 2 ;
+		index_start.y = map.GetCurrentIndex().y / 2;
 	}
 	else {
 		index_start.y = map.GetCurrentIndex().y / 2 + 1;
@@ -31,10 +31,10 @@ void Player::Load() {
 	player_position = {
 		map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
 		map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
-	
+
 }
 
-void Player::Update(double dt,const Enemy& enemy, bool& isPlayerTurn , bool& isEnemyTurn) {
+void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
 
 	if (is_moving == true) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
@@ -93,35 +93,36 @@ void Player::Update(double dt,const Enemy& enemy, bool& isPlayerTurn , bool& isE
 	if (enemy.GetArms().size() > 0) {
 		Vector2 temp_player_position = { player_position.x,player_position.y };
 		for (int i = 0; i < enemy.GetArms().size(); i++) {
-			if (CheckCollisionCircles(temp_player_position, radius, enemy.GetArms()[i].center, enemy.GetArms()[i].radius)&&
+			if (CheckCollisionCircles(temp_player_position, radius, enemy.GetArms()[i].center, enemy.GetArms()[i].radius) &&
 				(is_attacked == false)) {
 				moving_count--;
 				is_attacked = true;
+				Engine::GetLogger().LogDebug("player attacked!!!!!!!!!!!!");
 				turnmanager.PlayerToEnemy();
 				break;
 			}
 		}
 	}
-	
+
 }
 
 void Player::Draw() {
 
-	
+
 
 	DrawCircle(
 		player_position.x,
 		player_position.y,
-		radius, 
+		radius,
 		YELLOW);
 
 	DrawText(
 		TextFormat("%d", moving_count),
-		player_position.x-radius + 10,
-		player_position.y-radius-20,
+		player_position.x - radius + 10,
+		player_position.y - radius - 20,
 		20,
 		RED);
-	
+
 	if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
 		DrawText(
 			TextFormat("5"),
@@ -130,7 +131,7 @@ void Player::Draw() {
 			20,
 			RED);
 	}
-	else if (time_limit <= start_time_limit-1 && time_limit > start_time_limit - 2) {
+	else if (time_limit <= start_time_limit - 1 && time_limit > start_time_limit - 2) {
 		DrawText(
 			TextFormat("4"),
 			player_position.x,
@@ -146,7 +147,7 @@ void Player::Draw() {
 			20,
 			RED);
 	}
-	else if (time_limit <= start_time_limit -3 && time_limit > start_time_limit - 4) {
+	else if (time_limit <= start_time_limit - 3 && time_limit > start_time_limit - 4) {
 		DrawText(
 			TextFormat("2"),
 			player_position.x,
@@ -163,7 +164,7 @@ void Player::Draw() {
 			RED);
 	}
 
-	
+
 }
 
 void Player::Unload()

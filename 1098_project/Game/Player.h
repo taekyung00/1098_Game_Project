@@ -21,12 +21,14 @@ public:
 	Math::ivec2 GetCurrentIndex() const { return current_index; }
 	Math::ivec2 GetPosition() const { return player_position; }
 	double GetTimeLimit() const { return time_limit; }
-	bool GetIsAttacked() { return is_attacked; }
+	bool& GetIsAttacked() { return is_attacked; }
+	int GetRadius() { return radius; }
+	int& GetMovingCount() { return moving_count; }
 
 private:
 	TurnManager& turnmanager;
 	Map& map;
-	
+
 
 	//CS230::Camera& camera;
 

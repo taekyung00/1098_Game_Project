@@ -17,7 +17,7 @@
 
 class InGame : public CS230::GameState {
 public:
-    
+
     InGame();
     void Load() override;
     void Update(double) override;
@@ -27,19 +27,19 @@ public:
     std::string GetName() override {
         return "InGame";
     }
-    
+
 
 private:
     static constexpr double max_turn_count = 3.0;
 
     Math::ivec2 floor1_index = { 8,8 };
     Math::ivec2 floor2_index = { 5,5 };
-    Math::ivec2 current_map_index ;
+    Math::ivec2 current_map_index;
     TurnManager turnmanager;
     Map map;
     Player player;
     Enemy enemy;
-    Camera2D camera;    
+    Camera2D camera;
 };
 
 #endif // !MODE_H

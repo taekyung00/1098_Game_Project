@@ -2,7 +2,7 @@
 
 
 
-InGame::InGame() : current_map_index(floor1_index),map(current_map_index), player(turnmanager,map),enemy(turnmanager,map,player){
+InGame::InGame() : current_map_index(floor1_index), map(current_map_index), player(turnmanager, map), enemy(turnmanager, map, player) {
 	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 
@@ -10,7 +10,7 @@ InGame::InGame() : current_map_index(floor1_index),map(current_map_index), playe
 	camera.zoom = 1.f;
 }
 
-void InGame::Load(){
+void InGame::Load() {
 	turnmanager.Load();
 	map.Load(current_map_index);
 	player.Load();
@@ -18,7 +18,7 @@ void InGame::Load(){
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 }
 
-void InGame::Update(double dt){
+void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(current_map_index);
 	if (turnmanager.isplayerturn) {
@@ -52,17 +52,17 @@ void InGame::Update(double dt){
 			current_map_index = floor1_index;
 		}
 		Engine::GetGameStateManager().ReloadState();
-		
+
 	}
 }
 
-void InGame::Unload(){
+void InGame::Unload() {
 	map.Unload();
 	player.Unload();
 	enemy.Unload();
 }
 
-void InGame::Draw(){
+void InGame::Draw() {
 	BeginMode2D(camera);
 	if (turnmanager.isplayerturn == true) {
 		Engine::GetLogger().LogDebug("player turn");

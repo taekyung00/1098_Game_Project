@@ -17,13 +17,13 @@ enum class Tile
 class Map {
 
 public:
-	
+
 	Map(Math::ivec2 index);
 	void Load(Math::ivec2 index);
 	void Update(const Math::ivec2& new_index);
 	void Draw();
 	void Unload();
-	Math::ivec2 GetCurrentIndex() const{ return current_index; }
+	Math::ivec2 GetCurrentIndex() const { return current_index; }
 	Math::ivec2 GetExitIndex() const { return exit_index; }
 	Math::ivec2 GetStartPosition() const { return start_position; }
 	Math::ivec2 GetTileSize() const { return tile_size; }
@@ -39,7 +39,7 @@ private:
 	Math::ivec2 current_index;
 	Math::ivec2 exit_index;
 	Math::ivec2 grid_size;
-	
+
 	std::vector<std::string> stage1_tile_paths = {
 		"Assets/Stage_1_32_tile1_1.png",
 		"Assets/Stage_1_32_tile1_2.png",
@@ -58,8 +58,8 @@ private:
 	};
 
 
-	
-	
+
+
 
 };
 

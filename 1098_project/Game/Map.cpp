@@ -1,15 +1,15 @@
 #include "Map.h"
-Map::Map(Math::ivec2 current_index) : current_index(current_index), exit_index(current_index), grid_size(tile_size.x*(Math::ivec2{ current_index } + Math::ivec2{ 2,2 })) {}
+Map::Map(Math::ivec2 current_index) : current_index(current_index), exit_index(current_index), grid_size(tile_size.x* (Math::ivec2{ current_index } + Math::ivec2{ 2,2 })) {}
 
 void Map::Load(Math::ivec2 new_index) {
-	
+
 	current_index = new_index;
 	exit_index = current_index;
 	grid_size = tile_size.x * (Math::ivec2{ current_index } + Math::ivec2{ 2,2 });
 	if (grid.size() < ((current_index.x + 2) * (current_index.y + 2))) {
 		grid.resize((current_index.x + 2) * (current_index.y + 2));
 	}
-	
+
 
 	for (int i = 0; i < current_index.y + 2; ++i) {
 		for (int j = 0; j < current_index.x + 2; ++j) {

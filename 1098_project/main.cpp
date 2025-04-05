@@ -14,7 +14,7 @@ int main(void) {
     engine.GetGameStateManager().AddGameState(splash);
     InGame ingame;
     engine.GetGameStateManager().AddGameState(ingame);
-    
+
 
     while (engine.HasGameEnded() == false) {
         engine.Update();
@@ -22,5 +22,5 @@ int main(void) {
 
     engine.Stop();
 
-	return 0;
+    return 0;
 }
