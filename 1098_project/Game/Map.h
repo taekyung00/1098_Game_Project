@@ -29,6 +29,7 @@ public:
 	Math::ivec2 GetTileSize() const { return tile_size; }
 	Math::ivec2 GetGridSize()const { return grid_size; }
 	std::vector<std::vector<Tile>>& GetGrid() { return grid; }
+	bool isAble(const Math::ivec2& pos) const;
 
 private:
 

@@ -68,6 +68,13 @@ void Map::Draw() {
 		}
 	}
 }
+	
+bool Map::isAble(const Math::ivec2& pos) const {
+	if (pos.y < 0|| pos.y >= grid.size() || pos.x < 0 || pos.x >= grid[0].size()) {
+		return false;
+	}
+	return grid[pos.x][pos.y] == Tile::ground;
+}
 
 void Map::Unload()
 {

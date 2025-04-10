@@ -97,7 +97,7 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 				(is_attacked == false)) {
 				moving_count--;
 				is_attacked = true;
-				Engine::GetLogger().LogDebug("player attacked!!!!!!!!!!!!");
+				Engine::GetLogger().LogDebug("player attacked!");
 				turnmanager.PlayerToEnemy();
 				break;
 			}
