@@ -7,7 +7,7 @@
 
 
 int main(void) {
-
+    InitAudioDevice();
     Engine& engine = Engine::Instance();
     engine.Start("10..9..8..");
 
@@ -17,10 +17,10 @@ int main(void) {
     engine.GetGameStateManager().AddGameState(mode1);
     Mode2 mode2;
     engine.GetGameStateManager().AddGameState(mode2);
-    
 
     while (engine.HasGameEnded() == false) {
         engine.Update();
+        
     }
 
     engine.Stop();

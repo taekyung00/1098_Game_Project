@@ -151,6 +151,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameStateManager.cpp" />
@@ -176,6 +177,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\Logger.h" />
     <ClInclude Include="Engine\Rect.h" />
+    <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\Sprite.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Vec2.h" />

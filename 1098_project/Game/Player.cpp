@@ -32,28 +32,28 @@ void Player::Update(double dt,const Enemy& enemy) {
 			if (map.GetGrid()[index.x - 1][index.y] != Tile::wall) {
 				index.x--;
 				moving_count--;
-				time_limit = 3;
+				time_limit = 2;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
 			if (map.GetGrid()[index.x + 1][index.y] != Tile::wall) {
 				index.x++;
 				moving_count--;
-				time_limit = 3;
+				time_limit = 2;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 			if (map.GetGrid()[index.x][index.y - 1] != Tile::wall) {
 				index.y--;
 				moving_count--;
-				time_limit = 3;
+				time_limit = 2;
 			}
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 			if (map.GetGrid()[index.x][index.y + 1] != Tile::wall) {
 				index.y++;
 				moving_count--;
-				time_limit = 3;
+				time_limit = 2;
 			}
 		}
 	}
@@ -67,7 +67,7 @@ void Player::Update(double dt,const Enemy& enemy) {
 
 	if (time_limit <= 0.0) {
 		Engine::GetGameStateManager().ReloadState();
-		time_limit = 3;
+		time_limit = 5;
 	}
 	player_position = {
 		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,

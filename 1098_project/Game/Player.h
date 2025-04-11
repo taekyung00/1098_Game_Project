@@ -33,7 +33,7 @@ private:
 	int radius;
 
 	int moving_count;
-	double time_limit = 3;
+	double time_limit = 5;
 	bool is_moving;
 
 };

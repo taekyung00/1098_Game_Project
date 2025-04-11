@@ -17,6 +17,7 @@ Created:    March 12, 2025
 #include "../Game/Map.h"
 #include "../Game/Player.h"
 #include "../Game/Enemy.h"
+#include "../Engine/Audio.h"
 
 
 class Mode1 : public CS230::GameState {
@@ -38,8 +39,7 @@ private:
     Enemy enemy;
     //CS230::Camera camera;
     Camera2D camera;
-
-
+    Audio audio;
 };
 #endif // !MODE_H
 
