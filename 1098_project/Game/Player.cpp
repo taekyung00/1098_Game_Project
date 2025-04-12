@@ -162,16 +162,16 @@ void Player::Draw() {
         DrawText(
             TextFormat("PLAYER TURN"),
             player_position.x-40,
-            player_position.y - 80,
-            20,
+            player_position.y + 40,
+            15,
             RED);
     }
     else {
         DrawText(
             TextFormat("ENEMY TURN"),
             player_position.x-40,
-            player_position.y - 80,
-            20,
+            player_position.y + 40,
+            15,
             RED);
     }
 

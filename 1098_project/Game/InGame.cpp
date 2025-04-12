@@ -34,13 +34,13 @@ void InGame::Update(double dt) {
 	audio.Update();
 
 	if (player.GetTimeLimit() > 2) {
-		camera.zoom = 1.f;
+		camera.zoom = 2.f;
 	}
 	else if (player.GetTimeLimit() <= 2 && player.GetTimeLimit() > 1) {
-		camera.zoom = 1.5f;
+		camera.zoom = 3.f;
 	}
 	else {
-		camera.zoom = 2.f;
+		camera.zoom = 4.f;
 	}
 	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 
@@ -75,7 +75,7 @@ void InGame::Draw() {
 	else if (turnmanager.isenemyturn == true) {
 		Engine::GetLogger().LogDebug("enemy turn");
 	}
-	Engine::GetWindow().Clear(0xffffff00);
+	Engine::GetWindow().Clear(0x00000000);
 	map.Draw();
 	player.Draw();
 	enemy.Draw();
