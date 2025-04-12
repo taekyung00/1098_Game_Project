@@ -158,7 +158,7 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
 			map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2
 		};
 
-		turnmanager.EnemyToPlayer();
+		//turnmanager.EnemyToPlayer();
 	}
 	
 }

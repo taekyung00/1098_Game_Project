@@ -158,6 +158,22 @@ void Player::Draw() {
         player_position.y - radius - 20,
         20,
         RED);
+    if (turnmanager.isplayerturn) {
+        DrawText(
+            TextFormat("PLAYER TURN"),
+            player_position.x-40,
+            player_position.y - 80,
+            20,
+            RED);
+    }
+    else {
+        DrawText(
+            TextFormat("ENEMY TURN"),
+            player_position.x-40,
+            player_position.y - 80,
+            20,
+            RED);
+    }
 
     if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
         DrawText(

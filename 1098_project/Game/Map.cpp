@@ -192,8 +192,8 @@ void Map::Draw() {
 					rect
 				);
 			}			
-			DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
-			DrawText(TextFormat("%d", tile_design[i][j]), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
+			/*DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
+			DrawText(TextFormat("%d", tile_design[i][j]), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);*/
 		}
 	}
 }
