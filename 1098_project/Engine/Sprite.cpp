@@ -27,6 +27,12 @@ void CS230::Sprite::Draw(Math::vec2 position){
 	texture.Draw(position);
 }
 
+void CS230::Sprite::Draw(Math::vec2 position, Rectangle rect)
+{
+	position -= Math::vec2(hotspot);
+	texture.Draw(position,rect);
+}
+
 Math::ivec2 CS230::Sprite::GetTextureSize()
 {
 	return texture.GetSize();

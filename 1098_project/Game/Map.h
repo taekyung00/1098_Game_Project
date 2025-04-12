@@ -2,9 +2,13 @@
 #define MAP_H
 
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include "raylib.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Vec2.h"
+#include "../Engine/Sprite.h"
 
 enum class Tile
 {
@@ -29,10 +33,13 @@ public:
 	Math::ivec2 GetTileSize() const { return tile_size; }
 	Math::ivec2 GetGridSize()const { return grid_size; }
 	std::vector<std::vector<Tile>>& GetGrid() { return grid; }
+	std::vector<std::vector<int>>& GetTileDesign() { return tile_design; }
 
 private:
+	
+	CS230::Sprite sprite;
 
-	const Math::ivec2 tile_size = { 40,40 };
+	const Math::ivec2 tile_size = { 32,32 };
 	const Math::ivec2 start_position = { 50, 50 };
 	std::vector<std::vector<Tile>> grid;
 
@@ -40,27 +47,22 @@ private:
 	Math::ivec2 exit_index;
 	Math::ivec2 grid_size;
 
-	std::vector<std::string> stage1_tile_paths = {
-		"Assets/Stage_1_32_tile1_1.png",
-		"Assets/Stage_1_32_tile1_2.png",
-		"Assets/Stage_1_32_tile1_3.png",
-		"Assets/Stage_1_32_tile1_4.png",
-		"Assets/Stage_1_32_tile1_5.png",
-		"Assets/Stage_1_32_tile1_6.png",
-		"Assets/Stage_1_32_tile1_7.png",
-		"Assets/Stage_1_32_tile1_8.png",
-		"Assets/Stage_1_32_tile1_9.png"
+	enum class stages {
+		stage1
 	};
 
-	std::vector<std::string> stage1_wall_paths = {
-		"Assets/Stage_1_32_wall1_Corner.png",
-		"Assets/Stage_1_32_wall1_Plain.png"
-	};
+	stages stages = stages::stage1;
 
+	std::vector<Math::ivec2> tiles_numbers;
 
+	std::ifstream file_stream_design;
 
+	const char* stage1_design_path = "Game/stage1_tiles.txt";
 
+	std::vector<std::vector<int>> tile_design;
 
+	int width_amount = 0;
+	int height_amount = 0;
 };
 
 #endif

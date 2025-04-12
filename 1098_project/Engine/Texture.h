@@ -10,6 +10,7 @@ Created:    March 19, 2025
 
 #pragma once
 #include "Vec2.h"
+#include "Rect.h"
 #include <filesystem>
 #include <raylib.h>
 
@@ -27,6 +28,7 @@ namespace CS230 {
 
         void Load(const std::filesystem::path& file_name);
         void Draw(Math::vec2 location);
+        void Draw(Math::vec2 location, Rectangle);
         Math::ivec2 GetSize() const;
 
     private:

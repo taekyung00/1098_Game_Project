@@ -7,14 +7,14 @@ Player::Player(TurnManager& turnmanager, Map& map) :
 	moving_count(10),
 	is_moving(true),
 	time_limit(start_time_limit) {
-	radius = map.GetTileSize().y / 2;
+	radius = map.GetTileSize().y / 2 ;
 }
 
 void Player::Load() {
 	time_limit = start_time_limit;
 	is_attacked = false;
 
-	if (map.GetCurrentIndex().x % 2 == 0) {
+	/*if (map.GetCurrentIndex().x % 2 == 0) {
 		index_start.x = map.GetCurrentIndex().x / 2;
 	}
 	else {
@@ -26,8 +26,8 @@ void Player::Load() {
 	}
 	else {
 		index_start.y = map.GetCurrentIndex().y / 2 + 1;
-	}
-	current_index = index_start;
+	}*/
+	current_index = { 3,3 };
 	player_position = {
 		map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
 		map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
@@ -38,7 +38,16 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 
 	if (is_moving == true) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
-			if (map.GetGrid()[current_index.x - 1][current_index.y] != Tile::wall) {
+			//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.x][current_index.y]));
+			if (/*map.GetGrid()[current_index.x - 1][current_index.y] != Tile::wall*/
+				map.GetTileDesign()[current_index.y][current_index.x] != 1 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 4 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 9 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 12 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 17 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 20
+				){
+				//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
 				current_index.x--;
 				moving_count--;
 				time_limit = max_time_limit;
@@ -47,7 +56,13 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
-			if (map.GetGrid()[current_index.x + 1][current_index.y] != Tile::wall) {
+			if (map.GetTileDesign()[current_index.y][current_index.x] != 3 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 6 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 11 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 14 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 19 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 22) {
+				//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
 				current_index.x++;
 				moving_count--;
 				time_limit = max_time_limit;
@@ -56,7 +71,13 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
-			if (map.GetGrid()[current_index.x][current_index.y - 1] != Tile::wall) {
+			if (map.GetTileDesign()[current_index.y][current_index.x] != 1 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 2 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 3 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 4 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 5 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 6) {
+				//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
 				current_index.y--;
 				moving_count--;
 				time_limit = max_time_limit;
@@ -65,7 +86,13 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-			if (map.GetGrid()[current_index.x][current_index.y + 1] != Tile::wall) {
+			if (map.GetTileDesign()[current_index.y][current_index.x] != 17 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 18 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 19 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 20 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 21 &&
+				map.GetTileDesign()[current_index.y][current_index.x] != 22) {
+				//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
 				current_index.y++;
 				moving_count--;
 				time_limit = max_time_limit;

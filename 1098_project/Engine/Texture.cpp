@@ -53,3 +53,13 @@ void CS230::Texture::Draw(Math::vec2 location) {
     location.y += Engine::GetWindow().GetSize().y - texture.height;
     DrawTexture(texture, int(location.x), int(location.y), WHITE);
 }
+
+void CS230::Texture::Draw(Math::vec2 location, Rectangle rect)
+{
+    //Rectangle draw_rect = { rect.bottom_left.x,rect.bottom_left.y,rect.top_right.x - rect.bottom_left.x ,rect.top_right.y - rect.bottom_left.y };
+    /*location.y *= -1;
+    location.y += Engine::GetWindow().GetSize().y - texture.height;*/
+    /*draw_rect.y *= -1;
+    draw_rect.y += Engine::GetWindow().GetSize().y - draw_rect.height;*/
+    DrawTexturePro(texture, rect, Rectangle{ float(location.x),float(location.y),rect.width,rect.height }, { 0,0 }, 0.f,WHITE);
+}
