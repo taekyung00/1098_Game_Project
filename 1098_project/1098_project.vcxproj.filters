@@ -120,8 +120,9 @@
     </ClInclude>
     <ClInclude Include="Game\TurnManager.h">
       <Filter>Game</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Audio.h">
-      <Filter>Engine</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
