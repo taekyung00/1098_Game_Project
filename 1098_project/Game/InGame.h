@@ -6,11 +6,13 @@
 #include "../Engine/Sprite.h"
 #include "../Engine/Camera.h"
 #include "../Engine/GameState.h"
+#include "../Engine/Audio.h"
 
 
 #include "Player.h"
 #include "Enemy.h"
 #include "TurnManager.h"
+
 
 #include <vector>
 
@@ -40,6 +42,7 @@ private:
     Player player;
     Enemy enemy;
     Camera2D camera;
+    Audio audio;
 };
 
 #endif // !MODE_H

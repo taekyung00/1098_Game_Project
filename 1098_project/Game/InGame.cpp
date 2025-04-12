@@ -2,7 +2,7 @@
 
 
 
-InGame::InGame() : current_map_index(floor1_index), map(current_map_index), player(turnmanager, map), enemy(turnmanager, map, player) {
+InGame::InGame() : current_map_index(floor1_index), map(current_map_index), player(turnmanager, map), enemy(turnmanager, map, player), audio("Sounds/Drum,Metronom.wav") {
 	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 
@@ -16,6 +16,8 @@ void InGame::Load() {
 	player.Load();
 	enemy.Load();
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
+	audio.SetLooping(true);
+	audio.Play();
 }
 
 void InGame::Update(double dt) {
@@ -28,6 +30,8 @@ void InGame::Update(double dt) {
 	if (turnmanager.isenemyturn) {
 		enemy.Update(dt, turnmanager.isenemyturn, turnmanager.isplayerturn);
 	}
+
+	audio.Update();
 
 	if (player.GetTimeLimit() > 2) {
 		camera.zoom = 1.f;
@@ -60,6 +64,7 @@ void InGame::Unload() {
 	map.Unload();
 	player.Unload();
 	enemy.Unload();
+	audio.Stop();
 }
 
 void InGame::Draw() {
