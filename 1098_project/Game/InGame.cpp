@@ -19,7 +19,7 @@ void InGame::Load() {
 }
 
 void InGame::Update(double dt) {
-	//turnmanager.Update(dt);
+	turnmanager.Update(dt);
 	map.Update(current_map_index);
 	if (turnmanager.isplayerturn) {
 		player.Update(dt, enemy, turnmanager.isplayerturn, turnmanager.isenemyturn);
@@ -64,12 +64,12 @@ void InGame::Unload() {
 
 void InGame::Draw() {
 	BeginMode2D(camera);
-	/*if (turnmanager.isplayerturn == true) {
+	if (turnmanager.isplayerturn == true) {
 		Engine::GetLogger().LogDebug("player turn");
 	}
 	else if (turnmanager.isenemyturn == true) {
 		Engine::GetLogger().LogDebug("enemy turn");
-	}*/
+	}
 	Engine::GetWindow().Clear(0xffffff00);
 	map.Draw();
 	player.Draw();

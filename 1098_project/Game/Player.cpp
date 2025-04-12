@@ -53,6 +53,11 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 				time_limit = max_time_limit;
 				is_attacked = false;
 			}
+			else {
+				moving_count--;
+				time_limit = max_time_limit;
+				is_attacked = false;
+			}
 			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
@@ -64,6 +69,11 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 				map.GetTileDesign()[current_index.y][current_index.x] != 22) {
 				//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
 				current_index.x++;
+				moving_count--;
+				time_limit = max_time_limit;
+				is_attacked = false;
+			}
+			else {
 				moving_count--;
 				time_limit = max_time_limit;
 				is_attacked = false;
@@ -83,6 +93,11 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 				time_limit = max_time_limit;
 				is_attacked = false;
 			}
+			else {
+				moving_count--;
+				time_limit = max_time_limit;
+				is_attacked = false;
+			}
 			turnmanager.PlayerToEnemy();
 		}
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
@@ -94,6 +109,11 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
 				map.GetTileDesign()[current_index.y][current_index.x] != 22) {
 				//Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
 				current_index.y++;
+				moving_count--;
+				time_limit = max_time_limit;
+				is_attacked = false;
+			}
+			else {
 				moving_count--;
 				time_limit = max_time_limit;
 				is_attacked = false;
