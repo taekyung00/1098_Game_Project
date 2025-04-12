@@ -59,6 +59,9 @@
     <ClCompile Include="Game\TurnManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Audio.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h">
@@ -117,6 +120,8 @@
     </ClInclude>
     <ClInclude Include="Game\TurnManager.h">
       <Filter>Game</Filter>
+    <ClInclude Include="Engine\Audio.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
