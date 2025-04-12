@@ -5,6 +5,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 #include "../Engine/Vec2.h"
 #include "Map.h"
@@ -20,6 +21,7 @@ public:
 	void Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn);
 	void Draw();
 	void Unload();
+	void Attack();
 	Math::ivec2 GetIndex() const { return index; }
 	const std::vector<attackarm>& GetArms() const { return attackarms; }
 
