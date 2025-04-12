@@ -32,6 +32,7 @@ class Map {
     Math::ivec2 GetGridSize() const { return grid_size; }
     std::vector<std::vector<Tile>>& GetGrid() { return grid; }
     std::vector<std::vector<int>>& GetTileDesign() { return tile_design; }
+    bool isAble(const Math::ivec2& pos) const;
 
    private:
     CS230::Sprite sprite;
