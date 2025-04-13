@@ -3,15 +3,15 @@
 
 
 TurnManager::TurnManager() :
-	player_turn_count(max_turn_count),
-	enemy_turn_count(max_turn_count) {
+	player_turn_count(max_player_turn_count),
+	enemy_turn_count(max_enemy_turn_count) {
 }
 
 void TurnManager::Load() {
 	isplayerturn = true;
 	isenemyturn = false;
-	player_turn_count = max_turn_count;
-	enemy_turn_count = max_turn_count;
+	player_turn_count = max_player_turn_count;
+	enemy_turn_count = max_enemy_turn_count;
 }
 
 void TurnManager::Update(double dt)
@@ -33,15 +33,15 @@ void TurnManager::Update(double dt)
 void TurnManager::PlayerToEnemy() {
 	isplayerturn = false;
 	isenemyturn = true;
-	player_turn_count = max_turn_count;
-	enemy_turn_count = max_turn_count;
+	player_turn_count = max_player_turn_count;
+	enemy_turn_count = max_enemy_turn_count;
 }
 
 void TurnManager::EnemyToPlayer() {
 	isplayerturn = true;
 	isenemyturn = false;
-	player_turn_count = max_turn_count;
-	enemy_turn_count = max_turn_count;
+	player_turn_count = max_player_turn_count;
+	enemy_turn_count = max_enemy_turn_count;
 }
 
 
