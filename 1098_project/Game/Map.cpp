@@ -15,6 +15,9 @@ void Map::Load() {
         std::getline(file_stream_design, temp_string);
         sprite.Load(temp_string, {0, 0});
     }
+    sprite_trap_alive.Load("Assets/sprite_trap_alive.png",{0,0});
+    sprite_trap_dead.Load("Assets/sprite_trap_dead.png",{0,0});
+    sprite_downstairs.Load("Assets/sprite_downstairs.png",{0,0});
 
     tiles_numbers.clear();
     tiles_numbers.push_back({-1, -1});  // for nothing, [0]
@@ -86,8 +89,9 @@ void Map::Load() {
     }
     // trapmake
     tile_design[2][5].isTrap = true;
+    tile_design[2][5].isTrapAlive = true;
     // stairmake
-    tile_design[7][7].isDownStair = true;
+    tile_design[7][7].isDownStairs = true;
 
     for (int i = 0; i * tile_size.y < sprite.GetTextureSize().y; ++i) {
         for (int j = 0; j * tile_size.x < sprite.GetTextureSize().x; ++j) {
@@ -187,9 +191,21 @@ void Map::Load() {
     }*/
     Engine::GetWindow().Update(grid_size + 2 * start_position);
     file_stream_design.close();
+    trap_max_count = 1.0;
 }
 
 void Map::Update(double dt) {
+    trap_max_count -= dt;
+    if (trap_max_count <= 0.0) {
+        //hardcoded index
+        if (tile_design[2][5].isTrapAlive == true) {
+            tile_design[2][5].isTrapAlive = false;
+        }
+        else {
+            tile_design[2][5].isTrapAlive = true;
+        }
+
+    }
 }
 
 void Map::Draw() {
@@ -221,9 +237,19 @@ void Map::Draw() {
             // position -= Math::vec2{ double(Engine::GetWindow().GetSize().x), double(Engine::GetWindow().GetSize().y) };
             Rectangle rect = {tiles_numbers[tile_design[i][j].tile_number].x, tiles_numbers[tile_design[i][j].tile_number].y, tile_size.x, tile_size.y};
             if (tile_design[i][j].isTrap == true) {
+                if (tile_design[i][j].isTrapAlive == true) {
+                    //use temp_rect for using raylib_based sprite.draw
+                    Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
+                    sprite_trap_alive.Draw(position, temp_rect);
+                }
+                else {
+                    Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
+                    sprite_trap_dead.Draw(position, temp_rect);
+                }
                 DrawRectangle(position.x, position.y, rect.width, rect.height, BROWN);
-            } else if (tile_design[i][j].isDownStair == true) {
-                DrawRectangle(position.x, position.y, rect.width, rect.height, BLACK);
+            } else if (tile_design[i][j].isDownStairs == true) {
+                Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
+                sprite_downstairs.Draw(position, temp_rect);
             } else if (tile_design[i][j].tile_number != 0) {
                 sprite.Draw(
                     position,

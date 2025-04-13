@@ -29,9 +29,10 @@ struct Tile {
     bool isLeftEdge = false;
     bool isTopEdge = false;
     bool isBotttomEdge = false;
+    bool isUpStairs = false;
+    bool isDownStairs = false;
     bool isTrap = false;
-    bool isUpStair = false;
-    bool isDownStair = false;
+    bool isTrapAlive = false;
 };
 
 class Map {
@@ -53,6 +54,10 @@ class Map {
 
    private:
     CS230::Sprite sprite;
+    //temporary
+    CS230::Sprite sprite_trap_dead;
+    CS230::Sprite sprite_trap_alive;
+    CS230::Sprite sprite_downstairs;
 
     const Math::ivec2 tile_size = {32, 32};
     const Math::ivec2 start_position = {50, 50};
@@ -72,10 +77,14 @@ class Map {
 
     const char* stage1_design_path = "Game/stage1_tiles.txt";
 
+    
+
     std::vector<std::vector<Tile>> tile_design;
 
     int width_amount = 0;
     int height_amount = 0;
+
+    double trap_max_count = 1.0;
 
     
 };
