@@ -246,7 +246,6 @@ void Map::Draw() {
                     Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
                     sprite_trap_dead.Draw(position, temp_rect);
                 }
-                DrawRectangle(position.x, position.y, rect.width, rect.height, BROWN);
             } else if (tile_design[i][j].isDownStairs == true) {
                 Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
                 sprite_downstairs.Draw(position, temp_rect);
