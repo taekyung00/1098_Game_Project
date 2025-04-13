@@ -38,7 +38,7 @@ class Map {
    public:
     Map();
     void Load();
-    void Update();
+    void Update(double dt);
     void Draw();
     void Unload();
     Math::ivec2 GetCurrentIndex() const { return current_index; }
@@ -76,6 +76,8 @@ class Map {
 
     int width_amount = 0;
     int height_amount = 0;
+
+    
 };
 
 #endif
