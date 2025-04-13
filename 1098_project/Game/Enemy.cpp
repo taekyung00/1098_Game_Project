@@ -18,28 +18,10 @@ Enemy::Enemy(TurnManager& turnmanager, Map& map, Player& player) :
 }
 
 void Enemy::Load() {
-
-	Math::ivec2 index_temp = { 0,0 };
-
-	std::srand(std::time(nullptr));
-	//take many times!!
-	while (1) {
-		index_temp = { rand() % map.GetCurrentIndex().x + 1 ,rand() % map.GetCurrentIndex().y + 1 };
-
-		if (
-			(((player.GetCurrentIndex().x - index_temp.x) >= 2) || ((index_temp.x - player.GetCurrentIndex().x) >= 2)) &&
-			(((player.GetCurrentIndex().y - index_temp.y) >= 2) || ((index_temp.y - player.GetCurrentIndex().y) >= 2)) &&
-			(((map.GetExitIndex().x - index_temp.x) >= 2) || ((index_temp.x - map.GetExitIndex().x) >= 2)) &&
-			(((map.GetExitIndex().y - index_temp.y) >= 2) || ((index_temp.y - map.GetExitIndex().y) >= 2))
-			) {
-			index_start = index_temp;
-			break;
-		}
-	}
-	index = index_start;
+	index = { 7, 5 };
 
 	position = {
-		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
+		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,	
 		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
 }
 
@@ -80,7 +62,7 @@ void Enemy::Attack() {
 				player.GetMovingCount()--;
 				player.GetIsAttacked() = true;
 				is_attacking = !is_attacking;
-				Engine::GetLogger().LogDebug("player attacked!");
+				Engine::GetLogger().LogDebug("Enemy attack");
 				attackarms.clear();
 				break;
 			}
@@ -90,77 +72,40 @@ void Enemy::Attack() {
 }
 
 void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
-
-	Math::ivec2 player_Index = player.GetCurrentIndex();
-
-	attcak_count -= dt;
-	if (attcak_count <= 0.0) {
-		is_attacking = !is_attacking;
-		attcak_count = 1.0;
-	}
-
-	if (isNear(index, player_Index)) {
-		Attack();
-		turnmanager.EnemyToPlayer();
-	}
-	else {
-		int deltaX = player_Index.x - index.x;
-		int deltaY = player_Index.y - index.y;
-
-		// Set current pos_ to candidate
-		Math::ivec2 candidate = index;
-
-		// if diagnoal move
-		if (deltaX != 0 && deltaY != 0) {
-			candidate.x += (deltaX > 0) ? 1 : -1;
-			candidate.y += (deltaY > 0) ? 1 : -1;
-
-			// if No digoanl then move horizontal
-			if (!map.isAble(candidate)) {
-				Math::ivec2 alternative = index;
-				alternative.x += (deltaX > 0) ? 1 : -1;
-				if (map.isAble(alternative)) {
-					candidate = alternative;
-				}
-				else {
-					// if No horizontal then Vertical
-					alternative = index;
-					alternative.y += (deltaY > 0) ? 1 : -1;
-					if (map.isAble(alternative)) {
-						candidate = alternative;
-					}
-					else {
-						// Every move is stuck then stay
-						candidate = index;
-					}
-				}
-			}
-		}
-		// If only need Horizontal
-		else if (deltaX != 0) {
-			candidate.x += (deltaX > 0) ? 1 : -1;
-			if (!map.isAble(candidate)) {
-				candidate = index;
-			}
-		}
-		// If only need Vertical
-		else if (deltaY != 0) {
-			candidate.y += (deltaY > 0) ? 1 : -1;
-			if (!map.isAble(candidate)) {
-				candidate = index;
-			}
-		}
-
-		// Update valid coordinate
-		index = candidate;
-		position = {
-			map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-			map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2
-		};
-
-		//turnmanager.EnemyToPlayer();
-	}
-	
+    Math::ivec2 playerIndex = player.GetCurrentIndex();
+    
+    attcak_count -= dt;
+    if (attcak_count <= 0.0) {
+        is_attacking = !is_attacking;
+        attcak_count = 1.0;
+    }
+    
+    if (isNear(index, playerIndex)) {
+        Attack();
+        turnmanager.EnemyToPlayer();
+        return;
+    }
+    
+    int deltaX = playerIndex.x - index.x;
+    int deltaY = playerIndex.y - index.y;
+    Math::ivec2 candidate = index;
+    
+    if (abs(deltaX) >= abs(deltaY) && deltaX != 0) {
+        candidate.x += (deltaX > 0) ? 1 : -1;
+    }
+    else if (deltaY != 0) {
+        candidate.y += (deltaY > 0) ? 1 : -1;
+    }
+    
+    if (map.isAble(candidate))
+        index = candidate;
+    
+    position = {
+        map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
+        map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2
+    };
+    
+    turnmanager.EnemyToPlayer();
 }
 
 void Enemy::Draw() {

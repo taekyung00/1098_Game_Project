@@ -70,7 +70,7 @@ void InGame::Unload() {
 void InGame::Draw() {
 	BeginMode2D(camera);
 	if (turnmanager.isplayerturn == true) {
-		Engine::GetLogger().LogDebug("player turn");
+		//Engine::GetLogger().LogDebug("player turn");
 	}
 	else if (turnmanager.isenemyturn == true) {
 		Engine::GetLogger().LogDebug("enemy turn");

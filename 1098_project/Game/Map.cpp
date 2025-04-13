@@ -192,17 +192,29 @@ void Map::Draw() {
 					rect
 				);
 			}			
-			/*DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
-			DrawText(TextFormat("%d", tile_design[i][j]), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);*/
+			DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
+			DrawText(TextFormat("%d", tile_design[i][j]), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
 		}
 	}
 }
 	
 bool Map::isAble(const Math::ivec2& pos) const {
-	if (pos.y < 0|| pos.y >= grid.size() || pos.x < 0 || pos.x >= grid[0].size()) {
+	int row = pos.y;
+	int col = pos.x;
+
+	if (row < 0 || row >= 10)
 		return false;
+
+	if (row < 5) {
+		if (col < 0 || col >= 10)
+			return false;
 	}
-	return grid[pos.x][pos.y] == Tile::ground;
+	else {
+		if (col < 5 || col >= 10)
+			return false;
+	}
+
+	return true;
 }
 
 void Map::Unload()
