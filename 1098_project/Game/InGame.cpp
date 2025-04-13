@@ -22,7 +22,7 @@ void InGame::Load() {
 
 void InGame::Update(double dt) {
 	turnmanager.Update(dt);
-	map.Update();
+	map.Update(dt);
 	if (turnmanager.isplayerturn) {
 		player.Update(dt, enemy, turnmanager.isplayerturn, turnmanager.isenemyturn);
 	}

@@ -189,7 +189,7 @@ void Map::Load() {
     file_stream_design.close();
 }
 
-void Map::Update() {
+void Map::Update(double dt) {
 }
 
 void Map::Draw() {
