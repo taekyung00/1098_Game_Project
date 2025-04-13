@@ -90,8 +90,10 @@ void Map::Load() {
     // trapmake
     tile_design[2][5].isTrap = true;
     tile_design[2][5].isTrapAlive = true;
+    trap_rect = { float(start_position.x) + tile_size.x * 5 + 5, float(start_position.y) + tile_size.x * 2 +5, float(tile_size.x) - 10,float(tile_size.y)  - 10};
     // stairmake
     tile_design[7][7].isDownStairs = true;
+    downstairs_rect = { float(start_position.x) + tile_size.x * 7 + 5, float(start_position.y) + tile_size.x * 7 + 5, float(tile_size.x) - 10,float(tile_size.y) - 10 };
 
     for (int i = 0; i * tile_size.y < sprite.GetTextureSize().y; ++i) {
         for (int j = 0; j * tile_size.x < sprite.GetTextureSize().x; ++j) {
@@ -105,68 +107,7 @@ void Map::Load() {
     exit_index = {7, 7};
     grid_size = tile_size.x * (Math::ivec2{current_index});
 
-    /*for (int i = 0; i < current_index.y ; ++i) {
-            std::vector<Tile> row;
-            for (int j = 0; j < current_index.x ; ++j) {
-                    switch (tile_design[i][j])
-                    {
-                    case 1:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 2:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 3:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 4:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 5:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 6:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 9:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 11:
-                            row.push_back(Tile::wall);
-                    case 12:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 14:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 17:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 18:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 19:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 20:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 21:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 22:
-                            row.push_back(Tile::wall);
-                            break;
-                    case 0:
-                            row.push_back(Tile::nothing);
-                            break;
-                    default:
-                            row.push_back(Tile::ground);
-                            break;
-                    }
-            }
-            grid.push_back(row);
-    }*/
+    
 
     /*for (int i = 0; i < current_index.x + 2; i++) {
             grid[0][i] = Tile::wall;
@@ -191,12 +132,12 @@ void Map::Load() {
     }*/
     Engine::GetWindow().Update(grid_size + 2 * start_position);
     file_stream_design.close();
-    trap_max_count = 1.0;
+    trap_count =trap_max_count;
 }
 
 void Map::Update(double dt) {
-    trap_max_count -= dt;
-    if (trap_max_count <= 0.0) {
+    trap_count -= dt;
+    if (trap_count <= 0.0) {
         //hardcoded index
         if (tile_design[2][5].isTrapAlive == true) {
             tile_design[2][5].isTrapAlive = false;
@@ -204,7 +145,8 @@ void Map::Update(double dt) {
         else {
             tile_design[2][5].isTrapAlive = true;
         }
-
+        
+        trap_count = trap_max_count;
     }
 }
 
@@ -239,16 +181,13 @@ void Map::Draw() {
             if (tile_design[i][j].isTrap == true) {
                 if (tile_design[i][j].isTrapAlive == true) {
                     //use temp_rect for using raylib_based sprite.draw
-                    Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
-                    sprite_trap_alive.Draw(position, temp_rect);
+                    sprite_trap_alive.DrawRay(position);
                 }
                 else {
-                    Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
-                    sprite_trap_dead.Draw(position, temp_rect);
+                    sprite_trap_dead.DrawRay(position);
                 }
             } else if (tile_design[i][j].isDownStairs == true) {
-                Rectangle temp_rect = { position.x,position.y,tile_size.x,tile_size.y };
-                sprite_downstairs.Draw(position, temp_rect);
+                sprite_downstairs.DrawRay(position);
             } else if (tile_design[i][j].tile_number != 0) {
                 sprite.Draw(
                     position,

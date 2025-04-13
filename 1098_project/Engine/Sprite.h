@@ -21,6 +21,7 @@ namespace CS230 {
         void Load(const std::filesystem::path& texture_path);
         void Load(const std::filesystem::path& texture_path, Math::ivec2 hotspot_position);
         void Draw(Math::vec2 position);
+        void DrawRay(Math::vec2 position);
         void Draw(Math::vec2 position, Rectangle rect);
         Math::ivec2 GetTextureSize();
     private:

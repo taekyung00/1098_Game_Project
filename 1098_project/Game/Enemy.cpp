@@ -112,14 +112,14 @@ void Enemy::Draw() {
 
 	int radius = map.GetTileSize().y / 2;
 
-	DrawCircleLines(
+	DrawCircle(
 		position.x,
 		position.y,
 		radius,
 		{ 230, 41, 55, 255 });
 	if (attackarms.size() > 0) {
 		for (int i = 0; i < attackarms.size(); ++i) {
-			DrawCircleLines(
+			DrawCircle(
 				attackarms[i].center.x,
 				attackarms[i].center.y,
 				attackarms[i].radius,

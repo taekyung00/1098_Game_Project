@@ -35,9 +35,10 @@ class Player {
 
     int radius;
 
+    const int max_moving_count = 1000000;
     int moving_count;
-    double start_time_limit = 5;
-    double max_time_limit = 2;
+    double start_time_limit = 50;
+    double max_time_limit = 50;
     double time_limit;
     bool is_moving;
     bool is_attacked = false;

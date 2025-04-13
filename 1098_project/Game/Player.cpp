@@ -4,7 +4,7 @@
 
 Player::Player(TurnManager& turnmanager, Map& map) : turnmanager(turnmanager),
                                                      map(map),
-                                                     moving_count(10),
+                                                     moving_count(max_moving_count),
                                                      is_moving(true),
                                                      time_limit(start_time_limit) {
     radius = map.GetTileSize().y / 2;
@@ -13,6 +13,7 @@ Player::Player(TurnManager& turnmanager, Map& map) : turnmanager(turnmanager),
 void Player::Load() {
     time_limit = start_time_limit;
     is_attacked = false;
+    moving_count = max_moving_count;
 
     /*if (map.GetCurrentIndex().x % 2 == 0) {
             index_start.x = map.GetCurrentIndex().x / 2;
@@ -36,14 +37,7 @@ void Player::Load() {
 void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
     if (is_moving == true) {
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
-            // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.x][current_index.y]));
-            if (/*map.GetGrid()[current_index.x - 1][current_index.y] != Tile::wall*/
-                /*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 1 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 4 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 9 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 12 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 17 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 20*/
+            if (
                 map.GetTileDesign()[current_index.y][current_index.x].isLeftEdge != true
                 ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
@@ -59,12 +53,7 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
             turnmanager.PlayerToEnemy();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
-            if (/*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 3 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 6 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 11 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 14 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 19 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 22*/
+            if (
                 map.GetTileDesign()[current_index.y][current_index.x].isRightEdge != true
                 ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
@@ -80,12 +69,7 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
             turnmanager.PlayerToEnemy();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
-            if (/*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 1 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 2 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 3 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 4 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 5 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 6*/
+            if (
                 map.GetTileDesign()[current_index.y][current_index.x].isTopEdge != true
                 ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
@@ -101,12 +85,7 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
             turnmanager.PlayerToEnemy();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-            if (/*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 17 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 18 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 19 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 20 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 21 &&
-                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 22*/
+            if (
                 map.GetTileDesign()[current_index.y][current_index.x].isBotttomEdge != true
                 ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
@@ -137,6 +116,23 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
     player_position = {
         map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
         map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2};
+
+    //hardcoded for stage1, 2,5
+    if (map.GetTileDesign()[2][5].isTrapAlive == true) {
+        if (CheckCollisionCircleRec({ float(player_position.x) ,float(player_position.y) }, radius, map.GetTrapRect())&&
+            is_attacked == false) {
+            moving_count--;
+            is_attacked = true;
+            Engine::GetLogger().LogDebug("player attacked!");
+            turnmanager.PlayerToEnemy();
+        }
+    }
+
+    if (CheckCollisionCircleRec({ float(player_position.x) ,float(player_position.y) }, radius, map.GetDownStairsRect())) {
+        //std::exit(EXIT_FAILURE);
+        Engine::GetLogger().LogDebug("exit!");
+    }
+    
 
     if (enemy.GetArms().size() > 0) {
         Vector2 temp_player_position = {player_position.x, player_position.y};

@@ -54,6 +54,11 @@ void CS230::Texture::Draw(Math::vec2 location) {
     DrawTexture(texture, int(location.x), int(location.y), WHITE);
 }
 
+void CS230::Texture::DrawRay(Math::vec2 location)
+{
+    DrawTexture(texture, int(location.x), int(location.y), WHITE);
+}
+
 void CS230::Texture::Draw(Math::vec2 location, Rectangle rect)
 {
     //Rectangle draw_rect = { rect.bottom_left.x,rect.bottom_left.y,rect.top_right.x - rect.bottom_left.x ,rect.top_right.y - rect.bottom_left.y };

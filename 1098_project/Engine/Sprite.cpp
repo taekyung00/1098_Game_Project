@@ -27,6 +27,12 @@ void CS230::Sprite::Draw(Math::vec2 position){
 	texture.Draw(position);
 }
 
+void CS230::Sprite::DrawRay(Math::vec2 position)
+{
+	position -= Math::vec2(hotspot);
+	texture.DrawRay(position);
+}
+
 void CS230::Sprite::Draw(Math::vec2 position, Rectangle rect)
 {
 	position -= Math::vec2(hotspot);

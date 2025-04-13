@@ -28,6 +28,7 @@ namespace CS230 {
 
         void Load(const std::filesystem::path& file_name);
         void Draw(Math::vec2 location);
+        void DrawRay(Math::vec2 location);
         void Draw(Math::vec2 location, Rectangle);
         Math::ivec2 GetSize() const;
 

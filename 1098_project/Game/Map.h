@@ -51,6 +51,8 @@ class Map {
     std::vector<std::vector<Tile>>& GetTileDesign() { return tile_design; }
     bool isAble(const Math::ivec2& pos) const;
     Stages GetCurrentStage() const { return stages; }
+    Rectangle& GetTrapRect()  { return trap_rect; }
+    Rectangle& GetDownStairsRect()  { return downstairs_rect; }
 
    private:
     CS230::Sprite sprite;
@@ -84,7 +86,11 @@ class Map {
     int width_amount = 0;
     int height_amount = 0;
 
-    double trap_max_count = 1.0;
+    const double trap_max_count = 1.0;
+    double trap_count = 1.0;
+
+    Rectangle trap_rect;
+    Rectangle downstairs_rect;
 
     
 };
