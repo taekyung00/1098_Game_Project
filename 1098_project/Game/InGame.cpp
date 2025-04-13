@@ -69,12 +69,13 @@ void InGame::Unload() {
 
 void InGame::Draw() {
 	BeginMode2D(camera);
-	if (turnmanager.isplayerturn == true) {
-		//Engine::GetLogger().LogDebug("player turn");
+	/*if (turnmanager.isplayerturn == true) {
+		Engine::GetLogger().LogDebug("player turn");
 	}
 	else if (turnmanager.isenemyturn == true) {
 		Engine::GetLogger().LogDebug("enemy turn");
-	}
+	}*/
+	Engine::GetLogger().LogDebug(std::to_string(enemy.GetArms().size()));
 	Engine::GetWindow().Clear(0x00000000);
 	map.Draw();
 	player.Draw();

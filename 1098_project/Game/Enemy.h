@@ -45,7 +45,7 @@ private:
 	};
 
 	std::vector<attackarm> attackarms;
-	//bool is_moving;
+	bool is_alive = true;
 
 };
 

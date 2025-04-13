@@ -27,6 +27,7 @@ void Enemy::Load() {
 
 void Enemy::Attack() {
 
+	attackarms.clear();
 	if (is_attacking) {
 		//left
 		Math::ivec2 left_position = {
@@ -52,14 +53,12 @@ void Enemy::Attack() {
 		map.GetStartPosition().y + (index.y + 1) * map.GetTileSize().y + map.GetTileSize().y / 2 };
 		attackarms.push_back({ Vector2{ float(bottom_position.x),float(bottom_position.y) }, 15 });
 	}
-	else {
-		attackarms.clear();
-	}
+
 	if (attackarms.size() > 0) {
 		Vector2 temp_player_position = { player.GetPosition().x,player.GetPosition().y };
 		for (int i = 0; i < attackarms.size(); i++) {
 			if (CheckCollisionCircles(temp_player_position, player.GetRadius(), attackarms[i].center, attackarms[i].radius)) {
-				player.GetMovingCount()--;
+				//player.GetMovingCount()--;
 				player.GetIsAttacked() = true;
 				is_attacking = !is_attacking;
 				Engine::GetLogger().LogDebug("Enemy attack");
@@ -76,7 +75,12 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
     
     attcak_count -= dt;
     if (attcak_count <= 0.0) {
-        is_attacking = !is_attacking;
+		if (is_attacking == true) {
+			is_attacking = false;
+		}
+		else {
+			is_attacking = true;
+		}
         attcak_count = 1.0;
     }
     
@@ -85,6 +89,8 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
         turnmanager.EnemyToPlayer();
         return;
     }
+
+
     
     int deltaX = playerIndex.x - index.x;
     int deltaY = playerIndex.y - index.y;
@@ -105,7 +111,7 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
         map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2
     };
     
-    turnmanager.EnemyToPlayer();
+    //turnmanager.EnemyToPlayer();
 }
 
 void Enemy::Draw() {

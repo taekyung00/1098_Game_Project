@@ -36,6 +36,8 @@ void Player::Load() {
 
 void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
     if (is_moving == true) {
+
+        if(enemy.GetIndex())
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
             if (
                 map.GetTileDesign()[current_index.y][current_index.x].isLeftEdge != true
@@ -218,6 +220,6 @@ void Player::Draw() {
 }
 
 void Player::Unload() {
-    moving_count = 10;
+    moving_count = max_moving_count;
     is_moving = true;
 }
