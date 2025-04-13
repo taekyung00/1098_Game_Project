@@ -38,12 +38,14 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
             // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.x][current_index.y]));
             if (/*map.GetGrid()[current_index.x - 1][current_index.y] != Tile::wall*/
-                map.GetTileDesign()[current_index.y][current_index.x] != 1 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 4 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 9 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 12 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 17 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 20) {
+                /*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 1 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 4 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 9 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 12 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 17 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 20*/
+                map.GetTileDesign()[current_index.y][current_index.x].isLeftEdge != true
+                ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
                 current_index.x--;
                 moving_count--;
@@ -57,12 +59,14 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
             turnmanager.PlayerToEnemy();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
-            if (map.GetTileDesign()[current_index.y][current_index.x] != 3 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 6 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 11 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 14 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 19 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 22) {
+            if (/*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 3 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 6 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 11 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 14 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 19 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 22*/
+                map.GetTileDesign()[current_index.y][current_index.x].isRightEdge != true
+                ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
                 current_index.x++;
                 moving_count--;
@@ -76,12 +80,14 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
             turnmanager.PlayerToEnemy();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
-            if (map.GetTileDesign()[current_index.y][current_index.x] != 1 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 2 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 3 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 4 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 5 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 6) {
+            if (/*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 1 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 2 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 3 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 4 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 5 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 6*/
+                map.GetTileDesign()[current_index.y][current_index.x].isTopEdge != true
+                ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
                 current_index.y--;
                 moving_count--;
@@ -95,12 +101,14 @@ void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isE
             turnmanager.PlayerToEnemy();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-            if (map.GetTileDesign()[current_index.y][current_index.x] != 17 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 18 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 19 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 20 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 21 &&
-                map.GetTileDesign()[current_index.y][current_index.x] != 22) {
+            if (/*map.GetTileDesign()[current_index.y][current_index.x].tile_number != 17 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 18 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 19 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 20 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 21 &&
+                map.GetTileDesign()[current_index.y][current_index.x].tile_number != 22*/
+                map.GetTileDesign()[current_index.y][current_index.x].isBotttomEdge != true
+                ) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
                 current_index.y++;
                 moving_count--;

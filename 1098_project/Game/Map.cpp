@@ -1,14 +1,14 @@
 #include "Map.h"
-Map::Map(Math::ivec2 current_index) : current_index(current_index), exit_index(current_index), grid_size(tile_size.x* (Math::ivec2{ current_index } + Math::ivec2{ 2,2 })) {}
+Map::Map() : current_index({0,0}), exit_index(current_index), grid_size(tile_size.x* (Math::ivec2{current_index} + Math::ivec2{2,2})) {}
 
-void Map::Load(Math::ivec2 new_index) {
+void Map::Load() {
 
 	tile_design.clear();
 	std::string temp_string;
 	width_amount = 0;
 	height_amount = 0;
 	
-	if (stages == stages::stage1) {
+	if (stages == Stages::stage1) {
 		file_stream_design.open(stage1_design_path);
 		if (file_stream_design.is_open() == false) {
 			throw std::runtime_error("fail to open in stage 1");
@@ -24,7 +24,7 @@ void Map::Load(Math::ivec2 new_index) {
 	{
 		std::stringstream string_stream = std::stringstream(temp_string);
 		temp_string.clear();
-		std::vector<int> row;
+		std::vector<Tile> row;
 		
 		int temp_width = 0;
 		while (std::getline(string_stream, temp_string, ',')) {
@@ -33,7 +33,7 @@ void Map::Load(Math::ivec2 new_index) {
 			temp_string.erase(temp_string.find_last_not_of(" \t") + 1);
 
 			if (!temp_string.empty()) {
-				row.push_back(std::stoi(temp_string));
+				row.push_back({ std::stoi(temp_string) });
 				temp_width++;
 			}
 		}
@@ -45,6 +45,57 @@ void Map::Load(Math::ivec2 new_index) {
 		tile_design.push_back(row);
 	}
 
+	//tilecheck - hardcoded for stage1
+	for (int i = 0; i < tile_design.size(); ++i) {
+		for (int j = 0; j < tile_design[i].size(); ++j) {
+			//edge check
+			if (tile_design[i][j].tile_number == 1  ||
+				tile_design[i][j].tile_number == 4  ||
+				tile_design[i][j].tile_number == 9  ||
+				tile_design[i][j].tile_number == 12 ||
+				tile_design[i][j].tile_number == 17 ||
+				tile_design[i][j].tile_number == 20
+				) {
+				tile_design[i][j].isLeftEdge = true;
+			}
+
+			if (
+				tile_design[i][j].tile_number == 3 ||
+				tile_design[i][j].tile_number == 6 ||
+				tile_design[i][j].tile_number == 11 ||
+				tile_design[i][j].tile_number == 14 ||
+				tile_design[i][j].tile_number == 19 ||
+				tile_design[i][j].tile_number == 22
+				) {
+				tile_design[i][j].isRightEdge = true;
+			}
+			if (
+				tile_design[i][j].tile_number == 1||
+				tile_design[i][j].tile_number == 2||
+				tile_design[i][j].tile_number == 3 ||
+				tile_design[i][j].tile_number == 4 ||
+				tile_design[i][j].tile_number == 5 ||
+				tile_design[i][j].tile_number == 6
+				) {
+				tile_design[i][j].isTopEdge = true;
+			}
+			if (
+				tile_design[i][j].tile_number == 17||
+				tile_design[i][j].tile_number == 18||
+				tile_design[i][j].tile_number == 19 ||
+				tile_design[i][j].tile_number == 20 ||
+				tile_design[i][j].tile_number == 21 ||
+				tile_design[i][j].tile_number == 22
+				) {
+				tile_design[i][j].isBotttomEdge = true;
+			}
+			
+		}
+	}
+	//trapmake
+	tile_design[2][5].isTrap = true;
+	//stairmake
+	tile_design[7][7].isDownStair = true;
 
 	for (int i = 0; i * tile_size.y < sprite.GetTextureSize().y; ++i) {
 		for (int j = 0; j * tile_size.x < sprite.GetTextureSize().x; ++j) {
@@ -59,9 +110,7 @@ void Map::Load(Math::ivec2 new_index) {
 	//current_index = new_index;
 	exit_index = { 7,7 };
 	grid_size = tile_size.x * (Math::ivec2{ current_index } );
-	/*if (grid.size() < ((current_index.x ) * (current_index.y ))) {
-		grid.resize((current_index.x ) * (current_index.y ));
-	}*/
+	
 
 
 	/*for (int i = 0; i < current_index.y ; ++i) {
@@ -152,10 +201,8 @@ void Map::Load(Math::ivec2 new_index) {
 	file_stream_design.close();
 }
 
-void Map::Update(const Math::ivec2& new_index) {
-	if (current_index != new_index) {
-		current_index = new_index;
-	}
+void Map::Update() {
+	
 }
 
 void Map::Draw() {
@@ -185,15 +232,21 @@ void Map::Draw() {
 			/*int j = 2;*/
 			Math::vec2 position = Math::vec2{ double(start_position.x),double(start_position.y) } + Math::vec2{ double(j * tile_size.x), double(i * tile_size.y) };
 			//position -= Math::vec2{ double(Engine::GetWindow().GetSize().x), double(Engine::GetWindow().GetSize().y) };
-			Rectangle rect = { tiles_numbers[tile_design[i][j]].x, tiles_numbers[tile_design[i][j]].y, tile_size.x ,tile_size.y};
-			if (tile_design[i][j] != 0) {
+			Rectangle rect = { tiles_numbers[tile_design[i][j].tile_number].x, tiles_numbers[tile_design[i][j].tile_number].y, tile_size.x ,tile_size.y};
+			if (tile_design[i][j].isTrap == true) {
+				DrawRectangle(position.x,position.y,rect.width,rect.height,BROWN);
+			}
+			else if (tile_design[i][j].isDownStair == true) {
+				DrawRectangle(position.x, position.y, rect.width, rect.height, BLACK);
+			}
+			else if (tile_design[i][j].tile_number != 0) {
 				sprite.Draw(
 					position,
 					rect
 				);
 			}			
-			/*DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
-			DrawText(TextFormat("%d", tile_design[i][j]), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);*/
+			DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
+			DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
 		}
 	}
 }
@@ -202,7 +255,7 @@ bool Map::isAble(const Math::ivec2& pos) const {
 	if (pos.y < 0|| pos.y >= grid.size() || pos.x < 0 || pos.x >= grid[0].size()) {
 		return false;
 	}
-	return grid[pos.x][pos.y] == Tile::ground;
+	return grid[pos.x][pos.y] == TileState::ground;
 }
 
 void Map::Unload()

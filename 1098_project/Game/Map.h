@@ -11,18 +11,34 @@
 #include "../Engine/Vec2.h"
 #include "raylib.h"
 
-enum class Tile {
+enum class TileState {
     nothing = 0,
     ground = 1,
     wall = 2 /*,
      next_wall = 3*/
 };
 
+enum class Stages {
+    stage1,
+    stage2
+};
+
+struct Tile {
+    int tile_number = 0;
+    bool isRightEdge = false;
+    bool isLeftEdge = false;
+    bool isTopEdge = false;
+    bool isBotttomEdge = false;
+    bool isTrap = false;
+    bool isUpStair = false;
+    bool isDownStair = false;
+};
+
 class Map {
    public:
-    Map(Math::ivec2 index);
-    void Load(Math::ivec2 index);
-    void Update(const Math::ivec2& new_index);
+    Map();
+    void Load();
+    void Update();
     void Draw();
     void Unload();
     Math::ivec2 GetCurrentIndex() const { return current_index; }
@@ -30,26 +46,25 @@ class Map {
     Math::ivec2 GetStartPosition() const { return start_position; }
     Math::ivec2 GetTileSize() const { return tile_size; }
     Math::ivec2 GetGridSize() const { return grid_size; }
-    std::vector<std::vector<Tile>>& GetGrid() { return grid; }
-    std::vector<std::vector<int>>& GetTileDesign() { return tile_design; }
+    std::vector<std::vector<TileState>>& GetGrid() { return grid; }
+    std::vector<std::vector<Tile>>& GetTileDesign() { return tile_design; }
     bool isAble(const Math::ivec2& pos) const;
+    Stages GetCurrentStage() const { return stages; }
 
    private:
     CS230::Sprite sprite;
 
     const Math::ivec2 tile_size = {32, 32};
     const Math::ivec2 start_position = {50, 50};
-    std::vector<std::vector<Tile>> grid;
+    std::vector<std::vector<TileState>> grid;
 
     Math::ivec2 current_index;
     Math::ivec2 exit_index;
     Math::ivec2 grid_size;
 
-    enum class stages {
-        stage1
-    };
+    
 
-    stages stages = stages::stage1;
+    Stages stages = Stages::stage1;
 
     std::vector<Math::ivec2> tiles_numbers;
 
@@ -57,7 +72,7 @@ class Map {
 
     const char* stage1_design_path = "Game/stage1_tiles.txt";
 
-    std::vector<std::vector<int>> tile_design;
+    std::vector<std::vector<Tile>> tile_design;
 
     int width_amount = 0;
     int height_amount = 0;
