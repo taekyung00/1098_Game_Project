@@ -13,11 +13,13 @@ Enemy::Enemy(TurnManager& turnmanager, Map& map, Player& player) :
 	map(map),
 	player(player),
 	is_attacking(false),
+	is_alive(true),
 	attcak_count(1.0) {
 
 }
 
 void Enemy::Load() {
+	is_alive = true;
 	index = { 7, 5 };
 
 	position = {
@@ -26,7 +28,10 @@ void Enemy::Load() {
 }
 
 void Enemy::Attack() {
-
+	if (is_alive == false) {
+		Unload();
+		return;
+	}
 	attackarms.clear();
 	if (is_attacking) {
 		//left
@@ -71,6 +76,10 @@ void Enemy::Attack() {
 }
 
 void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
+	if (is_alive == false) {
+		Unload();
+		return;
+	}
     Math::ivec2 playerIndex = player.GetCurrentIndex();
     
     attcak_count -= dt;
@@ -136,4 +145,5 @@ void Enemy::Draw() {
 
 void Enemy::Unload() {
 	attackarms.clear();
+	position = { -100,-100 };
 }

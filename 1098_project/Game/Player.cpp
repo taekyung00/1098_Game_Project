@@ -34,10 +34,17 @@ void Player::Load() {
         map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2};
 }
 
-void Player::Update(double dt, const Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
+void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
     if (is_moving == true) {
 
-        if(enemy.GetIndex())
+        if (
+            abs(current_index.x - enemy.GetIndex().x) == 1 ||
+            abs(current_index.y - enemy.GetIndex().y) == 1
+            ) {
+            if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+                enemy.GetIsAlive() = false;
+            }
+        }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
             if (
                 map.GetTileDesign()[current_index.y][current_index.x].isLeftEdge != true

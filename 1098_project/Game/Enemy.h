@@ -24,6 +24,7 @@ public:
 	void Attack();
 	Math::ivec2 GetIndex() const { return index; }
 	const std::vector<attackarm>& GetArms() const { return attackarms; }
+	bool& GetIsAlive() { return is_alive; }
 
 private:
 	TurnManager& turnmanager;
