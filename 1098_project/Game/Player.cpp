@@ -38,8 +38,10 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
     if (is_moving == true) {
 
         if (
-            abs(current_index.x - enemy.GetIndex().x) == 1 ||
-            abs(current_index.y - enemy.GetIndex().y) == 1
+            abs(current_index.x - enemy.GetIndex().x) <= 1 &&
+            abs(current_index.x - enemy.GetIndex().x) >  0  &&
+            abs(current_index.y - enemy.GetIndex().y) <= 1 &&
+            abs(current_index.y - enemy.GetIndex().y) >  0 
             ) {
             if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
                 enemy.GetIsAlive() = false;
