@@ -93,9 +93,9 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
 		}
         attcak_count = 1.0;
     }
-    
+	
     if (isNear(index, playerIndex)) {
-        Attack();
+		Attack();
         turnmanager.EnemyToPlayer();
         return;
     }
@@ -132,14 +132,14 @@ void Enemy::Draw() {
 		position.x,
 		position.y,
 		radius,
-		{ 230, 41, 55, 255 });
+		{ 100, 255, 100, 180 });
 	if (attackarms.size() > 0) {
 		for (int i = 0; i < attackarms.size(); ++i) {
 			DrawCircle(
 				attackarms[i].center.x,
 				attackarms[i].center.y,
 				attackarms[i].radius,
-				{ 230, 41, 55, 255 });
+				{ 100, 255, 100, 180 });
 		}
 	}
 }

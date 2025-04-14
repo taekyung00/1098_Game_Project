@@ -14,7 +14,7 @@
 
 class Enemy;
 class Player {
-   public:
+public:
     Player(TurnManager& turnmanager, Map& map);
     void Load();
     void Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn);
@@ -27,7 +27,7 @@ class Player {
     int GetRadius() { return radius; }
     int& GetMovingCount() { return moving_count; }
 
-   private:
+private:
     TurnManager& turnmanager;
     Map& map;
     CS230::Sprite sprite;

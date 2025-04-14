@@ -178,8 +178,15 @@ void Player::Draw() {
         player_position.x,
         player_position.y,
         radius,
-        YELLOW);
-    
+        BLUE);
+    //temporary text background
+    DrawRectangle(
+        player_position.x - radius + 10,
+        player_position.y - radius - 20,
+        20,
+        20,
+        { 255,255,255,128 }
+    );
 
     DrawText(
         TextFormat("%d", moving_count),
@@ -187,6 +194,15 @@ void Player::Draw() {
         player_position.y - radius - 20,
         20,
         RED);
+
+    //temporary text background
+    DrawRectangle(
+        player_position.x - 40,
+        player_position.y + 40,
+        100,
+        15,
+        { 255,255,255,128 }
+    );
     if (turnmanager.isplayerturn) {
         DrawText(
             TextFormat("PLAYER TURN"),
@@ -204,6 +220,14 @@ void Player::Draw() {
             RED);
     }
 
+    //temporary text background
+    /*DrawRectangle(
+        player_position.x,
+        player_position.y,
+        20,
+        20,
+        { 255,255,255,128 }
+    );*/
     if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
         DrawText(
             TextFormat("5"),
