@@ -2,11 +2,15 @@
 #define PLAYER_H
 #pragma once
 
+#include <fstream>
+
 #include "../Engine/Camera.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Vec2.h"
+
 #include "Map.h"
 #include "TurnManager.h"
+#include "Enemy.h"
 
 class Enemy;
 class Player {
@@ -26,6 +30,7 @@ class Player {
    private:
     TurnManager& turnmanager;
     Map& map;
+    CS230::Sprite sprite;
 
     // CS230::Camera& camera;
 
@@ -35,7 +40,7 @@ class Player {
 
     int radius;
 
-    const int max_moving_count = 1000000;
+    const int max_moving_count = 10;
     int moving_count;
     double start_time_limit = 5;
     double max_time_limit = 2;

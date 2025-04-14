@@ -53,6 +53,7 @@ class Map {
     Stages GetCurrentStage() const { return stages; }
     Rectangle& GetTrapRect()  { return trap_rect; }
     Rectangle& GetDownStairsRect()  { return downstairs_rect; }
+    std::vector<Math::ivec2>& GetTileNumber(){ return tiles_numbers; }
 
    private:
     CS230::Sprite sprite;

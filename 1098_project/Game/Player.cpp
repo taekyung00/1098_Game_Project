@@ -2,6 +2,7 @@
 
 #include "Enemy.h"
 
+
 Player::Player(TurnManager& turnmanager, Map& map) : turnmanager(turnmanager),
                                                      map(map),
                                                      moving_count(max_moving_count),
@@ -14,6 +15,16 @@ void Player::Load() {
     time_limit = start_time_limit;
     is_attacked = false;
     moving_count = max_moving_count;
+    std::ifstream file_stream;
+    std::string temp_string;
+    if (map.GetCurrentStage() == Stages::stage1) {
+        file_stream.open("Game/stage1_tiles.txt");
+        if (file_stream.is_open() == false) {
+            throw std::runtime_error("fail to open in stage 1");
+        }
+        std::getline(file_stream, temp_string);
+        sprite.Load(temp_string, { 0, 0 });
+    }
 
     /*if (map.GetCurrentIndex().x % 2 == 0) {
             index_start.x = map.GetCurrentIndex().x / 2;
@@ -38,13 +49,15 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
     if (is_moving == true) {
 
         if (
-            abs(current_index.x - enemy.GetIndex().x) <= 1 &&
-            abs(current_index.x - enemy.GetIndex().x) >  0  &&
-            abs(current_index.y - enemy.GetIndex().y) <= 1 &&
-            abs(current_index.y - enemy.GetIndex().y) >  0 
+            (abs(current_index.x - enemy.GetIndex().x) <= 1 &&
+                abs(current_index.y - enemy.GetIndex().y) <= 1) &&
+            (abs(current_index.x - enemy.GetIndex().x) > 0 ||
+
+                abs(current_index.y - enemy.GetIndex().y) > 0)
             ) {
-            if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+            if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space) && enemy.GetIsAlive() == true) {
                 enemy.GetIsAlive() = false;
+                moving_count+= 7;
             }
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
@@ -166,6 +179,7 @@ void Player::Draw() {
         player_position.y,
         radius,
         YELLOW);
+    
 
     DrawText(
         TextFormat("%d", moving_count),

@@ -77,6 +77,7 @@ void Enemy::Attack() {
 
 void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
 	if (is_alive == false) {
+		turnmanager.EnemyToPlayer();
 		Unload();
 		return;
 	}
