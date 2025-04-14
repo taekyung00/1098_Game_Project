@@ -15,6 +15,7 @@ void Map::Load() {
         std::getline(file_stream_design, temp_string);
         sprite.Load(temp_string, {0, 0});
     }
+
     sprite_trap_alive.Load("Assets/sprite_trap_alive.png",{0,0});
     sprite_trap_dead.Load("Assets/sprite_trap_dead.png",{0,0});
     sprite_downstairs.Load("Assets/sprite_downstairs.png",{0,0});
@@ -130,7 +131,7 @@ void Map::Load() {
                     grid[i][j] = Tile::ground;
             }
     }*/
-    Engine::GetWindow().Update(grid_size + 2 * start_position);
+    Engine::GetWindow().Update(grid_size*2 + 2 * start_position);
     file_stream_design.close();
     trap_count =trap_max_count;
 }

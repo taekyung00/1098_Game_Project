@@ -1,5 +1,5 @@
 #include "InGame.h"
-
+#include <iostream>
 
 
 InGame::InGame() : current_map_index(floor1_index), map(), player(turnmanager, map), enemy(turnmanager, map, player), audio("Sounds/Drum,Metronom.wav") {
@@ -46,6 +46,7 @@ void InGame::Update(double dt) {
 
 	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
 		Engine::GetGameStateManager().ReloadState();
+		std::cout << "RR\n";
 	}
 
 	if (player.GetCurrentIndex() == map.GetExitIndex()) {

@@ -26,8 +26,8 @@ namespace CS230 {
 
     private:
         Math::ivec2 size;
-        static constexpr int default_width = 800;
-        static constexpr int default_height = 600;
+        static constexpr int default_width = 1600;
+        static constexpr int default_height = 800;
         static constexpr unsigned int default_background = UINT_MAX;
     };
 }
