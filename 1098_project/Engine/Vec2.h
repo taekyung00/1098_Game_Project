@@ -47,6 +47,8 @@ namespace Math {
 
 
     };
+    bool operator==(const vec2& lv, const vec2& rv);
+    bool operator!=(const vec2& lv, const vec2& rv);
 
     vec2 operator*(double scale, const vec2& v);
 
@@ -84,6 +86,8 @@ namespace Math {
         vec2 operator/(double divisor);
         vec2 operator/(double divisor)const;
     };
+    bool operator==(const ivec2& lv, const ivec2& rv);
+    bool operator!=(const ivec2& lv, const ivec2& rv);
 
     ivec2 operator*(int scale, const ivec2& v);
     vec2 operator*(double scale, const ivec2& v);

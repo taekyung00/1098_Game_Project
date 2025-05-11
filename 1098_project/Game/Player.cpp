@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include "Enemy.h"
+#include "InGame.h"
 
 
 Player::Player(TurnManager& turnmanager, Map& map) : turnmanager(turnmanager),
@@ -8,7 +9,7 @@ Player::Player(TurnManager& turnmanager, Map& map) : turnmanager(turnmanager),
                                                      moving_count(max_moving_count),
                                                      is_moving(true),
                                                      time_limit(start_time_limit) {
-    radius = map.GetTileSize().y / 2;
+    radius = tile_size.y / 2;
 }
 
 void Player::Load() {
@@ -41,8 +42,8 @@ void Player::Load() {
     }*/
     current_index = {3, 3};
     player_position = {
-        map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-        map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2};
+        map.GetStartPosition().x + current_index.x * tile_size.x + tile_size.x / 2,
+        map.GetStartPosition().y + current_index.y * tile_size.y + tile_size.y / 2};
 }
 
 void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
@@ -138,19 +139,10 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
         Engine::GetGameStateManager().ReloadState();
     }
     player_position = {
-        map.GetStartPosition().x + current_index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-        map.GetStartPosition().y + current_index.y * map.GetTileSize().y + map.GetTileSize().y / 2};
+        map.GetStartPosition().x + current_index.x * tile_size.x + tile_size.x / 2,
+        map.GetStartPosition().y + current_index.y * tile_size.y + tile_size.y / 2};
 
-    //hardcoded for stage1, 2,5
-    if (map.GetTileDesign()[2][5].isTrapAlive == true) {
-        if (CheckCollisionCircleRec({ float(player_position.x) ,float(player_position.y) }, radius, map.GetTrapRect())&&
-            is_attacked == false) {
-            moving_count--;
-            is_attacked = true;
-            Engine::GetLogger().LogDebug("player attacked!");
-            turnmanager.PlayerToEnemy();
-        }
-    }
+    
 
     if (CheckCollisionCircleRec({ float(player_position.x) ,float(player_position.y) }, radius, map.GetDownStairsRect())) {
         //std::exit(EXIT_FAILURE);

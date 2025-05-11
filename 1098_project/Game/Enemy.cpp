@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "InGame.h"
 
 bool isNear(const Math::ivec2& enemy_pos, const Math::ivec2& player_pos) {
 	int deltaX = abs(enemy_pos.x - player_pos.x);
@@ -23,8 +24,8 @@ void Enemy::Load() {
 	index = { 7, 5 };
 
 	position = {
-		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,	
-		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + index.x * tile_size.x + tile_size.x / 2,
+		map.GetStartPosition().y + index.y * tile_size.y + tile_size.y / 2 };
 }
 
 void Enemy::Attack() {
@@ -36,26 +37,26 @@ void Enemy::Attack() {
 	if (is_attacking) {
 		//left
 		Math::ivec2 left_position = {
-		map.GetStartPosition().x + (index.x - 1) * map.GetTileSize().x + map.GetTileSize().x / 2,
-		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + (index.x - 1) * tile_size.x + tile_size.x / 2,
+		map.GetStartPosition().y + index.y * tile_size.y + tile_size.y / 2 };
 		attackarms.push_back({ Vector2{ float(left_position.x),float(left_position.y) }, 15 });
 
 		//right
 		Math::ivec2 right_position = {
-		map.GetStartPosition().x + (index.x + 1) * map.GetTileSize().x + map.GetTileSize().x / 2,
-		map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + (index.x + 1) * tile_size.x + tile_size.x / 2,
+		map.GetStartPosition().y + index.y * tile_size.y + tile_size.y / 2 };
 		attackarms.push_back({ Vector2{ float(right_position.x),float(right_position.y) }, 15 });
 
 		//top
 		Math::ivec2 top_position = {
-		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-		map.GetStartPosition().y + (index.y - 1) * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + index.x * tile_size.x + tile_size.x / 2,
+		map.GetStartPosition().y + (index.y - 1) * tile_size.y + tile_size.y / 2 };
 		attackarms.push_back({ Vector2{ float(top_position.x),float(top_position.y) }, 15 });
 
 		//bottom
 		Math::ivec2 bottom_position = {
-		map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-		map.GetStartPosition().y + (index.y + 1) * map.GetTileSize().y + map.GetTileSize().y / 2 };
+		map.GetStartPosition().x + index.x * tile_size.x + tile_size.x / 2,
+		map.GetStartPosition().y + (index.y + 1) * tile_size.y + tile_size.y / 2 };
 		attackarms.push_back({ Vector2{ float(bottom_position.x),float(bottom_position.y) }, 15 });
 	}
 
@@ -64,7 +65,7 @@ void Enemy::Attack() {
 		for (int i = 0; i < attackarms.size(); i++) {
 			if (CheckCollisionCircles(temp_player_position, player.GetRadius(), attackarms[i].center, attackarms[i].radius)) {
 				//player.GetMovingCount()--;
-				player.GetIsAttacked() = true;
+				player.SetIsAttacked() = true;
 				is_attacking = !is_attacking;
 				Engine::GetLogger().LogDebug("Enemy attack");
 				attackarms.clear();
@@ -117,8 +118,8 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
         index = candidate;
     
     position = {
-        map.GetStartPosition().x + index.x * map.GetTileSize().x + map.GetTileSize().x / 2,
-        map.GetStartPosition().y + index.y * map.GetTileSize().y + map.GetTileSize().y / 2
+        map.GetStartPosition().x + index.x * tile_size.x + tile_size.x / 2,
+        map.GetStartPosition().y + index.y * tile_size.y + tile_size.y / 2
     };
     
     //turnmanager.EnemyToPlayer();
@@ -126,7 +127,7 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
 
 void Enemy::Draw() {
 
-	int radius = map.GetTileSize().y / 2;
+	int radius = tile_size.y / 2;
 
 	DrawCircle(
 		position.x,

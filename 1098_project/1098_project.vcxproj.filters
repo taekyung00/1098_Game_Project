@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{626a7cec-117b-4757-a85e-472b5c8d059c}</UniqueIdentifier>
     </Filter>
@@ -61,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Audio.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Trap.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,8 +120,8 @@
     <ClInclude Include="Game\TurnManager.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Audio.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Game\Trap.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

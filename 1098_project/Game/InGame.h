@@ -11,12 +11,18 @@
 #include "../Engine/Audio.h"
 
 
+
+#include "TurnManager.h"
+#include "Map.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "TurnManager.h"
+#include "Trap.h"
 
 
 #include <vector>
+
+extern const Math::ivec2 tile_size;
+
 
 
 class InGame : public CS230::GameState {
@@ -45,6 +51,11 @@ private:
     Enemy enemy;
     Camera2D camera;
     Audio audio;
+    std::vector<Trap*> traps;
+    //std::vector<Rectangle*> trap_rects;
+    const std::vector<std::vector<Math::ivec2>> trap_index = {
+        {Math::ivec2{2,5}}//stage1
+    };
 };
 
 #endif // !MODE_H

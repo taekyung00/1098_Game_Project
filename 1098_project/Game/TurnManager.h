@@ -16,7 +16,6 @@ private:
 	static constexpr double max_enemy_turn_count = 0.5;
 
 
-
 	double player_turn_count;
 	double enemy_turn_count;
 public:

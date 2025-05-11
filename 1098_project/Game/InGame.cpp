@@ -1,9 +1,17 @@
-#include "InGame.h"
+
 #include <iostream>
 
+#include "InGame.h"
 
-InGame::InGame() : current_map_index(floor1_index), map(), player(turnmanager, map), enemy(turnmanager, map, player), audio("Sounds/Drum,Metronom.wav") {
-	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+
+extern const Math::ivec2 tile_size = { 32,32 };
+InGame::InGame() : 
+	current_map_index(floor1_index), 
+	map(), 
+	player(turnmanager, map), 
+	enemy(turnmanager, map, player), 
+	audio("Sounds/Drum,Metronom.wav") {
+	camera.target = { static_cast<float>(player.GetPosition().x),static_cast<float>(player.GetPosition().y) };
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 
 	camera.rotation = 0.f;
@@ -11,10 +19,20 @@ InGame::InGame() : current_map_index(floor1_index), map(), player(turnmanager, m
 }
 
 void InGame::Load() {
-	turnmanager.Load();
+	traps.clear();
 	map.Load();
+	map.GetCurrentStage();
+	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
+		traps.push_back(new Trap(index));
+	}
+	for (Trap* trap : traps) {
+		trap->Load();
+	}
+	turnmanager.Load();
+	
 	player.Load();
 	enemy.Load();
+
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 	audio.SetLooping(true);
 	audio.Play();
@@ -24,11 +42,32 @@ void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(dt);
 	if (turnmanager.isplayerturn) {
+		for (Trap* trap : traps) {
+			trap->SetIsAlive() = false;
+		}
 		player.Update(dt, enemy, turnmanager.isplayerturn, turnmanager.isenemyturn);
 	}
 
-	if (turnmanager.isenemyturn) {
+	else {
+		for (Trap* trap : traps) {
+			trap->SetIsAlive() = true;
+		}
 		enemy.Update(dt, turnmanager.isenemyturn, turnmanager.isplayerturn);
+	}
+	//temperate collisioncheck
+	
+	for(Trap* trap: traps){
+		trap->Update(dt);
+		if (trap->GetIsAlive() == true) {
+			if (CheckCollisionCircleRec({ static_cast<float>(player.GetPosition().x) ,static_cast<float>(player.GetPosition().y) }, player.GetRadius(), trap->GetTrapRect()) &&
+				player.GetIsAttacked() == false) {
+				player.SetMovingCount()--;
+				player.SetIsAttacked() = true;
+				Engine::GetLogger().LogDebug("player attacked!");
+				turnmanager.PlayerToEnemy();
+			}
+		}
+		
 	}
 
 	audio.Update();
@@ -62,6 +101,9 @@ void InGame::Update(double dt) {
 }
 
 void InGame::Unload() {
+	for (Trap* trap : traps) {
+		delete trap;
+	}
 	map.Unload();
 	player.Unload();
 	enemy.Unload();
@@ -79,9 +121,12 @@ void InGame::Draw() {
 	Engine::GetLogger().LogDebug(std::to_string(enemy.GetArms().size()));
 	Engine::GetWindow().Clear(0x00000000);
 	map.Draw();
+	
+	for (Trap* trap : traps) {
+		trap->Draw();
+	}
 	player.Draw();
 	enemy.Draw();
-
 	EndMode2D();
 }
 

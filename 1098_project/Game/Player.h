@@ -12,6 +12,7 @@
 #include "TurnManager.h"
 #include "Enemy.h"
 
+
 class Enemy;
 class Player {
 public:
@@ -20,12 +21,14 @@ public:
     void Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn);
     void Draw();
     void Unload();
-    Math::ivec2 GetCurrentIndex() const { return current_index; }
-    Math::ivec2 GetPosition() const { return player_position; }
-    double GetTimeLimit() const { return time_limit; }
-    bool& GetIsAttacked() { return is_attacked; }
-    int GetRadius() { return radius; }
-    int& GetMovingCount() { return moving_count; }
+    const Math::ivec2& GetCurrentIndex() const { return current_index; }
+    const Math::ivec2& GetPosition() const { return player_position; }
+    const double& GetTimeLimit() const { return time_limit; }
+    const bool& GetIsAttacked() const { return is_attacked; }
+    bool& SetIsAttacked() { return is_attacked; }
+    const int& GetRadius() const { return radius; }
+    const int& GetMovingCount() const { return moving_count; }
+    int& SetMovingCount() { return moving_count; }
 
 private:
     TurnManager& turnmanager;
