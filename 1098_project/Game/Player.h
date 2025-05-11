@@ -18,7 +18,7 @@ class Player {
 public:
     Player(TurnManager& turnmanager, Map& map);
     void Load();
-    void Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn);
+    void Update(double dt,  Enemy& enemy);
     void Draw();
     void Unload();
     const Math::ivec2& GetCurrentIndex() const { return current_index; }

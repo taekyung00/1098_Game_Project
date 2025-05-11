@@ -14,12 +14,6 @@
 
 
 
-//enum class TileState {
-//    nothing = 0,
-//    ground = 1,
-//    wall = 2 /*,
-//     next_wall = 3*/
-//};
 
 extern const Math::ivec2 start_position ;
 enum class Stages {

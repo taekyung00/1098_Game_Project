@@ -20,7 +20,7 @@ public:
 
 	Enemy(TurnManager& turnmanager, Map& map, Player& player);
 	void Load();
-	void Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn);
+	void Update(double dt);
 	void Draw();
 	void Unload();
 	void Attack();

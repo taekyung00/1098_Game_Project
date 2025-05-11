@@ -46,7 +46,7 @@ void Player::Load() {
         map.GetStartPosition().y + current_index.y * tile_size.y + tile_size.y / 2};
 }
 
-void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyTurn) {
+void Player::Update(double dt,  Enemy& enemy) {
     if (is_moving == true) {
 
         if (
@@ -75,7 +75,7 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
                 time_limit = max_time_limit;
                 is_attacked = false;
             }
-            turnmanager.PlayerToEnemy();
+            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy; 
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
             if (
@@ -91,7 +91,7 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
                 time_limit = max_time_limit;
                 is_attacked = false;
             }
-            turnmanager.PlayerToEnemy();
+            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
             if (
@@ -107,7 +107,7 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
                 time_limit = max_time_limit;
                 is_attacked = false;
             }
-            turnmanager.PlayerToEnemy();
+            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
             if (
@@ -123,7 +123,7 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
                 time_limit = max_time_limit;
                 is_attacked = false;
             }
-            turnmanager.PlayerToEnemy();
+            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
         }
     }
 
@@ -158,7 +158,7 @@ void Player::Update(double dt,  Enemy& enemy, bool& isPlayerTurn, bool& isEnemyT
                 moving_count--;
                 is_attacked = true;
                 Engine::GetLogger().LogDebug("player attacked!");
-                turnmanager.PlayerToEnemy();
+                turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
                 break;
             }
         }

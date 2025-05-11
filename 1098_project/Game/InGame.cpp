@@ -41,18 +41,17 @@ void InGame::Load() {
 void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(dt);
-	if (turnmanager.isplayerturn) {
-		for (Trap* trap : traps) {
-			trap->SetIsAlive() = false;
-		}
-		player.Update(dt, enemy, turnmanager.isplayerturn, turnmanager.isenemyturn);
+	if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
+		player.Update(dt, enemy);
 	}
+	else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
+		enemy.Update(dt);
+	}
+	else if (turnmanager.GetCurrentTurn() == TurnManager::Turns::traps) {
 
-	else {
 		for (Trap* trap : traps) {
-			trap->SetIsAlive() = true;
+			trap->SetIsAlive() = !trap->SetIsAlive();
 		}
-		enemy.Update(dt, turnmanager.isenemyturn, turnmanager.isplayerturn);
 	}
 	//temperate collisioncheck
 	
@@ -64,7 +63,7 @@ void InGame::Update(double dt) {
 				player.SetMovingCount()--;
 				player.SetIsAttacked() = true;
 				Engine::GetLogger().LogDebug("player attacked!");
-				turnmanager.PlayerToEnemy();
+				turnmanager.SetCurrentTurn() =  TurnManager::Turns::enemy;
 			}
 		}
 		

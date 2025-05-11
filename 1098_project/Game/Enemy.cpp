@@ -76,9 +76,9 @@ void Enemy::Attack() {
 
 }
 
-void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
+void Enemy::Update(double dt) {
 	if (is_alive == false) {
-		turnmanager.EnemyToPlayer();
+		turnmanager.SetCurrentTurn() = TurnManager::Turns::player;
 		Unload();
 		return;
 	}
@@ -97,7 +97,7 @@ void Enemy::Update(double dt, bool& isEnemyTurn, bool& isPlayerTurn) {
 	
     if (isNear(index, playerIndex)) {
 		Attack();
-        turnmanager.EnemyToPlayer();
+		turnmanager.SetCurrentTurn() = TurnManager::Turns::player;
         return;
     }
 
