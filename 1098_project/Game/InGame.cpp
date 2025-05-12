@@ -7,11 +7,15 @@
 extern const Math::ivec2 tile_size = { 32,32 };
 extern const Math::ivec2 start_position = { 50,50 };
 InGame::InGame() : 
-	current_map_index(floor1_index), 
+	//current_map_index(floor1_index), 
 	map(), 
 	player(turnmanager, map), 
 	//enemy(turnmanager, map, player), 
-	audio("Sounds/Drum,Metronom.wav") {
+	audio("Sounds/Drum,Metronom.wav") ,
+	collisionmanager(player,enemies)
+{
+	Enemy::SetPlayerReference(player);
+	Enemy::SetMapReference(map);
 	camera.target = { static_cast<float>(player.GetPosition().x),static_cast<float>(player.GetPosition().y) };
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 
@@ -20,9 +24,12 @@ InGame::InGame() :
 }
 
 void InGame::Load() {
+	enemies.clear();
 	traps.clear();
 	map.Load();
 	map.GetCurrentStage();
+	enemies.push_back(new Pawn({ 2,6 },"Assets/pawn.png"));
+	player.SetEnemiesReference(enemies);
 	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
 		traps.push_back(new Trap(index));
 	}
@@ -43,17 +50,27 @@ void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(dt);
 	if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
+		for (Enemy* enemy : enemies) {
+			enemy->SetIsOutdated() = true;
+		}
+		for (Trap* trap : traps) {
+			trap->SetIsOutdated() = true;
+		}
 		player.Update(dt);
 	}
 	else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
-		//enemy.Update(dt);
+		for (Enemy* enemy : enemies) {
+			enemy->Update(dt);
+		}
 	}
+	
 	else if (turnmanager.GetCurrentTurn() == TurnManager::Turns::traps) {
 		
 		for (Trap* trap : traps) {
 			trap->Update(dt);
 		}
 	}
+	collisionmanager.CollisionCheck();
 	//temperate collisioncheck
 	
 	for(Trap* trap: traps){
@@ -88,21 +105,20 @@ void InGame::Update(double dt) {
 	}
 
 	if (player.GetCurrentIndex() == map.GetExitIndex()) {
-		if (current_map_index == floor1_index) {
-			current_map_index = floor2_index;
-		}
-		else if (current_map_index == floor2_index) {
-			current_map_index = floor1_index;
-		}
 		Engine::GetGameStateManager().ReloadState();
 
 	}
 }
 
 void InGame::Unload() {
+	for (Enemy* enemy : enemies) {
+		delete enemy;
+	}
+	enemies.clear();
 	for (Trap* trap : traps) {
 		delete trap;
 	}
+	traps.clear();
 	map.Unload();
 	player.Unload();
 	//enemy.Unload();
@@ -123,6 +139,9 @@ void InGame::Draw() {
 	
 	for (Trap* trap : traps) {
 		trap->Draw();
+	}
+	for (Enemy* enemy : enemies) {
+		enemy->Draw();
 	}
 	player.Draw();
 	//enemy.Draw();

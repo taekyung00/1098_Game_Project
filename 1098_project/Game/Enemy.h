@@ -9,22 +9,40 @@
 
 #include "../Engine/Vec2.h"
 #include "Map.h"
-#include "Player.h"
+
 #include "TurnManager.h"
 
-
 class Player;
+
 class Enemy {
 public:
-	Enemy(Math::ivec2 index, Player& player);
+	Enemy(Math::ivec2 index);
 	//virtual void Load();
-	virtual void Update();
+	virtual void Update(double dt);
 	virtual void Draw();
-	//virtual void Unload();
+	virtual void Unload();
+
+	static void SetPlayerReference(Player& p);
+	static void SetMapReference(Map& m);
+	bool& SetIsOutdated() { return is_outdated; }
+	const Math::ivec2& GetCurrentIndex() const { return current_index; }
+	const Math::vec2& GetPosition() const{ return position; }
+	const Rectangle& GetRect() const{ return rect; }
+	const std::vector < Math::ivec2 >& GetNearIndex() const { return near_index; }
+	std::vector < Math::ivec2 >& SetNearIndex()  { return near_index; }
+protected:
+	static Map* map;
+	static Player* player;
+	CS230::Sprite sprite;	
+	Math::ivec2 current_index;
+	std::vector < Math::ivec2 > near_index;
+	Math::vec2 position;
+	Rectangle rect;
+	bool is_outdated = true;
 private:
-	Player& player;
-	Math::vec2 current_index;
-	CS230::Sprite sprite;
+
+	
+	
 };
 //class Enemy {
 //public:

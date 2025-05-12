@@ -12,10 +12,6 @@
 #include "../Engine/Sprite.h"
 #include "../Engine/Vec2.h"
 
-
-
-
-
 enum class Stages {
     stage1,
     stage2

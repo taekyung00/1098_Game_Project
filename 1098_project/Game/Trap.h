@@ -21,6 +21,7 @@ public:
 	const bool& GetIsAlive() const { return is_alive; }
 	Rectangle& SetTrapRect() { return trap_rect; }
 	const Rectangle& GetTrapRect() const { return trap_rect; }
+	bool& SetIsOutdated() { return is_outdated; }
 	
 
 private:
@@ -31,6 +32,7 @@ private:
 	Rectangle trap_rect;
 	
 	bool is_alive = true;
+	bool is_outdated = true;
 	/*const double trap_max_count = 1.0;
 	double trap_count = 1.0;*/
 };

@@ -1,20 +1,40 @@
 #include "Enemy.h"
 #include "InGame.h"
 
+Player* Enemy::player = nullptr;
+Map* Enemy::map = nullptr;
 
-Enemy::Enemy(Math::ivec2 index, Player& player)
-	: current_index(index), player(player){}
+void Enemy::SetPlayerReference(Player& p) {
+	Enemy::player = &p;
+}
+void Enemy::SetMapReference(Map& m)
+{
+	Enemy::map = &m;
+}
+Enemy::Enemy(Math::ivec2 index): 
+	current_index(index),
+	position(
+		Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
+		Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) }),
+	rect({ 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) })
+	
+{}
 
-void Enemy::Update()
+
+
+void Enemy::Update([[maybe_unused]]double dt)
 {
 }
 
 void Enemy::Draw()
 {
-	Math::vec2 position = 
-	{	start_position.x + current_index.x * tile_size.x + tile_size.x / 2,
-		start_position.y + current_index.y * tile_size.y + tile_size.y / 2 };
-	sprite.DrawRay(position);
+	sprite.Draw(position,rect);
+}
+
+void Enemy::Unload()
+{
+	player = nullptr;
+	map = nullptr;
 }
 
 //bool isNear(const Math::ivec2& enemy_pos, const Math::ivec2& player_pos) {
