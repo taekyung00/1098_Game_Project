@@ -16,41 +16,53 @@
 class Player;
 class Enemy {
 public:
-	struct attackarm;
-
-	Enemy(TurnManager& turnmanager, Map& map, Player& player);
-	void Load();
-	void Update(double dt);
-	void Draw();
-	void Unload();
-	void Attack();
-	Math::ivec2 GetIndex() const { return index; }
-	const std::vector<attackarm>& GetArms() const { return attackarms; }
-	bool& GetIsAlive() { return is_alive; }
-
+	Enemy(Math::ivec2 index, Player& player);
+	//virtual void Load();
+	virtual void Update();
+	virtual void Draw();
+	//virtual void Unload();
 private:
-	TurnManager& turnmanager;
-	Map& map;
 	Player& player;
-
-	Math::ivec2 index_start;
-	Math::ivec2 index;
-
-	Math::ivec2 position;
-
-	bool is_attacking;
-	double attcak_count;
-
-
-	struct attackarm {
-		Vector2 center;
-		int radius;
-	};
-
-	std::vector<attackarm> attackarms;
-	bool is_alive = true;
-
+	Math::vec2 current_index;
+	CS230::Sprite sprite;
 };
+//class Enemy {
+//public:
+//	struct attackarm;
+//
+//	Enemy(TurnManager& turnmanager, Map& map, Player& player);
+//	void Load();
+//	void Update(double dt);
+//	void Draw();
+//	void Unload();
+//	void Attack();
+//	Math::ivec2 GetIndex() const { return index; }
+//	const std::vector<attackarm>& GetArms() const { return attackarms; }
+//	bool& GetIsAlive() { return is_alive; }
+//
+//private:
+//	TurnManager& turnmanager;
+//	Map& map;
+//	Player& player;
+//
+//	Math::ivec2 index_start;
+//	Math::ivec2 index;
+//
+//	Math::ivec2 position;
+//
+//	bool is_attacking;
+//	double attcak_count;
+//
+//
+//	struct attackarm {
+//		Vector2 center;
+//		int radius;
+//	};
+//
+//	std::vector<attackarm> attackarms;
+//	bool is_alive = true;
+//
+//};
 
 #endif // !ENEMY_H
 

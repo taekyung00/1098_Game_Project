@@ -15,7 +15,7 @@
 
 
 
-extern const Math::ivec2 start_position ;
+
 enum class Stages {
     stage1,
     stage2
@@ -49,7 +49,7 @@ class Map {
     //const Rectangle& GetTrapRect()  const { return trap_rect; }
 
     const Math::ivec2& GetExitIndex() const { return exit_index; }
-    const Math::ivec2& GetStartPosition() const { return start_position; }    
+    //const Math::ivec2& GetStartPosition() const { return start_position; }    
     const Math::ivec2& GetGridSize() const { return grid_size; }    
     const std::vector<std::vector<Tile>>& GetTileDesign() { return tile_design; }
     bool isAble(const Math::ivec2& pos) const;

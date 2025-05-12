@@ -1,7 +1,7 @@
 #include "Map.h"
 #include "InGame.h"
 
-extern const Math::ivec2 start_position = { 50,50 };
+
 Map::Map() : 
     current_index_amount({0, 0}), 
     exit_index(current_index_amount), 
@@ -175,8 +175,8 @@ void Map::Draw() {
                     position,
                     rect);
             }
-            /*DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
-            DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);*/
+            DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
+            DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
         }
     }
 }

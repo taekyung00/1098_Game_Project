@@ -22,6 +22,7 @@
 #include <vector>
 
 extern const Math::ivec2 tile_size;
+extern const Math::ivec2 start_position;
 
 
 
@@ -40,7 +41,7 @@ public:
 
 
 private:
-    static constexpr double max_turn_count = 3.0;
+    //static constexpr double max_turn_count = 3.0;
 
     Math::ivec2 floor1_index = { 8,8 };
     Math::ivec2 floor2_index = { 5,5 };
@@ -48,7 +49,7 @@ private:
     TurnManager turnmanager;
     Map map;
     Player player;
-    Enemy enemy;
+    //Enemy enemy;
     Camera2D camera;
     Audio audio;
     std::vector<Trap*> traps;

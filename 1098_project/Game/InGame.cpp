@@ -5,11 +5,12 @@
 
 
 extern const Math::ivec2 tile_size = { 32,32 };
+extern const Math::ivec2 start_position = { 50,50 };
 InGame::InGame() : 
 	current_map_index(floor1_index), 
 	map(), 
 	player(turnmanager, map), 
-	enemy(turnmanager, map, player), 
+	//enemy(turnmanager, map, player), 
 	audio("Sounds/Drum,Metronom.wav") {
 	camera.target = { static_cast<float>(player.GetPosition().x),static_cast<float>(player.GetPosition().y) };
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
@@ -31,7 +32,7 @@ void InGame::Load() {
 	turnmanager.Load();
 	
 	player.Load();
-	enemy.Load();
+	//enemy.Load();
 
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 	audio.SetLooping(true);
@@ -42,23 +43,22 @@ void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(dt);
 	if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
-		player.Update(dt, enemy);
+		player.Update(dt);
 	}
 	else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
-		enemy.Update(dt);
+		//enemy.Update(dt);
 	}
 	else if (turnmanager.GetCurrentTurn() == TurnManager::Turns::traps) {
-
+		
 		for (Trap* trap : traps) {
-			trap->SetIsAlive() = !trap->SetIsAlive();
+			trap->Update(dt);
 		}
 	}
 	//temperate collisioncheck
 	
 	for(Trap* trap: traps){
-		trap->Update(dt);
 		if (trap->GetIsAlive() == true) {
-			if (CheckCollisionCircleRec({ static_cast<float>(player.GetPosition().x) ,static_cast<float>(player.GetPosition().y) }, player.GetRadius(), trap->GetTrapRect()) &&
+			if (CheckCollisionRecs(player.GetPlayerRect(), trap->GetTrapRect()) &&
 				player.GetIsAttacked() == false) {
 				player.SetMovingCount()--;
 				player.SetIsAttacked() = true;
@@ -105,7 +105,7 @@ void InGame::Unload() {
 	}
 	map.Unload();
 	player.Unload();
-	enemy.Unload();
+	//enemy.Unload();
 	audio.Stop();
 }
 
@@ -117,7 +117,7 @@ void InGame::Draw() {
 	else if (turnmanager.isenemyturn == true) {
 		Engine::GetLogger().LogDebug("enemy turn");
 	}*/
-	Engine::GetLogger().LogDebug(std::to_string(enemy.GetArms().size()));
+	//Engine::GetLogger().LogDebug(std::to_string(enemy.GetArms().size()));
 	Engine::GetWindow().Clear(0x00000000);
 	map.Draw();
 	
@@ -125,7 +125,7 @@ void InGame::Draw() {
 		trap->Draw();
 	}
 	player.Draw();
-	enemy.Draw();
+	//enemy.Draw();
 	EndMode2D();
 }
 

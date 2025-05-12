@@ -20,9 +20,10 @@ void Trap::Load()
 
 void Trap::Update([[maybe_unused]]double dt)
 {
+	is_alive = !is_alive;
 	/*trap_count -= dt;
 	if (trap_count <= 0.0) {
-		is_alive = !is_alive;	    
+			    
 	    trap_count = trap_max_count;
 	}*/
 }
