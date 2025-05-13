@@ -25,8 +25,7 @@ struct Tile {
     bool isBotttomEdge = false;
     bool isUpStairs = false;
     bool isDownStairs = false;
-    //bool isTrap = false;
-    //bool isTrapAlive = false;
+    bool isPawnReachable = false;
 };
 
 
@@ -43,12 +42,12 @@ class Map {
     //Math::ivec2 GetTileSize() const { return tile_size; }
     //std::vector<std::vector<TileState>>& GetGrid() { return grid; }
     //const Rectangle& GetTrapRect()  const { return trap_rect; }
+    //bool isAble(const Math::ivec2& pos) const;
 
-    const Math::ivec2& GetExitIndex() const { return exit_index; }
-    //const Math::ivec2& GetStartPosition() const { return start_position; }    
+    const Math::ivec2& GetExitIndex() const { return exit_index; }   
     const Math::ivec2& GetGridSize() const { return grid_size; }    
-    const std::vector<std::vector<Tile>>& GetTileDesign() { return tile_design; }
-    bool isAble(const Math::ivec2& pos) const;
+    const std::vector<std::vector<Tile>>& GetTileDesign() const { return tile_design; }
+    std::vector<std::vector<Tile>>& SetTileDesign() { return tile_design; }
     const Stages& GetCurrentStage() const { return stage; }    
     const Rectangle& GetDownStairsRect()  const { return downstairs_rect; }
     const std::vector<Math::ivec2>& GetTileNumber() const { return tiles_numbers; }

@@ -135,18 +135,7 @@ void Map::Load() {
 }
 
 void Map::Update([[maybe_unused]]double dt) {
-    //trap_count -= dt;
-    //if (trap_count <= 0.0) {
-    //    //hardcoded index
-    //    if (tile_design[2][5].isTrapAlive == true) {
-    //        tile_design[2][5].isTrapAlive = false;
-    //    }
-    //    else {
-    //        tile_design[2][5].isTrapAlive = true;
-    //    }
-    //    
-    //    trap_count = trap_max_count;
-    //}
+    
 }
 
 void Map::Draw() {
@@ -175,29 +164,32 @@ void Map::Draw() {
                     position,
                     rect);
             }
+            if (tile_design[i][j].isPawnReachable == true) {
+                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, YELLOW);
+            }
             DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
             DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
         }
     }
 }
 
-bool Map::isAble(const Math::ivec2& pos) const {
-    int row = pos.y;
-    int col = pos.x;
-
-    if (row < 0 || row >= 10)
-        return false;
-
-    if (row < 5) {
-        if (col < 0 || col >= 10)
-            return false;
-    } else {
-        if (col < 5 || col >= 10)
-            return false;
-    }
-
-    return true;
-}
+//bool Map::isAble(const Math::ivec2& pos) const {
+//    int row = pos.y;
+//    int col = pos.x;
+//
+//    if (row < 0 || row >= 10)
+//        return false;
+//
+//    if (row < 5) {
+//        if (col < 0 || col >= 10)
+//            return false;
+//    } else {
+//        if (col < 5 || col >= 10)
+//            return false;
+//    }
+//
+//    return true;
+//}
 
 void Map::Unload() {
     //grid.clear();

@@ -25,7 +25,7 @@
 
 extern const Math::ivec2 tile_size;
 extern const Math::ivec2 start_position;
-
+extern double GetDistanceBetweenIndices(const Math::ivec2 index1, const Math::ivec2 index2);
 
 
 class InGame : public CS230::GameState {
@@ -36,6 +36,7 @@ public:
     void Update(double) override;
     void Unload() override;
     void Draw() override;
+    
 
     std::string GetName() override {
         return "InGame";

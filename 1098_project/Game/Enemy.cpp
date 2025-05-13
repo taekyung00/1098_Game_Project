@@ -16,19 +16,16 @@ Enemy::Enemy(Math::ivec2 index):
 	position(
 		Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
 		Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) }),
-	rect({ 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) })
+	rect({ static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) }),
+	sprite_rect({ 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) })
 	
-{}
-
-
-
-void Enemy::Update([[maybe_unused]]double dt)
 {
+	UpdateNearIndex();
 }
 
 void Enemy::Draw()
 {
-	sprite.Draw(position,rect);
+	sprite.Draw(position, sprite_rect);
 }
 
 void Enemy::Unload()
@@ -36,6 +33,30 @@ void Enemy::Unload()
 	player = nullptr;
 	map = nullptr;
 }
+
+void Enemy::UpdateNearIndex()
+{
+	
+	near_index["top"] = { current_index.x - 1,current_index.y };
+	near_index["bottom"] = { current_index.x + 1, current_index.y };
+	near_index["right"] = { current_index.x , current_index.y + 1};
+	near_index["left"] = { current_index.x , current_index.y - 1};
+}
+
+void Enemy::ChangeIndex()
+{
+	Math::ivec2 new_index = current_index;
+	for (Math::ivec2 index : reachable_indices) {
+		
+		if (GetDistanceBetweenIndices(new_index, player->GetCurrentIndex()) > GetDistanceBetweenIndices(index, player->GetCurrentIndex())) {
+			new_index = index;
+		}
+	}
+	current_index = new_index;
+}
+Enemy::~Enemy(){}
+
+
 
 //bool isNear(const Math::ivec2& enemy_pos, const Math::ivec2& player_pos) {
 //	int deltaX = abs(enemy_pos.x - player_pos.x);

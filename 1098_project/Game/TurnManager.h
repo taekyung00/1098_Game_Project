@@ -28,8 +28,8 @@ private:
 
 	Turns current_turn;
 	static constexpr double max_player_turn_count = 3.0;
-	static constexpr double max_enemy_turn_count = 1.0;
-	static constexpr double max_trap_turn_count = 1.0;
+	static constexpr double max_enemy_turn_count = 0.3;
+	static constexpr double max_trap_turn_count = 0.3;
 
 
 	double player_turn_count;

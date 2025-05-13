@@ -1,4 +1,5 @@
 #include "Vec2.h"
+#include <tuple>
 
 
 bool Math::vec2::operator==(const vec2& v)
@@ -134,6 +135,14 @@ bool Math::ivec2::operator!=(const ivec2& v)
     return !operator==(v);
 }
 
+bool Math::ivec2::operator<(const ivec2& v)const
+{
+    return std::tie(x, y) < std::tie(v.x, v.y);
+}
+bool Math::ivec2::operator>(const ivec2& v)const
+{
+    return std::tie(x, y) > std::tie(v.x, v.y);
+}
 Math::ivec2 Math::ivec2::operator+(const ivec2& v) {
     return { x + v.x, y + v.y };
 }

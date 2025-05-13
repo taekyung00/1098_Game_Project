@@ -9,10 +9,10 @@ extern const Math::ivec2 start_position = { 50,50 };
 InGame::InGame() : 
 	//current_map_index(floor1_index), 
 	map(), 
-	player(turnmanager, map), 
+	player({3,3}, turnmanager, map),
 	//enemy(turnmanager, map, player), 
 	audio("Sounds/Drum,Metronom.wav") ,
-	collisionmanager(player,enemies)
+	collisionmanager(player,enemies,traps)
 {
 	Enemy::SetPlayerReference(player);
 	Enemy::SetMapReference(map);
@@ -28,7 +28,7 @@ void InGame::Load() {
 	traps.clear();
 	map.Load();
 	map.GetCurrentStage();
-	enemies.push_back(new Pawn({ 2,6 },"Assets/pawn.png"));
+	enemies.push_back(new Pawn({ 1,1 },"Assets/pawn.png"));
 	player.SetEnemiesReference(enemies);
 	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
 		traps.push_back(new Trap(index));
@@ -36,6 +36,9 @@ void InGame::Load() {
 	for (Trap* trap : traps) {
 		trap->Load();
 	}
+	/*for (Enemy* enemy : enemies) {
+		enemy->Load();
+	}*/
 	turnmanager.Load();
 	
 	player.Load();
@@ -49,9 +52,11 @@ void InGame::Load() {
 void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(dt);
+	
 	if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
 		for (Enemy* enemy : enemies) {
 			enemy->SetIsOutdated() = true;
+			//enemy->UpdateNearIndex();
 		}
 		for (Trap* trap : traps) {
 			trap->SetIsOutdated() = true;
@@ -59,8 +64,15 @@ void InGame::Update(double dt) {
 		player.Update(dt);
 	}
 	else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
-		for (Enemy* enemy : enemies) {
-			enemy->Update(dt);
+		for (int i = 0; i < enemies.size(); ++i) {
+			if (enemies[i]->GetIsAlive() == false) {
+				delete enemies[i];
+				enemies.erase( enemies.begin()+i);
+			}
+			else {
+				enemies[i]->Update(dt);
+			}
+			
 		}
 	}
 	
@@ -73,7 +85,7 @@ void InGame::Update(double dt) {
 	collisionmanager.CollisionCheck();
 	//temperate collisioncheck
 	
-	for(Trap* trap: traps){
+	/*for(Trap* trap: traps){
 		if (trap->GetIsAlive() == true) {
 			if (CheckCollisionRecs(player.GetPlayerRect(), trap->GetTrapRect()) &&
 				player.GetIsAttacked() == false) {
@@ -84,7 +96,7 @@ void InGame::Update(double dt) {
 			}
 		}
 		
-	}
+	}*/
 
 	audio.Update();
 
@@ -148,3 +160,10 @@ void InGame::Draw() {
 	EndMode2D();
 }
 
+
+
+double GetDistanceBetweenIndices(const Math::ivec2 index1, const Math::ivec2 index2)
+{
+	return sqrt((index1.x - index2.x) * (index1.x - index2.x) +
+		(index1.y - index2.y) * (index1.y - index2.y));
+}

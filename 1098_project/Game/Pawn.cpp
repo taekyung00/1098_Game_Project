@@ -5,43 +5,82 @@
 Pawn::Pawn(Math::ivec2 index, std::string sprite_path) : 
 	Enemy(index), sprite_path(sprite_path) {
 	sprite.Load(sprite_path.c_str(),{0,0});
+	
+	
+}
+void Pawn::Load()
+{
+	rect = { static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
 }
 void Pawn::Update([[maybe_unused]]double dt)
 {
-	near_index.clear();
 	if (is_outdated == true) {
-		//temperary moving
-		if (map->GetTileDesign()[current_index.x][current_index.y].isLeftEdge != true) {
-			--current_index.y;
-			is_outdated = false;
-
-		}
-		else if (map->GetTileDesign()[current_index.x][current_index.y].isRightEdge != true) {
-			++current_index.y;
-			is_outdated = false;
-
-		}
-
-		if (map->GetTileDesign()[current_index.x][current_index.y].isTopEdge != true) {
-			--current_index.x;
-			is_outdated = false;
-
-		}
-		else if (map->GetTileDesign()[current_index.x][current_index.y].isBotttomEdge != true) {
-			++current_index.x;
-			is_outdated = false;
-
-		}
+		near_index.clear();
+		ReachableTest();
+		ChangeIndex();
+		UpdateNearIndex();
+		ReachableTest();
+		position =
+			Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
+			Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
+		//rect = { 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) };
+		is_outdated = false;
+		rect = { static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
 	}
-	near_index.push_back({ current_index.x - 1,current_index.y });
-	near_index.push_back({ current_index.x + 1,current_index.y });
-	near_index.push_back({ current_index.x,current_index.y - 1 });
-	near_index.push_back({ current_index.x,current_index.y + 1});
-	position =
-		Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
-		Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
-	rect = { 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) };
+	
 	
 }
+
+void Pawn::ReachableTest()
+{
+	/*for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isPawnReachable = false;
+	}*/
+
+	for (int i = 0; i < map->GetTileDesign().size(); ++i) {
+		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
+			map->SetTileDesign()[i][j].isPawnReachable = false;
+		}
+	}
+
+	reachable_indices.clear();
+	distances_between_enemy_player.clear();
+
+	if (map->GetTileDesign()[current_index.x][current_index.y ].isLeftEdge == false) {
+		Math::ivec2 temp_index = { current_index.x ,current_index.y - 1 };
+		reachable_indices.push_back(temp_index);		
+	}
+	if (map->GetTileDesign()[current_index.x][current_index.y ].isRightEdge == false) {
+		Math::ivec2 temp_index = { current_index.x ,current_index.y + 1 };
+		reachable_indices.push_back(temp_index);
+	}
+	if (map->GetTileDesign()[current_index.x ][current_index.y].isBotttomEdge == false) {
+		Math::ivec2 temp_index = { current_index.x + 1,current_index.y  };
+		reachable_indices.push_back(temp_index);
+	}
+	if (map->GetTileDesign()[current_index.x ][current_index.y ].isTopEdge == false) {
+		Math::ivec2 temp_index = { current_index.x - 1,current_index.y };
+		reachable_indices.push_back(temp_index);
+	}
+
+	for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isPawnReachable = true;
+		distances_between_enemy_player[index] = GetDistanceBetweenIndices(index,player->GetCurrentIndex());
+	}
+}
+
+Pawn::~Pawn()
+{
+	reachable_indices.clear();
+	distances_between_enemy_player.clear();
+	for (int i = 0; i < map->GetTileDesign().size(); ++i) {
+		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
+			map->SetTileDesign()[i][j].isPawnReachable = false;
+		}
+	}
+}
+
+
+
 
 

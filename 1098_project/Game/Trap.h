@@ -18,6 +18,7 @@ public:
 	void Draw();
 	void Unload();
 	bool& SetIsAlive() { return is_alive; }
+	//bool& SetDidAttack() { return did_attack; }
 	const bool& GetIsAlive() const { return is_alive; }
 	Rectangle& SetTrapRect() { return trap_rect; }
 	const Rectangle& GetTrapRect() const { return trap_rect; }
@@ -31,6 +32,7 @@ private:
 	Math::ivec2 index;
 	Rectangle trap_rect;
 	
+	//bool did_attack = false;
 	bool is_alive = true;
 	bool is_outdated = true;
 	/*const double trap_max_count = 1.0;
