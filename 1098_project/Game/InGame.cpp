@@ -20,9 +20,11 @@ InGame::InGame() :
 }
 
 void InGame::Load() {
-	traps.clear();
+	map.initializestage(Stages::stage1);
 	map.Load();
-	map.GetCurrentStage();
+	traps.clear();
+
+	//map.GetCurrentStage();
 	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
 		traps.push_back(new Trap(index));
 	}

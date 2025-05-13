@@ -12,13 +12,10 @@
 #include "../Engine/Sprite.h"
 #include "../Engine/Vec2.h"
 
-
-
-
-
 enum class Stages {
     stage1,
-    stage2
+    stage2,
+    stage3
 };
 
 struct Tile {
@@ -33,10 +30,12 @@ struct Tile {
     //bool isTrapAlive = false;
 };
 
-
-
 class Map {
    public:
+    //!---------------------------------------!
+    void initializestage(Stages stage);
+    void nextmap();
+    //!---------------------------------------!
     Map();
     void Load();
     void Update(double dt);
@@ -58,6 +57,9 @@ class Map {
     const std::vector<Math::ivec2>& GetTileNumber() const { return tiles_numbers; }
 
    private:
+    //!---------------------------------------!
+    void Loadfile(const std::string& path);
+    //!---------------------------------------!
     CS230::Sprite sprite;
     CS230::Sprite sprite_downstairs;
 
@@ -69,7 +71,7 @@ class Map {
 
     std::vector<Math::ivec2> tiles_numbers;
 
-    const char* stage1_design_path = "Game/stage1_tiles.txt";
+   std::string designPath;
 
     std::vector<std::vector<Tile>> tile_design;
 
@@ -77,6 +79,11 @@ class Map {
     int height_amount = 0;
 
     Rectangle downstairs_rect;
+     //!---------------------------------------!
+    Stages currentStage;
+    std::vector<std::string> availablefiles;
+    std::vector<std::string> selectedfiles;
+    size_t currentmapindex = 0;
 
     //temporary
     /*CS230::Sprite sprite_trap_dead;
