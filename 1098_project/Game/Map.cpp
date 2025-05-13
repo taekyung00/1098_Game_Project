@@ -142,7 +142,7 @@ void Map::Load() {
 
     
     Engine::GetWindow().Update(grid_size*2 + 2 * start_position);
-    file_stream_design.close();
+    //file_stream_design.close();
     //trap_count = trap_max_count;
 }
 
@@ -209,6 +209,6 @@ void Map::Unload() {
 
 }
 
-void Map::Update(double dt) {
-    // ¡¦
-}
+//void Map::Update(double dt) {
+//    // ¡¦
+//}
