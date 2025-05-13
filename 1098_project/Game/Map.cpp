@@ -101,7 +101,7 @@ void Map::Load() {
                     tile_design[i][j].tile_number == 20 ||
                     tile_design[i][j].tile_number == 21 ||
                     tile_design[i][j].tile_number == 22) {
-                    tile_design[i][j].isBotttomEdge = true;
+                    tile_design[i][j].isBottomEdge = true;
                 }
             }
         }
@@ -148,15 +148,7 @@ void Map::Draw() {
             Math::vec2 position = Math::vec2{static_cast<double>(start_position.x), static_cast<double>(start_position.y)} + Math::vec2{ static_cast<double>(j * tile_size.x), static_cast<double>(i * tile_size.y)};
             // position -= Math::vec2{ double(Engine::GetWindow().GetSize().x), double(Engine::GetWindow().GetSize().y) };
             Rectangle rect = { static_cast<float>(tiles_numbers[tile_design[i][j].tile_number].x), static_cast<float>(tiles_numbers[tile_design[i][j].tile_number].y), static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) };
-            //if (tile_design[i][j].isTrap == true) {
-            //    if (tile_design[i][j].isTrapAlive == true) {
-            //        //use temp_rect for using raylib_based sprite.draw
-            //        sprite_trap_alive.DrawRay(position);
-            //    }
-            //    else {
-            //        sprite_trap_dead.DrawRay(position);
-            //    }
-            //} 
+   
             if (tile_design[i][j].isDownStairs == true) {
                 sprite_downstairs.DrawRay(position);
             } else if (tile_design[i][j].tile_number != 0) {
@@ -166,6 +158,12 @@ void Map::Draw() {
             }
             if (tile_design[i][j].isPawnReachable == true) {
                 DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, YELLOW);
+            }
+            if (tile_design[i][j].isRookReachable == true) {
+                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, BLUE);
+            }
+            if (tile_design[i][j].isBishopReachable == true) {
+                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, PURPLE);
             }
             DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
             DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
@@ -192,5 +190,5 @@ void Map::Draw() {
 //}
 
 void Map::Unload() {
-    //grid.clear();
+
 }

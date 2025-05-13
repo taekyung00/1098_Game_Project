@@ -17,6 +17,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Pawn.h"
+#include "Rook.h"
+#include "Bishop.h"
 #include "Trap.h"
 #include "CollisionManager.h"
 

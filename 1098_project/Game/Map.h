@@ -22,10 +22,12 @@ struct Tile {
     bool isRightEdge = false;
     bool isLeftEdge = false;
     bool isTopEdge = false;
-    bool isBotttomEdge = false;
+    bool isBottomEdge = false;
     bool isUpStairs = false;
     bool isDownStairs = false;
     bool isPawnReachable = false;
+    bool isRookReachable = false;
+    bool isBishopReachable = false;
 };
 
 

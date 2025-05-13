@@ -11,8 +11,9 @@ void Enemy::SetMapReference(Map& m)
 {
 	Enemy::map = &m;
 }
-Enemy::Enemy(Math::ivec2 index): 
+Enemy::Enemy(Math::ivec2 index, std::string sprite_path):
 	current_index(index),
+	sprite_path(sprite_path),
 	position(
 		Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
 		Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) }),

@@ -67,6 +67,12 @@
     <ClCompile Include="Game\CollisionManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Rook.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Bishop.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h">
@@ -133,6 +139,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\CollisionManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rook.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Bishop.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

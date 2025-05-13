@@ -165,12 +165,14 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Vec2.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="Game\Bishop.cpp" />
     <ClCompile Include="Game\CollisionManager.cpp" />
     <ClCompile Include="Game\Enemy.cpp" />
     <ClCompile Include="Game\Map.cpp" />
     <ClCompile Include="Game\InGame.cpp" />
     <ClCompile Include="Game\Pawn.cpp" />
     <ClCompile Include="Game\Player.cpp" />
+    <ClCompile Include="Game\Rook.cpp" />
     <ClCompile Include="Game\Splash.cpp" />
     <ClCompile Include="Game\Trap.cpp" />
     <ClCompile Include="Game\TurnManager.cpp" />
@@ -188,6 +190,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Vec2.h" />
     <ClInclude Include="Engine\Window.h" />
+    <ClInclude Include="Game\Bishop.h" />
     <ClInclude Include="Game\CollisionManager.h" />
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\GameObject.h" />
@@ -195,6 +198,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\InGame.h" />
     <ClInclude Include="Game\Pawn.h" />
     <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="Game\Rook.h" />
     <ClInclude Include="Game\Splash.h" />
     <ClInclude Include="Game\States.h" />
     <ClInclude Include="Game\Trap.h" />

@@ -39,6 +39,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("right")) {
                         enemy->SetIsAlive() = false;
+                        moving_count += 7;
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -59,6 +60,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("left")) {
                         enemy->SetIsAlive() = false;
+                        moving_count += 7;
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -79,6 +81,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("bottom")) {
                         enemy->SetIsAlive() = false;
+                        moving_count += 7;
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -94,11 +97,12 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
             turnmanager.CountReset();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-            if (map.GetTileDesign()[current_index.x][current_index.y].isBotttomEdge != true) {
+            if (map.GetTileDesign()[current_index.x][current_index.y].isBottomEdge != true) {
                 // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("top")) {
                         enemy->SetIsAlive() = false;
+                        moving_count += 7;
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -137,7 +141,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
 }
 
 void Player::Draw() {
-    DrawRectangle(static_cast<int>(player_position.x), static_cast<int>(player_position.y), tile_size.x, tile_size.y, BLUE);
+    DrawRectangle(static_cast<int>(player_position.x), static_cast<int>(player_position.y), tile_size.x, tile_size.y, GREEN);
     //temporary text background
     DrawRectangle(
         static_cast<int>(player_position.x + 10),

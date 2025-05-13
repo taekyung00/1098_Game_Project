@@ -17,7 +17,7 @@ class Player;
 
 class Enemy {
 public:
-	Enemy(Math::ivec2 index);
+	Enemy(Math::ivec2 index, std::string sprite_path);
 	virtual void Load() = 0;
 	virtual void Update(double dt) = 0;
 	virtual void Draw();
@@ -41,6 +41,7 @@ public:
 protected:
 	static Map* map;
 	static Player* player;
+	std::string sprite_path;
 	CS230::Sprite sprite;	
 	Math::ivec2 current_index;
 	//std::vector < Math::ivec2 > near_index;
