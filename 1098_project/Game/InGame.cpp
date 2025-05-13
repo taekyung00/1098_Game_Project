@@ -11,7 +11,7 @@ InGame::InGame() :
 	map(), 
 	player(turnmanager, map), 
 	//enemy(turnmanager, map, player), 
-	audio("Sounds/Drum,Metronom.wav") ,
+	audio("Sounds/Drum,Metronom.mp3") ,
 	collisionmanager(player,enemies)
 {
 	Enemy::SetPlayerReference(player);
