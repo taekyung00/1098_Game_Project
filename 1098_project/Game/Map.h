@@ -57,6 +57,7 @@ class Map {
     const Stages& GetCurrentStage() const { return stage; }    
     const Rectangle& GetDownStairsRect()  const { return downstairs_rect; }
     const std::vector<Math::ivec2>& GetTileNumber() const { return tiles_numbers; }
+    const std::vector<std::vector<int>>& GetSpawnLayer() const { return spawn_layer; }
 
    private:
     CS230::Sprite sprite;
@@ -84,6 +85,7 @@ class Map {
     std::vector<std::string> availablefiles;
     std::vector<std::string> selectedfiles;
     size_t currentmapindex = 0;
+    std::vector<std::vector<int>> spawn_layer;
     //temporary
     /*CS230::Sprite sprite_trap_dead;
     CS230::Sprite sprite_trap_alive;*/

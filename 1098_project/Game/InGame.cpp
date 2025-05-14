@@ -29,9 +29,22 @@ void InGame::Load() {
 	traps.clear();
 	map.Load();
 	map.GetCurrentStage();
-	enemies.push_back(new Pawn({ 1,1 },"Assets/pawn.png"));
+	//enemies.push_back(new Pawn({ 1,1 },"Assets/pawn.png"));
 	/*enemies.push_back(new Rook({ 8,8 },"Assets/pawn.png"));
 	enemies.push_back(new Bishop({ 4,8 }, "Assets/pawn.png"));*/
+
+	const auto& sp = map.GetSpawnLayer();
+	for (int i = 0; i < sp.size(); ++i)
+		for (int j = 0; j < sp[i].size(); ++j) {
+			int id = sp[i][j];
+			if (id == 1) enemies.push_back(new Pawn({ i,j }, "Assets/pawn.png"));
+			if (id == 2) enemies.push_back(new Rook({ i,j }, "Assets/rook.png"));
+			if (id == 3) enemies.push_back(new Bishop({ i,j }, "Assets/bishop.png"));
+		}
+	for (auto* e : enemies)
+	{
+		e->Load();
+	}
 
 	player.SetEnemiesReference(enemies);
 	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
