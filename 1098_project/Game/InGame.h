@@ -53,7 +53,9 @@ private:
     Player player;
     //Enemy enemy;
     Camera2D camera;
-    Audio audio;
+    Audio stage1_audio;
+    Audio stage2_audio;
+    Audio stage3_audio;
     std::vector<Enemy*> enemies;
     std::vector<Trap*> traps;
     CollisionManager collisionmanager;

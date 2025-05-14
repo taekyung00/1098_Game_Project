@@ -11,8 +11,15 @@ InGame::InGame() :
 	map(), 
 	player(turnmanager, map), 
 	//enemy(turnmanager, map, player), 
+<<<<<<< Updated upstream
 	audio("Sounds/Drum,Metronom.mp3") ,
 	collisionmanager(player,enemies)
+=======
+	stage1_audio("Sounds/Drum,Metronom.mp3"),
+	stage2_audio("Sounds/Forest_bgm_final.mp3"),
+	stage3_audio("Sounds/Castle_bgm_final.mp3"),
+	collisionmanager(map,player,enemies,traps)
+>>>>>>> Stashed changes
 {
 	Enemy::SetPlayerReference(player);
 	Enemy::SetMapReference(map);
@@ -42,8 +49,27 @@ void InGame::Load() {
 	//enemy.Load();
 
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
+<<<<<<< Updated upstream
 	audio.SetLooping(true);
 	audio.Play();
+=======
+	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+	stage1_audio.SetLooping(true);
+	stage2_audio.SetLooping(true);
+	stage3_audio.SetLooping(true);
+	if (map.GetCurrentStage() == Stages::stage1)
+	{
+		stage1_audio.Play();
+	}
+	else if (map.GetCurrentStage() == Stages::stage2)
+	{
+		stage2_audio.Play();
+	}
+	else if (map.GetCurrentStage() == Stages::stage3)
+	{
+		stage3_audio.Play();
+	}
+>>>>>>> Stashed changes
 }
 
 void InGame::Update(double dt) {
@@ -86,7 +112,18 @@ void InGame::Update(double dt) {
 		
 	}
 
-	audio.Update();
+	if (map.GetCurrentStage() == Stages::stage1)
+	{
+		stage1_audio.Update();
+	}
+	else if (map.GetCurrentStage() == Stages::stage2)
+	{
+		stage2_audio.Update();
+	}
+	else if (map.GetCurrentStage() == Stages::stage3)
+	{
+		stage3_audio.Update();
+	}
 
 	if (player.GetTimeLimit() > 2) {
 		camera.zoom = 2.f;
@@ -122,7 +159,18 @@ void InGame::Unload() {
 	map.Unload();
 	player.Unload();
 	//enemy.Unload();
-	audio.Stop();
+	if (map.GetCurrentStage() == Stages::stage1)
+	{
+		stage1_audio.Stop();
+	}
+	else if (map.GetCurrentStage() == Stages::stage2)
+	{
+		stage2_audio.Stop();
+	}
+	else if (map.GetCurrentStage() == Stages::stage3)
+	{
+		stage3_audio.Stop();
+	}
 }
 
 void InGame::Draw() {

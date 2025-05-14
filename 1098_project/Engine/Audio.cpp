@@ -1,7 +1,6 @@
 #include "Audio.h"
 
 Audio::Audio(const char* filePath) {
-    InitAudioDevice(); 
     music = LoadMusicStream(filePath); 
 }
 

@@ -7,6 +7,7 @@
 #include "../Engine/Camera.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Vec2.h"
+#include "../Engine/Audio.h"
 
 #include "Map.h"
 #include "TurnManager.h"
@@ -48,7 +49,7 @@ private:
     Math::vec2 player_position;
 
     Rectangle player_rect;
-
+    Audio player_moving_sound;
     //int radius;
 
     const int max_moving_count = 10;
