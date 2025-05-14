@@ -5,14 +5,14 @@
 
 
 extern const Math::ivec2 tile_size = { 32,32 };
-extern const Math::ivec2 start_position = { 50,50 };
+extern const Math::ivec2 start_position = { 70,180 };
 InGame::InGame() : 
 	//current_map_index(floor1_index), 
 	map(), 
 	player({3,3}, turnmanager, map),
 	//enemy(turnmanager, map, player), 
 	audio("Sounds/Drum,Metronom.wav") ,
-	collisionmanager(player,enemies,traps)
+	collisionmanager(map,player,enemies,traps)
 {
 	Enemy::SetPlayerReference(player);
 	Enemy::SetMapReference(map);
@@ -20,11 +20,11 @@ InGame::InGame() :
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
 
 	camera.rotation = 0.f;
-	camera.zoom = 1.f;
+	camera.zoom = 4.f;
 }
 
 void InGame::Load() {
-	map.initializestage(Stages::stage1);
+	map.initializestage(/*Stages::stage1*/);
 	enemies.clear();
 	traps.clear();
 	map.Load();
@@ -47,7 +47,7 @@ void InGame::Load() {
 	}
 
 	player.SetEnemiesReference(enemies);
-	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
+	for (Math::ivec2 index : trap_index.at(map.GetCurrentStage())) {
 		traps.push_back(new Trap(index));
 	}
 	for (Trap* trap : traps) {
@@ -62,6 +62,7 @@ void InGame::Load() {
 	//enemy.Load();
 
 	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
+	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 	audio.SetLooping(true);
 	audio.Play();
 }
@@ -117,7 +118,7 @@ void InGame::Update(double dt) {
 
 	audio.Update();
 
-	if (player.GetTimeLimit() > 2) {
+	/*if (player.GetTimeLimit() > 2) {
 		camera.zoom = 2.f;
 	}
 	else if (player.GetTimeLimit() <= 2 && player.GetTimeLimit() > 1) {
@@ -125,8 +126,8 @@ void InGame::Update(double dt) {
 	}
 	else {
 		camera.zoom = 4.f;
-	}
-	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
+	}*/
+	//camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
 
 	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
 		Engine::GetGameStateManager().ReloadState();

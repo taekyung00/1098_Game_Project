@@ -73,6 +73,9 @@
     <ClCompile Include="Game\Bishop.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stages.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h">
@@ -145,6 +148,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Bishop.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stages.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

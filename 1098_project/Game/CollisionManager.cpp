@@ -18,8 +18,10 @@ void CollisionManager::CollisionCheck()
 		}
 	}
 	if (CheckCollisionRecs(player.GetPlayerRect(), map.GetDownStairsRect())) {
-		if (static_cast<int>(map.GetCurrentStage()) < static_cast<int>(Stages::stage3)) {
+		Engine::GetLogger().LogDebug("Stair touched!");
+		if (map.GetCurrentStage() != GetLastStage()) {
 			++(map.SetCurrentStage());
+			Engine::GetGameStateManager().ReloadState();
 		}
 		else {
 			Engine::GetGameStateManager().ClearNextGameState();

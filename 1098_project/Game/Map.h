@@ -12,15 +12,10 @@
 #include "../Engine/Sprite.h"
 #include "../Engine/Vec2.h"
 
-enum class Stages {
-    stage1,
-    stage2,
-    stage3
-};
-Stages& operator++(Stages& orig) {
-    orig = static_cast<Stages>(static_cast<int>(orig) + 1);
-    return orig;
-}
+#include "Stages.h"
+
+
+
 
 struct Tile {
     int tile_number = 0;
@@ -40,7 +35,7 @@ struct Tile {
 class Map {
    public:
        //!---------------------------------------!
-       void initializestage(Stages _stage);
+       void initializestage(/*Stages _stage*/);
        //!---------------------------------------!
     Map();
     void Load();
@@ -83,8 +78,9 @@ class Map {
     int width_amount = 0;
     int height_amount = 0;
 
-    Rectangle downstairs_rect;
+    
     const Math::ivec2 stairs_index = { 0,2 };
+    Rectangle downstairs_rect;
 
     //!---------------------------------------!
     std::string designPath;

@@ -61,8 +61,10 @@ private:
     std::vector<Trap*> traps;
     CollisionManager collisionmanager;
     //std::vector<Rectangle*> trap_rects;
-    const std::vector<std::vector<Math::ivec2>> trap_index = {
-        {Math::ivec2{2,2}}//stage1
+    const std::map<Stages, std::vector<Math::ivec2>> trap_index = {
+        {Stages::stage1,{Math::ivec2{2,2}}},
+        {Stages::stage2,{Math::ivec2{0,0}}},
+        {Stages::stage3,{Math::ivec2{1,1}}}
     };
 };
 

@@ -4,9 +4,9 @@
 #include <algorithm>
 #include <filesystem>
 
-void Map::initializestage(Stages _stage)
+void Map::initializestage(/*Stages _stage*/)
 {
-    stage = _stage;
+    //stage = _stage;
     selectedfiles.clear();
     currentmapindex = 0;
     designPath.clear();
@@ -52,10 +52,9 @@ Map::Map() :
     //exit_index(current_index_amount), 
     grid_size(tile_size.x * (Math::ivec2{ current_index_amount } + Math::ivec2{2, 2})),
     stage(Stages::stage1),
-    downstairs_rect({ float(start_position.x) + tile_size.x * stairs_index.y + 5, float(start_position.y) + tile_size.x * stairs_index.x + 5, float(tile_size.x) - 10,float(tile_size.y) - 10 })
+    downstairs_rect({ static_cast<float>(start_position.x) + tile_size.x * stairs_index.y + 5, static_cast<float>(start_position.y) + tile_size.x * stairs_index.x + 5, static_cast<float>(tile_size.x) - 10,static_cast<float>(tile_size.y) - 10 })
 {   
-    // stairmake
-    tile_design[stairs_index.x][stairs_index.y].isDownStairs = true;
+    
 }
 
 void Map::Load() {
@@ -68,7 +67,7 @@ void Map::Load() {
 
     std::ifstream file_stream_design;
 
-    if (stage == Stages::stage1) {
+    //if (stage == Stages::stage1) {
         file_stream_design.open(designPath.c_str());
         if (file_stream_design.is_open() == false) {
             throw std::runtime_error("fail to open in stage " + std::to_string(static_cast<int>(Stages::stage1)));
@@ -78,7 +77,7 @@ void Map::Load() {
             throw std::runtime_error("fail to open sprite in stage " + std::to_string(static_cast<int>(Stages::stage1)));
         }
         sprite.Load(temp_string, {0, 0});
-    }
+    //}
 
     /*sprite_trap_alive.Load("Assets/sprite_trap_alive.png",{0,0});
     sprite_trap_dead.Load("Assets/sprite_trap_dead.png",{0,0});*/
@@ -114,7 +113,7 @@ void Map::Load() {
     }
 
     // tilecheck - hardcoded for stage1
-    if (stage == Stages::stage1) {
+    if (stage == Stages::stage1 || stage==Stages::stage2 || stage==Stages::stage3) {
         for (int i = 0; i < tile_design.size(); ++i) {
             for (int j = 0; j < tile_design[i].size(); ++j) {
                 // edge check
@@ -163,7 +162,8 @@ void Map::Load() {
     //tile_design[2][5].isTrapAlive = true;
     //trap_rect = { static_cast<float>(start_position.x) + tile_size.x * 5 + 5, static_cast<float>(start_position.y) + tile_size.x * 2 +5, static_cast<float>(tile_size.x) - 10,static_cast<float>(tile_size.y)  - 10};
     
-
+    // stairmake
+    tile_design[stairs_index.x][stairs_index.y].isDownStairs = true;
     //divide sprite of stage1
     for (int i = 0; i * tile_size.y < sprite.GetTextureSize().y; ++i) {
         for (int j = 0; j * tile_size.x < sprite.GetTextureSize().x; ++j) {
@@ -178,7 +178,7 @@ void Map::Load() {
     grid_size = tile_size.x * (Math::ivec2{ current_index_amount });
 
     
-    Engine::GetWindow().Update(grid_size*2 + 2 * start_position);
+    //Engine::GetWindow().Update(grid_size*2 + 2 * start_position);
     file_stream_design.close();
 
     std::filesystem::path mapPath{ designPath };
