@@ -62,7 +62,7 @@ private:
     CollisionManager collisionmanager;
     //std::vector<Rectangle*> trap_rects;
     const std::vector<std::vector<Math::ivec2>> trap_index = {
-        {Math::ivec2{2,5}}//stage1
+        {Math::ivec2{2,2}}//stage1
     };
 };
 

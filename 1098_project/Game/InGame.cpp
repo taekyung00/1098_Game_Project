@@ -133,10 +133,10 @@ void InGame::Update(double dt) {
 		std::cout << "RR\n";
 	}
 
-	if (player.GetCurrentIndex() == map.GetExitIndex()) {
+	/*if (player.GetCurrentIndex() == map.GetExitIndex()) {
 		Engine::GetGameStateManager().ReloadState();
 
-	}
+	}*/
 }
 
 void InGame::Unload() {

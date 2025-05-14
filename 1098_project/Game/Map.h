@@ -17,6 +17,10 @@ enum class Stages {
     stage2,
     stage3
 };
+Stages& operator++(Stages& orig) {
+    orig = static_cast<Stages>(static_cast<int>(orig) + 1);
+    return orig;
+}
 
 struct Tile {
     int tile_number = 0;
@@ -50,11 +54,12 @@ class Map {
     //const Rectangle& GetTrapRect()  const { return trap_rect; }
     //bool isAble(const Math::ivec2& pos) const;
 
-    const Math::ivec2& GetExitIndex() const { return exit_index; }   
+    //const Math::ivec2& GetExitIndex() const { return exit_index; }   
     const Math::ivec2& GetGridSize() const { return grid_size; }    
     const std::vector<std::vector<Tile>>& GetTileDesign() const { return tile_design; }
     std::vector<std::vector<Tile>>& SetTileDesign() { return tile_design; }
     const Stages& GetCurrentStage() const { return stage; }    
+    Stages& SetCurrentStage()  { return stage; }    
     const Rectangle& GetDownStairsRect()  const { return downstairs_rect; }
     const std::vector<Math::ivec2>& GetTileNumber() const { return tiles_numbers; }
     const std::vector<std::vector<int>>& GetSpawnLayer() const { return spawn_layer; }
@@ -64,7 +69,7 @@ class Map {
     CS230::Sprite sprite_downstairs;
 
     Math::ivec2 current_index_amount;
-    Math::ivec2 exit_index;
+    //Math::ivec2 exit_index;
     Math::ivec2 grid_size;
 
     Stages stage = Stages::stage1;
@@ -79,6 +84,7 @@ class Map {
     int height_amount = 0;
 
     Rectangle downstairs_rect;
+    const Math::ivec2 stairs_index = { 0,2 };
 
     //!---------------------------------------!
     std::string designPath;

@@ -1,7 +1,7 @@
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Player& player, std::vector<Enemy*>& enemies, std::vector<Trap*>& traps):
-	player(player),enemies(enemies), traps(traps){}
+CollisionManager::CollisionManager(Map& map, Player& player, std::vector<Enemy*>& enemies, std::vector<Trap*>& traps):
+	map(map), player(player), enemies(enemies), traps(traps) { }
 
 void CollisionManager::CollisionCheck()
 {
@@ -15,6 +15,14 @@ void CollisionManager::CollisionCheck()
 			player.SetMovingCount()--;
 			trap->SetIsAlive() = false;
 			trap->SetIsOutdated() = false;
+		}
+	}
+	if (CheckCollisionRecs(player.GetPlayerRect(), map.GetDownStairsRect())) {
+		if (static_cast<int>(map.GetCurrentStage()) < static_cast<int>(Stages::stage3)) {
+			++(map.SetCurrentStage());
+		}
+		else {
+			Engine::GetGameStateManager().ClearNextGameState();
 		}
 	}
 
