@@ -2,7 +2,7 @@
 #include "InGame.h"
 #include <random>
 #include <algorithm>
-
+#include <filesystem>
 
 void Map::initializestage(Stages _stage)
 {
@@ -26,6 +26,11 @@ void Map::initializestage(Stages _stage)
     {
         if (entry.path().extension() == ".txt")
         {
+            {
+                auto stem = entry.path().stem().string();  
+                if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_m")
+                     continue;
+            }
             availablefiles.push_back(entry.path().string());
         }
     }
@@ -51,6 +56,8 @@ Map::Map() :
 
 void Map::Load() {
     tile_design.clear();
+    spawn_layer.clear();
+
     std::string temp_string;
     width_amount = 0;
     height_amount = 0;
@@ -171,6 +178,29 @@ void Map::Load() {
     
     Engine::GetWindow().Update(grid_size*2 + 2 * start_position);
     file_stream_design.close();
+
+    std::filesystem::path mapPath{ designPath };
+    auto spawnFs = mapPath.parent_path()
+        / (mapPath.stem().string() + "_m.txt");
+    std::string spawnPath = spawnFs.string();
+
+    std::ifstream spawnStream(spawnPath);
+    if (!spawnStream.is_open())
+        throw std::runtime_error("fail to open spawn file: " + spawnPath);
+
+    while (std::getline(spawnStream, temp_string)) {
+        std::stringstream ss(temp_string);
+        std::vector<int> row;
+        std::string cell;
+        while (std::getline(ss, cell, ',')) {
+            cell.erase(0, cell.find_first_not_of(" \t"));
+            cell.erase(cell.find_last_not_of(" \t") + 1);
+            row.push_back(cell.empty() ? 0 : std::stoi(cell));
+        }
+        spawn_layer.push_back(std::move(row));
+    }
+    spawnStream.close();
+
     //trap_count = trap_max_count;
 }
 
