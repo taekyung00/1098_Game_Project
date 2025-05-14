@@ -53,9 +53,9 @@ void InGame::Load() {
 	for (Trap* trap : traps) {
 		trap->Load();
 	}
-	/*for (Enemy* enemy : enemies) {
+	for (Enemy* enemy : enemies) {
 		enemy->Load();
-	}*/
+	}
 	turnmanager.Load();
 	
 	player.Load();

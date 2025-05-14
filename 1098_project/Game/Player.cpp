@@ -9,14 +9,14 @@ Player::Player(Math::ivec2 start_index,TurnManager& turnmanager, Map& map) :
     map(map),
     moving_count(max_moving_count),
     is_moving(true),
-    time_limit(start_time_limit),
+    //time_limit(start_time_limit),
     start_index(start_index),
     player_rect({ static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) })
 {
 }
 
 void Player::Load() {
-    time_limit = start_time_limit;
+    //time_limit = start_time_limit;
     moving_count = max_moving_count;
     is_alive = true;
     did_attack = false;
@@ -50,7 +50,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 }
             }
             moving_count--;
-            time_limit = max_time_limit;
+            //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy; 
             turnmanager.CountReset();
         }
@@ -71,7 +71,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 }
             }
             moving_count--;
-            time_limit = max_time_limit;
+            //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
             turnmanager.CountReset();
         }
@@ -92,7 +92,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 }
             }
             moving_count--;
-            time_limit = max_time_limit;
+            //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
             turnmanager.CountReset();
         }
@@ -113,7 +113,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 }
             }
             moving_count--;
-            time_limit = max_time_limit;
+            //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
             turnmanager.CountReset();
         }
@@ -125,12 +125,12 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
         Engine::GetGameStateManager().ReloadState();
     }
 
-    time_limit -= dt;
+    //time_limit -= dt;
     // Engine::GetLogger().LogDebug("Time Limit :"+std::to_string(time_limit));
 
-    if (time_limit <= 0.0) {
+    /*if (time_limit <= 0.0) {
         Engine::GetGameStateManager().ReloadState();
-    }
+    }*/
     player_position = Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } + Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
     player_rect = { static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
 
@@ -199,7 +199,7 @@ void Player::Draw() {
         20,
         { 255,255,255,128 }
     );*/
-    if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
+    /*if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
         DrawText(
             TextFormat("5"),
             static_cast<int>(player_position.x),
@@ -234,7 +234,7 @@ void Player::Draw() {
             static_cast<int>(player_position.y),
             20,
             RED);
-    }
+    }*/
 }
 
 void Player::Unload() {

@@ -24,7 +24,7 @@ public:
 
     const Math::ivec2& GetCurrentIndex() const { return current_index; }
     const Math::vec2& GetPosition() const { return player_position; }
-    const double& GetTimeLimit() const { return time_limit; }
+    //const double& GetTimeLimit() const { return time_limit; }
     //const bool& GetIsAttacked() const { return is_attacked; }
     //bool& SetIsAttacked() { return is_attacked; }
     const int& GetMovingCount() const { return moving_count; }
@@ -55,9 +55,9 @@ private:
 
     const int max_moving_count = 100;
     int moving_count;
-    double start_time_limit = 5;
+    /*double start_time_limit = 5;
     double max_time_limit = 2;
-    double time_limit;
+    double time_limit;*/
     bool is_moving;
     bool did_attack = false;
     bool is_alive = true;

@@ -4,14 +4,14 @@
 
 TurnManager::TurnManager() :
 	current_turn(Turns::player),
-	player_turn_count(max_player_turn_count),
+	//player_turn_count(max_player_turn_count),
 	enemy_turn_count(max_enemy_turn_count) {
 }
 
 void TurnManager::Load() {
-	isplayerturn = true;
-	isenemyturn = false;
-	player_turn_count = max_player_turn_count;
+	/*isplayerturn = true;
+	isenemyturn = false;*/
+	//player_turn_count = max_player_turn_count;
 	enemy_turn_count = max_enemy_turn_count;
 	trap_turn_count = max_trap_turn_count;
 }
@@ -20,9 +20,9 @@ void TurnManager::Update(double dt)
 {
 	switch (current_turn)
 	{
-	case TurnManager::Turns::player:
+	/*case TurnManager::Turns::player:
 		player_turn_count -= dt;
-		break;
+		break;*/
 	case TurnManager::Turns::enemy:
 		enemy_turn_count -= dt;
 		break;
@@ -36,11 +36,11 @@ void TurnManager::Update(double dt)
 	if (isenemyturn) {
 		enemy_turn_count -= dt;
 	}*/
-	if (player_turn_count <= 0) {
-		current_turn = Turns::enemy;
-		//PlayerToEnemy();
-		CountReset();
-	}
+	//if (player_turn_count <= 0) {
+	//	current_turn = Turns::enemy;
+	//	//PlayerToEnemy();
+	//	CountReset();
+	//}
 	if (enemy_turn_count <= 0) {
 		current_turn = Turns::traps;
 		CountReset();
@@ -68,7 +68,7 @@ void TurnManager::Update(double dt)
 
 void TurnManager::CountReset()
 {
-	player_turn_count = max_player_turn_count;
+	//player_turn_count = max_player_turn_count;
 	enemy_turn_count = max_enemy_turn_count;
 	trap_turn_count = max_trap_turn_count;
 }

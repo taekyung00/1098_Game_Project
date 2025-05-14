@@ -9,6 +9,7 @@ Rook::Rook(Math::ivec2 index, std::string sprite_path):
 void Rook::Load()
 {
 	rect = { static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
+	ReachableTest();
 }
 
 void Rook::Update(double dt)
@@ -30,10 +31,14 @@ void Rook::Update(double dt)
 
 void Rook::ReachableTest()
 {
-	for (int i = 0; i < map->GetTileDesign().size(); ++i) {
+	/*for (int i = 0; i < map->GetTileDesign().size(); ++i) {
 		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
 			map->SetTileDesign()[i][j].isRookReachable = false;
 		}
+	}*/
+	for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isRookReachable = false;
+		//distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
 	}
 	reachable_indices.clear();
 	distances_between_enemy_player.clear();

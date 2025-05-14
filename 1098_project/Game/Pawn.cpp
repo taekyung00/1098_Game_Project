@@ -11,6 +11,7 @@ Pawn::Pawn(Math::ivec2 index, std::string sprite_path) :
 void Pawn::Load()
 {
 	rect = { static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
+	ReachableTest();
 }
 void Pawn::Update([[maybe_unused]]double dt)
 {
@@ -37,10 +38,14 @@ void Pawn::ReachableTest()
 		map->SetTileDesign()[index.x][index.y].isPawnReachable = false;
 	}*/
 
-	for (int i = 0; i < map->GetTileDesign().size(); ++i) {
+	/*for (int i = 0; i < map->GetTileDesign().size(); ++i) {
 		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
 			map->SetTileDesign()[i][j].isPawnReachable = false;
 		}
+	}*/
+	for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isPawnReachable = false;
+		//distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
 	}
 
 	reachable_indices.clear();
