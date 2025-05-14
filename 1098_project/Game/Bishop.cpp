@@ -16,7 +16,7 @@ void Bishop::Update(double dt)
 {
 	if (is_outdated == true) {
 		near_index.clear();
-		ReachableTest();
+		//ReachableTest();
 		ChangeIndex();
 		UpdateNearIndex();
 		ReachableTest();
