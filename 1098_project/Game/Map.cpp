@@ -3,7 +3,45 @@
 #include <random>
 #include <algorithm>
 
-Map::Map() : 
+void Map::initializestage(Stages _stage)
+{
+    stage = _stage;
+    selectedfiles.clear();
+    currentmapindex = 0;
+    designPath.clear();
+
+    // stage folder
+    std::string folder;
+    switch (stage)
+    {
+    case Stages::stage1: folder = "Game/stage1"; break;
+    case Stages::stage2: folder = "Game/stage2"; break;
+    case Stages::stage3: folder = "Game/stage3"; break;
+    }
+
+    // scan directory
+    availablefiles.clear();
+    for (auto& entry : std::filesystem::directory_iterator(folder))
+    {
+        if (entry.path().extension() == ".txt")
+        {
+            availablefiles.push_back(entry.path().string());
+        }
+    }
+
+    // random shuffle
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::shuffle(availablefiles.begin(), availablefiles.end(), gen);
+
+    // if less then 3 
+    size_t count = std::min<size_t>(3, availablefiles.size());
+    selectedfiles.assign(availablefiles.begin(), availablefiles.begin() + count);
+
+    designPath = selectedfiles[currentmapindex];
+}
+
+Map::Map() :
     current_index_amount({0, 0}), 
     exit_index(current_index_amount), 
     grid_size(tile_size.x * (Math::ivec2{ current_index_amount } + Math::ivec2{2, 2})),
@@ -57,9 +95,17 @@ void Map::Loadfile(const std::string& designPath) {
     if (!file_stream.is_open())
         throw std::runtime_error("fail to open map file: " + designPath);
 
-    std::string line;
-    // 첫 줄(스프라이트 경로)은 이미 Load()에서 처리했으므로 건너뛰기
-    std::getline(file_stream, line);
+    if (stage == Stages::stage1) {
+        file_stream_design.open(designPath.c_str());
+        if (file_stream_design.is_open() == false) {
+            throw std::runtime_error("fail to open in stage " + std::to_string(static_cast<int>(Stages::stage1)));
+        }
+        std::getline(file_stream_design, temp_string);
+        if (temp_string.size()==0) {
+            throw std::runtime_error("fail to open sprite in stage " + std::to_string(static_cast<int>(Stages::stage1)));
+        }
+        sprite.Load(temp_string, {0, 0});
+    }
 
     // 남은 라인들 CSV 파싱
     while (std::getline(file_stream, line)) {
@@ -102,6 +148,14 @@ void Map::Loadfile(const std::string& designPath) {
             }
         }
     }
+    
+    // trapmake
+    //tile_design[2][5].isTrap = true;
+    //tile_design[2][5].isTrapAlive = true;
+    //trap_rect = { static_cast<float>(start_position.x) + tile_size.x * 5 + 5, static_cast<float>(start_position.y) + tile_size.x * 2 +5, static_cast<float>(tile_size.x) - 10,static_cast<float>(tile_size.y)  - 10};
+    // stairmake
+    tile_design[0][2].isDownStairs = true;
+    downstairs_rect = { float(start_position.x) + tile_size.x * 7 + 5, float(start_position.y) + tile_size.x * 7 + 5, float(tile_size.x) - 10,float(tile_size.y) - 10 };
 
     // trap logic place holder
 }

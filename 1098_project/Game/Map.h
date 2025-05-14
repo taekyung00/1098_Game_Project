@@ -33,10 +33,9 @@ struct Tile {
 
 class Map {
    public:
-    //!---------------------------------------!
-    void initializestage(Stages stage);
-    void nextmap();
-    //!---------------------------------------!
+       //!---------------------------------------!
+       void initializestage(Stages _stage);
+       //!---------------------------------------!
     Map();
     void Load();
     void Update(double dt);
@@ -86,6 +85,11 @@ class Map {
     std::vector<std::string> selectedfiles;
     size_t currentmapindex = 0;
 
+    //!---------------------------------------!
+    std::string designPath;
+    std::vector<std::string> availablefiles;
+    std::vector<std::string> selectedfiles;
+    size_t currentmapindex = 0;
     //temporary
     /*CS230::Sprite sprite_trap_dead;
     CS230::Sprite sprite_trap_alive;*/
