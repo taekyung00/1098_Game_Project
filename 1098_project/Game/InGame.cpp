@@ -24,19 +24,16 @@ InGame::InGame() :
 }
 
 void InGame::Load() {
-
 	map.initializestage(Stages::stage1);
-	
-	map.Load();
 	enemies.clear();
 	traps.clear();
-	// map.GetCurrentStage();
+	map.Load();
+	map.GetCurrentStage();
 	enemies.push_back(new Pawn({ 1,1 },"Assets/pawn.png"));
 	/*enemies.push_back(new Rook({ 8,8 },"Assets/pawn.png"));
 	enemies.push_back(new Bishop({ 4,8 }, "Assets/pawn.png"));*/
 
 	player.SetEnemiesReference(enemies);
-
 	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
 		traps.push_back(new Trap(index));
 	}
