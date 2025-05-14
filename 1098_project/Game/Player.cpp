@@ -39,7 +39,13 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("right")) {
                         enemy->SetIsAlive() = false;
-                        moving_count += 7;
+                        if (moving_count + 5 > 10) {
+                            moving_count = 10;
+                        }
+                        else {
+                            moving_count += 5;
+                        }
+                        
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -60,7 +66,12 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("left")) {
                         enemy->SetIsAlive() = false;
-                        moving_count += 7;
+                        if (moving_count + 5 > 10) {
+                            moving_count = 10;
+                        }
+                        else {
+                            moving_count += 5;
+                        }
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -81,7 +92,12 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("bottom")) {
                         enemy->SetIsAlive() = false;
-                        moving_count += 7;
+                        if (moving_count + 5 > 10) {
+                            moving_count = 10;
+                        }
+                        else {
+                            moving_count += 5;
+                        }
                         if (did_attack == false) {
                             did_attack = true;
                         }
@@ -102,7 +118,12 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
                 for (Enemy* enemy : *(enemies)) {
                     if (current_index == enemy->GetNearIndex().at("top")) {
                         enemy->SetIsAlive() = false;
-                        moving_count += 7;
+                        if (moving_count + 5 > 10) {
+                            moving_count = 10;
+                        }
+                        else {
+                            moving_count += 5;
+                        }
                         if (did_attack == false) {
                             did_attack = true;
                         }

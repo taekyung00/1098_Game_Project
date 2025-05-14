@@ -77,8 +77,16 @@ void Bishop::ReachableTest()
 	}
 
 	for (Math::ivec2 index : reachable_indices) {
-		map->SetTileDesign()[index.x][index.y].isBishopReachable = true;
+		//map->SetTileDesign()[index.x][index.y].isBishopReachable = true;
 		distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
+	}
+}
+
+void Bishop::ChangeMapDesign()
+{
+	for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isBishopReachable = true;
+		//distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
 	}
 }
 

@@ -10,6 +10,7 @@ public:
 	void Load() override;
 	void Update(double dt) override;
 	void ReachableTest() override;
+	void ChangeMapDesign() override;
 	~Rook();
 };
 #endif // !ROOK_H

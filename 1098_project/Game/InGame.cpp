@@ -70,7 +70,7 @@ void InGame::Load() {
 void InGame::Update(double dt) {
 	turnmanager.Update(dt);
 	map.Update(dt);
-	
+
 	if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
 		for (Enemy* enemy : enemies) {
 			enemy->SetIsOutdated() = true;
@@ -82,6 +82,7 @@ void InGame::Update(double dt) {
 		player.Update(dt);
 	}
 	else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
+		//map.ClearEnemiesReachable();
 		for (int i = 0; i < enemies.size(); ++i) {
 			if (enemies[i]->GetIsAlive() == false) {
 				delete enemies[i];
@@ -100,6 +101,12 @@ void InGame::Update(double dt) {
 			trap->Update(dt);
 		}
 	}
+	
+	map.ClearEnemiesReachable();
+	for (Enemy* enemy : enemies) {
+		enemy->ChangeMapDesign();
+	}
+
 	collisionmanager.CollisionCheck();
 	//temperate collisioncheck
 	

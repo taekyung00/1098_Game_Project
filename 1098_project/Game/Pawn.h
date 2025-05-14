@@ -12,7 +12,9 @@ public:
 	void Load() override;
 	void Update(double dt) override;
 	void ReachableTest() override;
-	~Pawn();	
+	void ChangeMapDesign() override;
+	~Pawn();
+
 };
 #endif // !PAWN_H
 

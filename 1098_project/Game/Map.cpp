@@ -210,6 +210,17 @@ void Map::Update([[maybe_unused]]double dt) {
     
 }
 
+void Map::ClearEnemiesReachable()
+{
+    for (int i = 0; i < tile_design.size(); ++i) {
+        for (int j = 0; j < tile_design[i].size(); ++j) {
+            tile_design[i][j].isPawnReachable = false;
+            tile_design[i][j].isBishopReachable = false;
+            tile_design[i][j].isRookReachable = false;
+        }
+    }
+}
+
 void Map::Draw() {
     
 
@@ -229,16 +240,16 @@ void Map::Draw() {
                     rect);
             }
             if (tile_design[i][j].isPawnReachable == true) {
-                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, YELLOW);
+                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, { 253, 249, 0, 100 });
             }
             if (tile_design[i][j].isRookReachable == true) {
-                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, BLUE);
+                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, { 0, 121, 241, 100 });
             }
             if (tile_design[i][j].isBishopReachable == true) {
-                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, PURPLE);
+                DrawRectangle(static_cast<int>(position.x), static_cast<int>(position.y), tile_size.x, tile_size.y, { 200, 122, 255, 100 });
             }
-            /*DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
-            DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);*/
+            DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
+            DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
         }
     }
 }

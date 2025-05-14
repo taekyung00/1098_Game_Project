@@ -53,7 +53,7 @@ private:
 
     //int radius;
 
-    const int max_moving_count = 100;
+    const int max_moving_count = 10;
     int moving_count;
     /*double start_time_limit = 5;
     double max_time_limit = 2;

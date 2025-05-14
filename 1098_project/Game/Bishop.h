@@ -11,6 +11,7 @@ public:
 	void Load() override;
 	void Update(double dt) override;
 	void ReachableTest() override;
+	void ChangeMapDesign() override;
 	~Bishop();
 };
 

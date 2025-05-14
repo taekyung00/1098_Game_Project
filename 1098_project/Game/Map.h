@@ -40,6 +40,7 @@ class Map {
     Map();
     void Load();
     void Update(double dt);
+    void ClearEnemiesReachable();
     void Draw();
     void Unload();
     

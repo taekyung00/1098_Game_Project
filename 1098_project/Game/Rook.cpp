@@ -16,7 +16,7 @@ void Rook::Update(double dt)
 {
 	if (is_outdated == true) {
 		near_index.clear();
-		ReachableTest();
+		//ReachableTest();
 		ChangeIndex();
 		UpdateNearIndex();
 		ReachableTest();
@@ -72,8 +72,16 @@ void Rook::ReachableTest()
 	}
 
 	for (Math::ivec2 index : reachable_indices) {
-		map->SetTileDesign()[index.x][index.y].isRookReachable = true;
+		//map->SetTileDesign()[index.x][index.y].isRookReachable = true;
 		distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
+	}
+}
+
+void Rook::ChangeMapDesign()
+{
+	for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isRookReachable = true;
+		//distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
 	}
 }
 

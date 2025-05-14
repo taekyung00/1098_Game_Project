@@ -24,6 +24,7 @@ public:
 	virtual void Unload();
 	virtual void UpdateNearIndex();
 	virtual void ReachableTest() = 0;
+	virtual void ChangeMapDesign() = 0;
 	virtual void ChangeIndex();
 	virtual ~Enemy()  = 0;
 
@@ -38,6 +39,7 @@ public:
 	const Rectangle& GetRect() const{ return rect; }
 	const std::map<std::string, Math::ivec2>& GetNearIndex() const { return near_index; }
 	std::map<std::string, Math::ivec2>& SetNearIndex()  { return near_index; }
+	const std::vector<Math::ivec2> GetReachableIndices() const { return reachable_indices; }
 protected:
 	static Map* map;
 	static Player* player;

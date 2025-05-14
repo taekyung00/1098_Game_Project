@@ -38,16 +38,6 @@ void Pawn::ReachableTest()
 		map->SetTileDesign()[index.x][index.y].isPawnReachable = false;
 	}*/
 
-	/*for (int i = 0; i < map->GetTileDesign().size(); ++i) {
-		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
-			map->SetTileDesign()[i][j].isPawnReachable = false;
-		}
-	}*/
-	for (Math::ivec2 index : reachable_indices) {
-		map->SetTileDesign()[index.x][index.y].isPawnReachable = false;
-		//distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
-	}
-
 	reachable_indices.clear();
 	distances_between_enemy_player.clear();
 
@@ -74,12 +64,26 @@ void Pawn::ReachableTest()
 		temp_index.x--;
 		reachable_indices.push_back(temp_index);
 	}
+	/*for (int i = 0; i < map->GetTileDesign().size(); ++i) {
+		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
+			map->SetTileDesign()[i][j].isPawnReachable = false;
+		}
+	}*/
 
 	for (Math::ivec2 index : reachable_indices) {
-		map->SetTileDesign()[index.x][index.y].isPawnReachable = true;
+		//map->SetTileDesign()[index.x][index.y].isPawnReachable = true;
 		distances_between_enemy_player[index] = GetDistanceBetweenIndices(index,player->GetCurrentIndex());
 	}
 }
+
+void Pawn::ChangeMapDesign()
+{
+	for (Math::ivec2 index : reachable_indices) {
+		map->SetTileDesign()[index.x][index.y].isPawnReachable = true;
+		//distances_between_enemy_player[index] = GetDistanceBetweenIndices(index, player->GetCurrentIndex());
+	}
+}
+
 
 Pawn::~Pawn()
 {
