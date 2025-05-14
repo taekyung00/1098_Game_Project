@@ -5,6 +5,7 @@
 #include "raylib.h"
 
 int main(void) {
+    InitAudioDevice();
     Engine& engine = Engine::Instance();
     engine.Start("10..9..8..");
 

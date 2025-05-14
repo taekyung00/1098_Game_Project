@@ -9,6 +9,7 @@ Player::Player(Math::ivec2 start_index,TurnManager& turnmanager, Map& map) :
     map(map),
     moving_count(max_moving_count),
     is_moving(true),
+    player_moving_sound("Sounds/Moving_Sound.mp3"),
     //time_limit(start_time_limit),
     start_index(start_index),
     player_rect({ static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) })
@@ -23,6 +24,7 @@ void Player::Load() {
     current_index = start_index;
     player_position = Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } + Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
     player_rect = { static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
+    player_moving_sound.SetLooping(false);
 }
 
 void Player::Update(double dt/*,  Enemy& enemy*/) {
@@ -59,6 +61,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
             //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy; 
             turnmanager.CountReset();
+            player_moving_sound.Play();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
             if (map.GetTileDesign()[current_index.x][current_index.y].isRightEdge != true) {
@@ -85,6 +88,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
             //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
             turnmanager.CountReset();
+            player_moving_sound.Play();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
             if (map.GetTileDesign()[current_index.x][current_index.y].isTopEdge != true) {
@@ -111,6 +115,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
             //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
             turnmanager.CountReset();
+            player_moving_sound.Play();
         }
         if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
             if (map.GetTileDesign()[current_index.x][current_index.y].isBottomEdge != true) {
@@ -137,6 +142,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
             //time_limit = max_time_limit;
             turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
             turnmanager.CountReset();
+            player_moving_sound.Play();
         }
     }
     //Engine::GetLogger().LogDebug(std::to_string(current_index.x)+", "+std::to_string(current_index.y));
@@ -159,6 +165,7 @@ void Player::Update(double dt/*,  Enemy& enemy*/) {
         //std::exit(EXIT_FAILURE);
         Engine::GetLogger().LogDebug("exit!");
     }
+    player_moving_sound.Update();
 }
 
 void Player::Draw() {

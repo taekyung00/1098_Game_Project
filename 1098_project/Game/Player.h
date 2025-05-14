@@ -7,6 +7,7 @@
 #include "../Engine/Camera.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Vec2.h"
+#include "../Engine/Audio.h"
 
 #include "Map.h"
 #include "TurnManager.h"
@@ -48,6 +49,7 @@ private:
     Math::ivec2 current_index;
     Math::ivec2 start_index;
     Math::vec2 player_position;
+    Audio player_moving_sound;
 
     Rectangle player_rect;
 

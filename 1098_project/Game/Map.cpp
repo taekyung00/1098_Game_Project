@@ -113,26 +113,61 @@ void Map::Load() {
     }
 
     // tilecheck - hardcoded for stage1
-    if (stage == Stages::stage1 || stage==Stages::stage2 || stage==Stages::stage3) {
         for (int i = 0; i < tile_design.size(); ++i) {
             for (int j = 0; j < tile_design[i].size(); ++j) {
                 // edge check
                 if (tile_design[i][j].tile_number == 1 ||
                     tile_design[i][j].tile_number == 4 ||
-                    tile_design[i][j].tile_number == 9 ||
-                    tile_design[i][j].tile_number == 12 ||
-                    tile_design[i][j].tile_number == 17 ||
-                    tile_design[i][j].tile_number == 20) {
+                    tile_design[i][j].tile_number == 7 ||
+                    tile_design[i][j].tile_number == 10 ||
+                    tile_design[i][j].tile_number == 13 ||
+                    tile_design[i][j].tile_number == 16 ||
+                    tile_design[i][j].tile_number == 19 ||
+                    tile_design[i][j].tile_number == 22 ||
+                    tile_design[i][j].tile_number == 25 ||
+                    tile_design[i][j].tile_number == 28 ||
+                    tile_design[i][j].tile_number == 31 ||
+                    tile_design[i][j].tile_number == 34 ||
+                    tile_design[i][j].tile_number == 37 ||
+                    tile_design[i][j].tile_number == 40 ||
+                    tile_design[i][j].tile_number == 43 ||
+                    tile_design[i][j].tile_number == 46 ||
+                    tile_design[i][j].tile_number == 49 ||
+                    tile_design[i][j].tile_number == 52 ||
+                    tile_design[i][j].tile_number == 55 ||
+                    tile_design[i][j].tile_number == 58 ||
+                    tile_design[i][j].tile_number == 61 ||
+                    tile_design[i][j].tile_number == 64 ||
+                    tile_design[i][j].tile_number == 67 ||
+                    tile_design[i][j].tile_number == 70) {
                     tile_design[i][j].isLeftEdge = true;
                 }
 
                 if (
                     tile_design[i][j].tile_number == 3 ||
                     tile_design[i][j].tile_number == 6 ||
-                    tile_design[i][j].tile_number == 11 ||
-                    tile_design[i][j].tile_number == 14 ||
-                    tile_design[i][j].tile_number == 19 ||
-                    tile_design[i][j].tile_number == 22) {
+                    tile_design[i][j].tile_number == 9 ||
+                    tile_design[i][j].tile_number == 12 ||
+                    tile_design[i][j].tile_number == 15 ||
+                    tile_design[i][j].tile_number == 18 ||
+                    tile_design[i][j].tile_number == 21 ||
+                    tile_design[i][j].tile_number == 24 ||
+                    tile_design[i][j].tile_number == 27 ||
+                    tile_design[i][j].tile_number == 30 ||
+                    tile_design[i][j].tile_number == 33 ||
+                    tile_design[i][j].tile_number == 36 ||
+                    tile_design[i][j].tile_number == 39 ||
+                    tile_design[i][j].tile_number == 42 ||
+                    tile_design[i][j].tile_number == 45 ||
+                    tile_design[i][j].tile_number == 48 ||
+                    tile_design[i][j].tile_number == 51 ||
+                    tile_design[i][j].tile_number == 54 ||
+                    tile_design[i][j].tile_number == 57 ||
+                    tile_design[i][j].tile_number == 60 ||
+                    tile_design[i][j].tile_number == 63 ||
+                    tile_design[i][j].tile_number == 66 ||
+                    tile_design[i][j].tile_number == 69 ||
+                    tile_design[i][j].tile_number == 72) {
                     tile_design[i][j].isRightEdge = true;
                 }
                 if (
@@ -141,21 +176,57 @@ void Map::Load() {
                     tile_design[i][j].tile_number == 3 ||
                     tile_design[i][j].tile_number == 4 ||
                     tile_design[i][j].tile_number == 5 ||
-                    tile_design[i][j].tile_number == 6) {
-                    tile_design[i][j].isTopEdge = true;
-                }
-                if (
-                    tile_design[i][j].tile_number == 17 ||
-                    tile_design[i][j].tile_number == 18 ||
+                    tile_design[i][j].tile_number == 6 ||
                     tile_design[i][j].tile_number == 19 ||
                     tile_design[i][j].tile_number == 20 ||
                     tile_design[i][j].tile_number == 21 ||
-                    tile_design[i][j].tile_number == 22) {
+                    tile_design[i][j].tile_number == 22 ||
+                    tile_design[i][j].tile_number == 23 ||
+                    tile_design[i][j].tile_number == 24 ||
+                    tile_design[i][j].tile_number == 37 ||
+                    tile_design[i][j].tile_number == 38 ||
+                    tile_design[i][j].tile_number == 39 ||
+                    tile_design[i][j].tile_number == 40 ||
+                    tile_design[i][j].tile_number == 41 ||
+                    tile_design[i][j].tile_number == 42 ||
+                    tile_design[i][j].tile_number == 55 ||
+                    tile_design[i][j].tile_number == 56 ||
+                    tile_design[i][j].tile_number == 57 ||
+                    tile_design[i][j].tile_number == 58 ||
+                    tile_design[i][j].tile_number == 59 ||
+                    tile_design[i][j].tile_number == 60) {
+                    tile_design[i][j].isTopEdge = true;
+                }
+                if (
+                    tile_design[i][j].tile_number == 13 ||
+                    tile_design[i][j].tile_number == 14 ||
+                    tile_design[i][j].tile_number == 15 ||
+                    tile_design[i][j].tile_number == 16 ||
+                    tile_design[i][j].tile_number == 17 ||
+                    tile_design[i][j].tile_number == 18 ||
+                    tile_design[i][j].tile_number == 31 ||
+                    tile_design[i][j].tile_number == 32 ||
+                    tile_design[i][j].tile_number == 33 ||
+                    tile_design[i][j].tile_number == 34 ||
+                    tile_design[i][j].tile_number == 35 ||
+                    tile_design[i][j].tile_number == 36 ||
+                    tile_design[i][j].tile_number == 49 ||
+                    tile_design[i][j].tile_number == 50 ||
+                    tile_design[i][j].tile_number == 51 ||
+                    tile_design[i][j].tile_number == 52 ||
+                    tile_design[i][j].tile_number == 53 ||
+                    tile_design[i][j].tile_number == 54 ||
+                    tile_design[i][j].tile_number == 67 ||
+                    tile_design[i][j].tile_number == 68 ||
+                    tile_design[i][j].tile_number == 69 ||
+                    tile_design[i][j].tile_number == 70 ||
+                    tile_design[i][j].tile_number == 71 ||
+                    tile_design[i][j].tile_number == 72) {
                     tile_design[i][j].isBottomEdge = true;
                 }
             }
         }
-    }
+    
     
     // trapmake
     //tile_design[2][5].isTrap = true;
