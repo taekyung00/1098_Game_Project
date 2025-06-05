@@ -10,10 +10,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Animation.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Camera.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Collision.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Font.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObjectManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameStateManager.cpp">
@@ -25,10 +40,25 @@
     <ClCompile Include="Engine\Logger.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Matrix.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Rect.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ShowCollision.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Sprite.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Texture.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\TextureManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Timer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Vec2.cpp">
@@ -37,13 +67,10 @@
     <ClCompile Include="Engine\Window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Map.cpp">
+    <ClCompile Include="Game\Bishop.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Splash.cpp">
+    <ClCompile Include="Game\Door.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Enemy.cpp">
@@ -52,36 +79,63 @@
     <ClCompile Include="Game\InGame.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\TurnManager.cpp">
+    <ClCompile Include="Game\MainMenu.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Audio.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Trap.cpp">
+    <ClCompile Include="Game\Map.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Pawn.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\CollisionManager.cpp">
+    <ClCompile Include="Game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Rook.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Bishop.cpp">
+    <ClCompile Include="Game\SpawnEnemy.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Splash.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Stages.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\TurnManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Turns.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Animation.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Camera.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Collision.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComponentManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Font.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObjectManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameState.h">
@@ -96,7 +150,13 @@
     <ClInclude Include="Engine\Logger.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Matrix.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Rect.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ShowCollision.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sprite.h">
@@ -105,52 +165,70 @@
     <ClInclude Include="Engine\Texture.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\TextureManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Timer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Vec2.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Window.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Map.h">
+    <ClInclude Include="Game\Bishop.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Splash.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\States.h">
+    <ClInclude Include="Game\Door.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Enemy.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameObject.h">
+    <ClInclude Include="Game\Fonts.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObjectTypes.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\InGame.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\TurnManager.h">
+    <ClInclude Include="Game\MainMenu.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Trap.h">
+    <ClInclude Include="Game\Map.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Pawn.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\CollisionManager.h">
+    <ClInclude Include="Game\Player.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Rook.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Bishop.h">
+    <ClInclude Include="Game\SpawnEnemy.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Splash.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stages.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\States.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tile.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TurnManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Turns.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

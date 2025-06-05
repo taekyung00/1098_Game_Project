@@ -8,12 +8,12 @@ enum class Stages {
     stage3,
     End // for check
 };
-extern const Stages GetFirstStage();
-extern const const Stages GetLastStage();
-extern Stages& operator++(Stages& orig);
-extern Stages& operator++(Stages& orig, int);
-extern Stages& operator--(Stages& orig);
-extern Stages& operator--(Stages& orig, int);
+const Stages GetFirstStage();
+const Stages GetLastStage();
+Stages& operator++(Stages& orig);
+Stages operator++(Stages& orig, int);
+Stages& operator--(Stages& orig);
+Stages operator--(Stages& orig, int);
 
 
 #endif // !STAGES_H

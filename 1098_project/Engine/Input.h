@@ -17,7 +17,7 @@ namespace CS230 {
         enum class Keys {
             A, B, C, D, E, F, G, H, I, J, K, L, M,
             N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
-            Space, Enter, Left, Up, Right, Down, One, Two,
+            Space, Enter, Left, Up, Right, Down, One, Two,Escape,Tab,
             Count //count has to be end!!!
             
         };

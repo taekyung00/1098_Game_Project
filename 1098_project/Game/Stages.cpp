@@ -11,7 +11,7 @@ Stages& operator++(Stages& orig) {
     }
     return orig;
 }
-Stages& operator++(Stages& orig, int) {
+Stages operator++(Stages& orig, int) {
     Stages temp = orig;
     ++orig;
     return temp;
@@ -24,7 +24,7 @@ Stages& operator--(Stages& orig) {
     return orig;
 }
 
-Stages& operator--(Stages& orig, int) {
+Stages operator--(Stages& orig, int) {
     Stages temp = orig;
     --orig;
     return temp;
