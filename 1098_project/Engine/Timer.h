@@ -9,6 +9,7 @@ Created:    May 17, 2025
 */
 #pragma once
 
+#include "Engine.h"
 #include "Component.h"
 namespace CS230 {
 	class Timer : public Component {

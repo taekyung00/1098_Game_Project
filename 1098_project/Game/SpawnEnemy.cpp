@@ -5,7 +5,7 @@ void SpawnEnemy::SpawnEnemies(std::vector<Enemy*>& enemies)
 	for (Enemy* enemy : enemies) {
 		enemy->Destroy();
 	}
-	//enemies.clear();
+	enemies.clear();
 	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
 	Map* map_ptr = gameobjectmanager->GetGameObject<Map>();
 	const std::vector<std::vector<int>>& sp = map_ptr->GetSpawnLayer();
@@ -21,12 +21,12 @@ void SpawnEnemy::SpawnEnemies(std::vector<Enemy*>& enemies)
 			if (id == 2) {
 				Enemy* enemy = new Rook({ i,j });
 				enemies.push_back(enemy);
-				gameobjectmanager->Add(new Rook({ i,j }));
+				gameobjectmanager->Add(enemy);
 			}
 			if (id == 3) {
 				Enemy* enemy = new Bishop({ i,j });
 				enemies.push_back(enemy);
-				gameobjectmanager->Add(new Bishop({ i,j }));
+				gameobjectmanager->Add(enemy);
 			}
 		}
 	}

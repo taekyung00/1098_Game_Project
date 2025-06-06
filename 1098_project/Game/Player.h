@@ -1,9 +1,11 @@
 #pragma once
 
+#include <vector>
 #include "../Engine/GameObject.h"
 #include "../Engine/Vec2.h"
 #include "../Engine/GameObjectManager.h"
 #include "../Engine/Audio.h"
+#include "../Engine/Timer.h"
 
 #include "States.h"
 #include "GameObjectTypes.h"
@@ -15,7 +17,7 @@
 
 class Player : public CS230::GameObject {
 public:
-	Player(Math::ivec2 start_index);
+	Player();
     void Update(double dt) override;
     void Draw(Math::TransformationMatrix camera_matrix) override;
     GameObjectTypes Type() override { return GameObjectTypes::Player; }
@@ -28,5 +30,8 @@ private:
     bool is_moving = true;
     Map* map;
     Audio* moving_sound_ptr;
+    CS230::Timer* after_move_timer;
+    static constexpr double after_move_time = 0.65;
+    const Math::ivec2 start_index = { 2,0 };
     
 };

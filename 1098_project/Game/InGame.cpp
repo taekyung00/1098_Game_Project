@@ -12,7 +12,7 @@ void InGame::update_turn_text()
 	delete push_button_texture;
 	if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
 		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
-		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push TAB After Move", 0xFFFFFFFF);
+		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push WASD To Move", 0xFFFFFFFF);
 
 	}
 	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
@@ -36,10 +36,10 @@ void InGame::Load() {
 	AddGSComponent(new SpawnEnemy());
 	map_ptr = new Map();
 	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
-	player_ptr = new Player({ 3,3 });
+	player_ptr = new Player();
 	GetGSComponent<CS230::GameObjectManager>()->Add(player_ptr);
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
-	GetGSComponent<SpawnEnemy>()->SpawnEnemies(enemies);
+	//GetGSComponent<SpawnEnemy>()->SpawnEnemies(enemies);
 
 	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
 	stage1_audio_ptr->SetLooping(true);
@@ -97,6 +97,7 @@ void InGame::Unload() {
 	turn_texture = nullptr;
 	delete push_button_texture;
 	push_button_texture = nullptr;
+	enemies.clear();
 
 }
 

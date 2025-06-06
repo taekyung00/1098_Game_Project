@@ -219,11 +219,6 @@ void Map::InitializeStage(Stages _stage)
         }
     }
 
-
-
-    // stairmake
-    //tile_design[stairs_index.x][stairs_index.y].isDownStairs = true;
-
     current_index_amount = { width_amount, height_amount };
     grid_size = tile_size.x * (Math::ivec2{ current_index_amount });
 
@@ -250,7 +245,25 @@ void Map::InitializeStage(Stages _stage)
         }
         spawn_layer.push_back(std::move(row));
     }
-    
+
+    //spawn_layer flip! - to use [0,0] as bottom-left
+
+    for (int i = 0; i < (spawn_layer.size() - 1) / 2; ++i) {
+        for (int j = 0; j < spawn_layer[i].size(); ++j) {
+            int temp = spawn_layer[i][j];
+            spawn_layer[i][j] = spawn_layer[tile_design.size() - 1 - i][j];
+            spawn_layer[tile_design.size() - 1 - i][j] = temp;
+        }
+    }
+
+    for (int i = 0; i < spawn_layer.size(); ++i) {
+        for (int j = i; j < spawn_layer[i].size(); ++j) {
+            int temp = spawn_layer[i][j];
+            spawn_layer[i][j] = spawn_layer[j][i];
+            spawn_layer[j][i] = temp;
+        }
+
+    }
     spawnStream.close();
 
     //trap_count = trap_max_count;
@@ -265,8 +278,9 @@ void Map::InitializeStage(Stages _stage)
 //}
 
 
-Map::Map(Stages start_stage):
+Map::Map(Stages start_stage, Rooms start_room):
     stage(start_stage),
+    room(start_room),
     GameObject(start_position, 0.0, scale_const),
     enemy_trajectory("Assets/EnemyTrajectory.spt",this)
 {   

@@ -109,6 +109,12 @@
     <ClCompile Include="Game\Turns.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Rooms.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Audio.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Animation.h">
@@ -230,6 +236,12 @@
     </ClInclude>
     <ClInclude Include="Game\Turns.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rooms.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

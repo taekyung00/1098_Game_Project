@@ -6,26 +6,49 @@
 #include "Bishop.h"
 #include "InGame.h"
 
-Player::Player(Math::ivec2 start_index) :
-	GameObject(start_index, 0.0, scale_const)
+Player::Player() :
+	GameObject(Math::ivec2{2,0}, 0.0, scale_const)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Player.spt", this));
 	moving_sound_ptr = new Audio("Sounds/Moving_Sound.mp3");
 	moving_sound_ptr->SetLooping(false);
 	AddGOComponent(moving_sound_ptr);
 	map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
+	after_move_timer = new CS230::Timer(0.0);
+	AddGOComponent(after_move_timer);
 }
 
 void Player::Update([[maybe_unused]]double dt) {
+	GameObject::Update(dt);
 	moving_sound_ptr->Update();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) && (is_moving == true)) {
+	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(is_moving == true)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 				--SetIndex().x;
 				turn_manager->Sub();
 				is_moving = false;
 				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+				
+
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
 			}
 		}
 		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
@@ -34,6 +57,23 @@ void Player::Update([[maybe_unused]]double dt) {
 				turn_manager->Sub();
 				is_moving = false;
 				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
 			}
 		}
 		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
@@ -42,6 +82,25 @@ void Player::Update([[maybe_unused]]double dt) {
 				turn_manager->Sub();
 				is_moving = false;
 				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
 			}
 		}
 		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
@@ -50,13 +109,35 @@ void Player::Update([[maybe_unused]]double dt) {
 				turn_manager->Sub();
 				is_moving = false;
 				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
 			}
 		}
 		
 	}
-	if ((is_moving == false) && (turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) && Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Tab)) {
+	if ((is_moving == false) && (turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(after_move_timer->Remaining()==0.0)) {
 		is_moving = true;
-		++(turn_manager->SetCurrentTurn());
+		if (InGame::GetEnemies().size() != 0) {
+			++(turn_manager->SetCurrentTurn());
+		}
+			
 	}
 	SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 }
@@ -84,12 +165,16 @@ void Player::ResolveCollision(GameObject* other_object) {
 	switch (other_object->Type())
 	{
 	case GameObjectTypes::Door:
-		if (map->GetStage() != Stages::stage3) {
+		if (!(map->GetStage() == Stages::stage3 && map->GetRoom() == Rooms::Room3)) {
 			turn_manager->SetCurrentTurn() = Turns::Player;
-			++map->SetStage();
-			SetIndex() = { 2,2 };
+			if (map->GetRoom() == Rooms::Room3) {
+				++map->SetStage();
+			}
+			++map->SetRoom();
+			
+			SetIndex() = start_index;
 			map->InitializeStage(map->GetStage());
-			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
+			//Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
 			InGame::ChangeAudio();
 			is_moving = true;
 			
@@ -101,6 +186,9 @@ void Player::ResolveCollision(GameObject* other_object) {
 	case GameObjectTypes::Enemy:
 		turn_manager->Add(5);
 		other_object->Destroy();
+		Engine::GetLogger().LogDebug("enemy is destroyed!");
+		std::vector<Enemy*>& enemies = InGame::SetEnemies();
+		enemies.erase(std::remove(enemies.begin(), enemies.end(), other_object), enemies.end());
 		break;
 	}
 }

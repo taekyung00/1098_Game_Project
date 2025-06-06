@@ -30,13 +30,14 @@ public:
     void Unload() override;
     void Draw() override;
     static std::vector<Enemy*>& SetEnemies() { return Instance().enemies; }
+    const static std::vector<Enemy*> GetEnemies() { return Instance().enemies; }
     static void ChangeAudio();
     std::string GetName() override {
         return "InGame";
     }
     
 private:
-    const int max_turn = 10;
+    const int max_turn = 100;
 
     Map* map_ptr;
     Player* player_ptr;

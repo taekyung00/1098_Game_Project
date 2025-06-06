@@ -31,7 +31,7 @@ bool CS230::Timer::TickTock()
 
 void CS230::Timer::Update(double dt)
 {
-	if (timer >= 0.0 && (timer - dt) >= 0.0) {
+	if (timer > 0.0 && (timer - dt) >= 0.0) {
 		timer -= dt;
 	}
 	else {
