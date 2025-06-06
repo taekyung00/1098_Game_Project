@@ -268,14 +268,6 @@ void Map::InitializeStage(Stages _stage)
 
     //trap_count = trap_max_count;
 }
-//void Map::ClearEnemiesReachable()
-//{
-//    for (int i = 0; i < tile_design.size(); ++i) {
-//        for (int j = 0; j < tile_design[i].size(); ++j) {
-//            tile_design[i][j].isEnemyReachable = false;
-//        }
-//    }
-//}
 
 
 Map::Map(Stages start_stage, Rooms start_room):

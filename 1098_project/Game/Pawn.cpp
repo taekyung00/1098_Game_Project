@@ -2,7 +2,9 @@
 #include "Rook.h"
 
 Pawn::Pawn(Math::ivec2 index) :
-	Enemy(index) {
+	Enemy(index) ,
+	movable("Assets/Movable.spt", this)
+{
 	AddGOComponent(new CS230::Sprite("Assets/Pawn.spt", this));
 	ReachableIndexPush();
 	//ChangeMapDesign();
@@ -39,4 +41,9 @@ void Pawn::ReachableIndexPush()
 		temp_index.y++;
 		reachable_indices.push_back(temp_index);
 	}
+}
+
+void Pawn::Draw(Math::TransformationMatrix camera_matrix) {
+	GameObject::Draw(camera_matrix);
+	movable.Draw(camera_matrix * GetMatrix());
 }

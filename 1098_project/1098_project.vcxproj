@@ -176,6 +176,8 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Engine\Vec2.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
     <ClCompile Include="Game\Bishop.cpp" />
+    <ClCompile Include="Game\Cannon.cpp" />
+    <ClCompile Include="Game\CannonBall.cpp" />
     <ClCompile Include="Game\Door.cpp" />
     <ClCompile Include="Game\Enemy.cpp" />
     <ClCompile Include="Game\InGame.cpp" />
@@ -217,6 +219,8 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Engine\Vec2.h" />
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="Game\Bishop.h" />
+    <ClInclude Include="Game\Cannon.h" />
+    <ClInclude Include="Game\CannonBall.h" />
     <ClInclude Include="Game\Door.h" />
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Fonts.h" />

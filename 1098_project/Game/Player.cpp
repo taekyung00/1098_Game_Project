@@ -38,15 +38,15 @@ void Player::Update([[maybe_unused]]double dt) {
 				}
 				if (enemy_attacked == false) {
 					--SetIndex().x;
-					turn_manager->Sub();
-					is_moving = false;
-					moving_sound_ptr->Play();
-					if (InGame::GetEnemies().size() == 0) {
-						after_move_timer->Set(0.05);
-					}
-					else {
-						after_move_timer->Set(after_move_time);
-					}
+				}
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
 				}
 			}
 			else {
@@ -76,15 +76,15 @@ void Player::Update([[maybe_unused]]double dt) {
 				}
 				if (enemy_attacked == false) {
 					--SetIndex().y;
-					turn_manager->Sub();
-					is_moving = false;
-					moving_sound_ptr->Play();
-					if (InGame::GetEnemies().size() == 0) {
-						after_move_timer->Set(0.05);
-					}
-					else {
-						after_move_timer->Set(after_move_time);
-					}
+				}
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
 				}
 			}
 			else {
@@ -113,15 +113,15 @@ void Player::Update([[maybe_unused]]double dt) {
 				}
 				if (enemy_attacked == false) {
 					++SetIndex().x;
-					turn_manager->Sub();
-					is_moving = false;
-					moving_sound_ptr->Play();
-					if (InGame::GetEnemies().size() == 0) {
-						after_move_timer->Set(0.05);
-					}
-					else {
-						after_move_timer->Set(after_move_time);
-					}
+				}
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
 				}
 			}
 			else {
@@ -151,15 +151,15 @@ void Player::Update([[maybe_unused]]double dt) {
 				}
 				if (enemy_attacked == false) {
 					++SetIndex().y;
-					turn_manager->Sub();
-					is_moving = false;
-					moving_sound_ptr->Play();
-					if (InGame::GetEnemies().size() == 0) {
-						after_move_timer->Set(0.05);
-					}
-					else {
-						after_move_timer->Set(after_move_time);
-					}
+				}
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
 				}
 			}
 			
