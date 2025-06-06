@@ -1,7 +1,10 @@
 #pragma once
+
 #include "../Engine/GameObject.h"
 #include "../Engine/Vec2.h"
 #include "../Engine/GameObjectManager.h"
+#include "../Engine/Audio.h"
+
 #include "States.h"
 #include "GameObjectTypes.h"
 #include "Tile.h"
@@ -20,8 +23,10 @@ public:
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     
+    
 private:
     bool is_moving = true;
     Map* map;
+    Audio* moving_sound_ptr;
     
 };

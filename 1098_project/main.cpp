@@ -10,13 +10,16 @@ Created:    March 4, 2025
 
 #include <iostream>
 
+
 #include "Engine/Engine.h"
 #include "Game/InGame.h"
 #include "Game/Splash.h"
 #include "Game/MainMenu.h"
 
+
 int main() {
     try {
+        
         Engine& engine = Engine::Instance();
         engine.Start("10..9..8..");
 

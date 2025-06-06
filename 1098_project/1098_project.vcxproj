@@ -156,6 +156,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Animation.cpp" />
+    <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Collision.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -192,6 +193,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Animation.h" />
+    <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Collision.h" />
     <ClInclude Include="Engine\Component.h" />

@@ -17,9 +17,10 @@ void InGame::update_turn_text()
 	}
 	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
 		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
-		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE After Move", 0xFFFFFFFF);
+		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE To Change Turn", 0xFFFFFFFF);
 	}
 }
+
 InGame::InGame() :
 	turncount_texture(nullptr),
 	turn_texture(nullptr),
@@ -29,6 +30,7 @@ InGame::InGame() :
 }
 
 void InGame::Load() {
+	InitAudioDevice();
 	AddGSComponent(new TurnManager(max_turn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
 	AddGSComponent(new SpawnEnemy());
@@ -38,7 +40,21 @@ void InGame::Load() {
 	GetGSComponent<CS230::GameObjectManager>()->Add(player_ptr);
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
 	GetGSComponent<SpawnEnemy>()->SpawnEnemies(enemies);
-	
+
+	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
+	stage1_audio_ptr->SetLooping(true);
+	AddGSComponent(stage1_audio_ptr);
+
+	stage2_audio_ptr = new Audio("Sounds/Forest_bgm_final.mp3");
+	stage2_audio_ptr->SetLooping(true);
+	AddGSComponent(stage2_audio_ptr);
+
+	stage3_audio_ptr = new Audio("Sounds/Castle_bgm_final.mp3");
+	stage3_audio_ptr->SetLooping(true);
+	AddGSComponent(stage3_audio_ptr);
+
+	current_audio_ptr = stage1_audio_ptr;
+	current_audio_ptr->Play();
 
 	update_turncount_text();
 	update_turn_text();
@@ -51,6 +67,8 @@ void InGame::Update(double dt) {
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	update_turncount_text();
 	update_turn_text();
+
+	current_audio_ptr->Update();
 
 	bool are_enemies_all_outdated = true;
 	for (Enemy* enemy : enemies) {
@@ -88,5 +106,21 @@ void InGame::Draw() {
 	turncount_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turncount_texture->GetSize().x, Engine::GetWindow().GetSize().y - turncount_texture->GetSize().y - 5 }));
 	turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
 	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - push_button_texture->GetSize().x, push_button_texture->GetSize().y}));
+}
+
+void InGame::ChangeAudio()
+{
+	current_audio_ptr->Stop();
+	Map* static_map_ptr = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
+	if (static_map_ptr->GetStage() == Stages::stage1) {
+		current_audio_ptr = stage1_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::stage2) {
+		current_audio_ptr = stage2_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::stage3) {
+		current_audio_ptr = stage3_audio_ptr;
+	}
+	current_audio_ptr->Play();
 }
 

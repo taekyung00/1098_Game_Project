@@ -1,7 +1,10 @@
 #pragma once
 #include <vector>
+#include <raylib.h>
+
 #include "../Engine/GameState.h"
 #include "../Engine/GameObjectManager.h"
+#include "../Engine/Audio.h"
 
 #include "SpawnEnemy.h"
 #include "Fonts.h"
@@ -27,7 +30,7 @@ public:
     void Unload() override;
     void Draw() override;
     static std::vector<Enemy*>& SetEnemies() { return Instance().enemies; }
-
+    static void ChangeAudio();
     std::string GetName() override {
         return "InGame";
     }
@@ -42,8 +45,14 @@ private:
     CS230::Texture* turncount_texture;
     CS230::Texture* turn_texture;
     CS230::Texture* push_button_texture;
+
+    inline static Audio* current_audio_ptr;
+    inline static Audio* stage1_audio_ptr;
+    inline static Audio* stage2_audio_ptr;
+    inline static Audio* stage3_audio_ptr;
     
     
     void update_turncount_text();
     void update_turn_text();
+    
 };

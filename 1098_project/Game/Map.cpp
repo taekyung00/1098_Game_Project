@@ -233,6 +233,7 @@ void Map::InitializeStage(Stages _stage)
     auto spawnFs = mapPath.parent_path()
         / (mapPath.stem().string() + "_m.txt");
     std::string spawnPath = spawnFs.string();
+    Engine::GetLogger().LogDebug(spawnPath.c_str());
 
     std::ifstream spawnStream(spawnPath);
     if (!spawnStream.is_open())
@@ -249,6 +250,7 @@ void Map::InitializeStage(Stages _stage)
         }
         spawn_layer.push_back(std::move(row));
     }
+    
     spawnStream.close();
 
     //trap_count = trap_max_count;

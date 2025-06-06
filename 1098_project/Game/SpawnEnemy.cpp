@@ -2,7 +2,10 @@
 
 void SpawnEnemy::SpawnEnemies(std::vector<Enemy*>& enemies)
 {
-	enemies.clear();
+	for (Enemy* enemy : enemies) {
+		enemy->Destroy();
+	}
+	//enemies.clear();
 	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
 	Map* map_ptr = gameobjectmanager->GetGameObject<Map>();
 	const std::vector<std::vector<int>>& sp = map_ptr->GetSpawnLayer();
@@ -27,4 +30,5 @@ void SpawnEnemy::SpawnEnemies(std::vector<Enemy*>& enemies)
 			}
 		}
 	}
+	Engine::GetLogger().LogDebug(std::to_string(static_cast<int>(enemies.size())));
 }

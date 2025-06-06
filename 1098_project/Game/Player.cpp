@@ -10,10 +10,14 @@ Player::Player(Math::ivec2 start_index) :
 	GameObject(start_index, 0.0, scale_const)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Player.spt", this));
+	moving_sound_ptr = new Audio("Sounds/Moving_Sound.mp3");
+	moving_sound_ptr->SetLooping(false);
+	AddGOComponent(moving_sound_ptr);
 	map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 }
 
 void Player::Update([[maybe_unused]]double dt) {
+	moving_sound_ptr->Update();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) && (is_moving == true)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
@@ -21,32 +25,36 @@ void Player::Update([[maybe_unused]]double dt) {
 				--SetIndex().x;
 				turn_manager->Sub();
 				is_moving = false;
+				moving_sound_ptr->Play();
 			}
 		}
-		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
+		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
 				--SetIndex().y;
 				turn_manager->Sub();
 				is_moving = false;
+				moving_sound_ptr->Play();
 			}
 		}
-		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
+		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
 				++SetIndex().x;
 				turn_manager->Sub();
 				is_moving = false;
+				moving_sound_ptr->Play();
 			}
 		}
-		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
+		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
 				++SetIndex().y;
 				turn_manager->Sub();
 				is_moving = false;
+				moving_sound_ptr->Play();
 			}
 		}
 		
 	}
-	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) && Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Tab)) {
+	if ((is_moving == false) && (turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) && Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Tab)) {
 		is_moving = true;
 		++(turn_manager->SetCurrentTurn());
 	}
@@ -82,6 +90,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 			SetIndex() = { 2,2 };
 			map->InitializeStage(map->GetStage());
 			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
+			InGame::ChangeAudio();
 			is_moving = true;
 			
 		}
