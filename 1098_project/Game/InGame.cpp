@@ -9,11 +9,15 @@ void InGame::update_turncount_text()
 void InGame::update_turn_text()
 {
 	delete turn_texture;
+	delete push_button_texture;
 	if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
 		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
+		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push TAB After Move", 0xFFFFFFFF);
+
 	}
 	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
 		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
+		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE After Move", 0xFFFFFFFF);
 	}
 }
 InGame::InGame() :
@@ -73,6 +77,8 @@ void InGame::Unload() {
 	turncount_texture = nullptr;
 	delete turn_texture;
 	turn_texture = nullptr;
+	delete push_button_texture;
+	push_button_texture = nullptr;
 
 }
 
@@ -81,5 +87,6 @@ void InGame::Draw() {
 	GetGSComponent<CS230::GameObjectManager>()->DrawAll(Math::TransformationMatrix());
 	turncount_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turncount_texture->GetSize().x, Engine::GetWindow().GetSize().y - turncount_texture->GetSize().y - 5 }));
 	turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
+	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - push_button_texture->GetSize().x, push_button_texture->GetSize().y}));
 }
 

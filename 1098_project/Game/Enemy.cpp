@@ -17,14 +17,13 @@ void Enemy::Update([[maybe_unused]]double dt) {
 		//ChangeMapDesign();
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
-		Engine::GetLogger().LogDebug("Pawn is updated");
+		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
 	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
 			//turn_manager->Sub();
 			//++(turn_manager->SetCurrentTurn());
 			is_outdated = true;
-
 		}
 	}
 }

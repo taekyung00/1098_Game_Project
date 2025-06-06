@@ -41,6 +41,7 @@ private:
 
     CS230::Texture* turncount_texture;
     CS230::Texture* turn_texture;
+    CS230::Texture* push_button_texture;
     
     
     void update_turncount_text();
