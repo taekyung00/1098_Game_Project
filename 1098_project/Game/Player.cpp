@@ -21,22 +21,33 @@ Player::Player() :
 void Player::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	moving_sound_ptr->Update();
+	std::vector<Enemy*>& enemies = InGame::SetEnemies();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(is_moving == true)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
-				--SetIndex().x;
-				turn_manager->Sub();
-				is_moving = false;
-				moving_sound_ptr->Play();
-				if (InGame::GetEnemies().size() == 0) {
-					after_move_timer->Set(0.05);
+				bool enemy_attacked = false;
+				for (Enemy* enemy : enemies) {
+					if ( Math::ivec2{GetIndex().x - 1, GetIndex().y} == enemy->GetIndex()) {
+						enemy_attacked = true;
+						enemy->Destroy(); 
+						Engine::GetLogger().LogDebug("enemy is destroyed!");
+						enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+						turn_manager->Add(2);
+					}
 				}
-				else {
-					after_move_timer->Set(after_move_time);
+				if (enemy_attacked == false) {
+					--SetIndex().x;
+					turn_manager->Sub();
+					is_moving = false;
+					moving_sound_ptr->Play();
+					if (InGame::GetEnemies().size() == 0) {
+						after_move_timer->Set(0.05);
+					}
+					else {
+						after_move_timer->Set(after_move_time);
+					}
 				}
-				
-
 			}
 			else {
 				turn_manager->Sub();
@@ -53,15 +64,27 @@ void Player::Update([[maybe_unused]]double dt) {
 		}
 		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
-				--SetIndex().y;
-				turn_manager->Sub();
-				is_moving = false;
-				moving_sound_ptr->Play();
-				if (InGame::GetEnemies().size() == 0) {
-					after_move_timer->Set(0.05);
+				bool enemy_attacked = false;
+				for (Enemy* enemy : enemies) {
+					if (Math::ivec2{ GetIndex().x , GetIndex().y -1 } == enemy->GetIndex()) {
+						enemy_attacked = true;
+						enemy->Destroy();
+						Engine::GetLogger().LogDebug("enemy is destroyed!");
+						enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+						turn_manager->Add(2);
+					}
 				}
-				else {
-					after_move_timer->Set(after_move_time);
+				if (enemy_attacked == false) {
+					--SetIndex().y;
+					turn_manager->Sub();
+					is_moving = false;
+					moving_sound_ptr->Play();
+					if (InGame::GetEnemies().size() == 0) {
+						after_move_timer->Set(0.05);
+					}
+					else {
+						after_move_timer->Set(after_move_time);
+					}
 				}
 			}
 			else {
@@ -78,17 +101,28 @@ void Player::Update([[maybe_unused]]double dt) {
 		}
 		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
-				++SetIndex().x;
-				turn_manager->Sub();
-				is_moving = false;
-				moving_sound_ptr->Play();
-				if (InGame::GetEnemies().size() == 0) {
-					after_move_timer->Set(0.05);
+				bool enemy_attacked = false;
+				for (Enemy* enemy : enemies) {
+					if (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex()) {
+						enemy_attacked = true;
+						enemy->Destroy();
+						Engine::GetLogger().LogDebug("enemy is destroyed!");
+						enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+						turn_manager->Add(2);
+					}
 				}
-				else {
-					after_move_timer->Set(after_move_time);
+				if (enemy_attacked == false) {
+					++SetIndex().x;
+					turn_manager->Sub();
+					is_moving = false;
+					moving_sound_ptr->Play();
+					if (InGame::GetEnemies().size() == 0) {
+						after_move_timer->Set(0.05);
+					}
+					else {
+						after_move_timer->Set(after_move_time);
+					}
 				}
-
 			}
 			else {
 				turn_manager->Sub();
@@ -105,18 +139,30 @@ void Player::Update([[maybe_unused]]double dt) {
 		}
 		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
-				++SetIndex().y;
-				turn_manager->Sub();
-				is_moving = false;
-				moving_sound_ptr->Play();
-				if (InGame::GetEnemies().size() == 0) {
-					after_move_timer->Set(0.05);
+				bool enemy_attacked = false;
+				for (Enemy* enemy : enemies) {
+					if (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex()) {
+						enemy_attacked = true;
+						enemy->Destroy();
+						Engine::GetLogger().LogDebug("enemy is destroyed!");
+						enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+						turn_manager->Add(2);
+					}
 				}
-				else {
-					after_move_timer->Set(after_move_time);
+				if (enemy_attacked == false) {
+					++SetIndex().y;
+					turn_manager->Sub();
+					is_moving = false;
+					moving_sound_ptr->Play();
+					if (InGame::GetEnemies().size() == 0) {
+						after_move_timer->Set(0.05);
+					}
+					else {
+						after_move_timer->Set(after_move_time);
+					}
 				}
-
 			}
+			
 			else {
 				turn_manager->Sub();
 				is_moving = false;
@@ -152,9 +198,6 @@ bool Player::CanCollideWith(GameObjectTypes other_object_type) {
 		if (other_object_type == GameObjectTypes::Door) {
 			return true;
 		}
-		else if (other_object_type == GameObjectTypes::Enemy) {
-			return true;
-		}
 	}
 	
 	return false;
@@ -174,7 +217,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 			
 			SetIndex() = start_index;
 			map->InitializeStage(map->GetStage());
-			//Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
+			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
 			InGame::ChangeAudio();
 			is_moving = true;
 			
@@ -183,13 +226,13 @@ void Player::ResolveCollision(GameObject* other_object) {
 			Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
 		}
 		break;
-	case GameObjectTypes::Enemy:
-		turn_manager->Add(5);
-		other_object->Destroy();
-		Engine::GetLogger().LogDebug("enemy is destroyed!");
-		std::vector<Enemy*>& enemies = InGame::SetEnemies();
-		enemies.erase(std::remove(enemies.begin(), enemies.end(), other_object), enemies.end());
-		break;
+	//case GameObjectTypes::Enemy:
+	//	turn_manager->Add(5);
+	//	other_object->Destroy();
+	//	Engine::GetLogger().LogDebug("enemy is destroyed!");
+	//	std::vector<Enemy*>& enemies = InGame::SetEnemies();
+	//	enemies.erase(std::remove(enemies.begin(), enemies.end(), other_object), enemies.end());
+	//	break;
 	}
 }
 
