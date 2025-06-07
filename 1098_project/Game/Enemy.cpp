@@ -21,8 +21,6 @@ void Enemy::Update([[maybe_unused]]double dt) {
 	}
 	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
-			//turn_manager->Sub();
-			//++(turn_manager->SetCurrentTurn());
 			is_outdated = true;
 		}
 	}

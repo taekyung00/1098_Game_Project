@@ -8,6 +8,7 @@
 #include "Bishop.h"
 #include "Rook.h"
 #include "Map.h"
+#include "Cannon.h"
 
 class SpawnEnemy : public CS230::Component
 {
