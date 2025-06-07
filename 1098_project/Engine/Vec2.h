@@ -12,7 +12,6 @@ Created:    March 18, 2025
 #include <limits>
 
 namespace Math {
-    struct ivec2;
     struct vec2 {
         double x{ 0.0 };
         double y{ 0.0 };
@@ -26,31 +25,27 @@ namespace Math {
         vec2 operator+(const vec2& v);
         vec2 operator+(const vec2& v)const;
         vec2& operator+=(const vec2& v);
-        vec2& operator+=(const ivec2& v);
 
         vec2 operator-(const vec2& v);
         vec2 operator-(const vec2& v)const;
         vec2& operator-=(const vec2& v);
-        vec2& operator-=(const ivec2& v);
 
         vec2 operator*(double scale);
         vec2 operator*(double scale) const;
         vec2& operator*=(double scale);
-        vec2& operator*=(const ivec2& v);
 
         
 
         vec2 operator/(double divisor);
         vec2 operator/(double divisor)const;
         vec2& operator/=(double divisor);
-        vec2& operator/=(const ivec2& v);
-
-
+        vec2 operator-();
+        vec2 operator-() const;
     };
-    bool operator==(const vec2& lv, const vec2& rv);
-    bool operator!=(const vec2& lv, const vec2& rv);
 
+    vec2 operator-(const vec2& v1, const vec2& v2);
     vec2 operator*(double scale, const vec2& v);
+    
 
     struct ivec2 {
         int x{ 0 };
@@ -85,12 +80,14 @@ namespace Math {
         vec2 operator*(double scale)const;
         vec2 operator/(double divisor);
         vec2 operator/(double divisor)const;
-    };
-    bool operator==(const ivec2& lv, const ivec2& rv);
-    bool operator!=(const ivec2& lv, const ivec2& rv);
 
+        ivec2 operator-();
+    };
+
+    /*ivec2 operator-(const ivec2& v);*/
     ivec2 operator*(int scale, const ivec2& v);
     vec2 operator*(double scale, const ivec2& v);
+    double GetDistanceSquaredBetweenIndices(const Math::ivec2 index1, const Math::ivec2 index2);
 
 }
 

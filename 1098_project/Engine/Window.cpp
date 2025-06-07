@@ -36,19 +36,6 @@ void CS230::Window::Update() {
     BeginDrawing();
 }
 
-void CS230::Window::Update(Math::ivec2 newsize){
-    EndDrawing();
-    SetWindowSize(newsize.x, newsize.y);
-    int current_width = GetScreenWidth();
-    int current_height = GetScreenHeight();
-    if (current_width != size.x || current_height != size.y) {
-        Engine::GetLogger().LogEvent("Window Resized");
-        size = { current_width, current_height };
-    }
-
-    BeginDrawing();
-}
-
 bool CS230::Window::IsClosed() const {
     return WindowShouldClose();
 }

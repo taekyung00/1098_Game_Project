@@ -1,19 +1,9 @@
-#ifndef PAWN_H
-#define PAWN_H
 #pragma once
-
-#include"../Engine/Vec2.h"
-
 #include "Enemy.h"
 
 class Pawn : public Enemy {
 public:
-	Pawn(Math::ivec2 index, std::string sprite_path);
-	void Update(double dt) override;
+	Pawn(Math::ivec2 index);
 	
-private:
-	std::string sprite_path;
+    void ReachableIndexPush() override;
 };
-#endif // !PAWN_H
-
-

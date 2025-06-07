@@ -1,9 +1,11 @@
+#pragma once
 #ifndef AUDIO_H
 #define AUDIO_H
 
-#include "raylib.h"
+#include <raylib.h>
+#include "Component.h"
 
-class Audio {
+class Audio : public CS230::Component{
 public:
     Audio(const char* filePath);
     ~Audio();

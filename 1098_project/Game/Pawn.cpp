@@ -1,47 +1,42 @@
 #include "Pawn.h"
-#include "InGame.h"
+#include "Rook.h"
 
-
-Pawn::Pawn(Math::ivec2 index, std::string sprite_path) : 
-	Enemy(index), sprite_path(sprite_path) {
-	sprite.Load(sprite_path.c_str(),{0,0});
+Pawn::Pawn(Math::ivec2 index) :
+	Enemy(index) {
+	AddGOComponent(new CS230::Sprite("Assets/Pawn.spt", this));
+	ReachableIndexPush();
+	//ChangeMapDesign();
 }
-void Pawn::Update([[maybe_unused]]double dt)
+
+
+
+
+void Pawn::ReachableIndexPush()
 {
-	near_index.clear();
-	if (is_outdated == true) {
-		//temperary moving
-		if (map->GetTileDesign()[current_index.x][current_index.y].isLeftEdge != true) {
-			--current_index.y;
-			is_outdated = false;
+	Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
+	reachable_indices.clear();
 
-		}
-		else if (map->GetTileDesign()[current_index.x][current_index.y].isRightEdge != true) {
-			++current_index.y;
-			is_outdated = false;
-
-		}
-
-		if (map->GetTileDesign()[current_index.x][current_index.y].isTopEdge != true) {
-			--current_index.x;
-			is_outdated = false;
-
-		}
-		else if (map->GetTileDesign()[current_index.x][current_index.y].isBotttomEdge != true) {
-			++current_index.x;
-			is_outdated = false;
-
-		}
+	Math::ivec2 temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
+		temp_index.x--;
+		reachable_indices.push_back(temp_index);
 	}
-	near_index.push_back({ current_index.x - 1,current_index.y });
-	near_index.push_back({ current_index.x + 1,current_index.y });
-	near_index.push_back({ current_index.x,current_index.y - 1 });
-	near_index.push_back({ current_index.x,current_index.y + 1});
-	position =
-		Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
-		Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
-	rect = { 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) };
-	
+
+	temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
+		temp_index.x++;
+		reachable_indices.push_back(temp_index);
+	}
+
+	temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
+		temp_index.y--;
+		reachable_indices.push_back(temp_index);
+	}
+
+	temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
+		temp_index.y++;
+		reachable_indices.push_back(temp_index);
+	}
 }
-
-

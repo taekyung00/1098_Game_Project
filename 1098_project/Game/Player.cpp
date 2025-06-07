@@ -1,248 +1,195 @@
 #include "Player.h"
 
 #include "Enemy.h"
+#include "Pawn.h"
+#include "Rook.h"
+#include "Bishop.h"
 #include "InGame.h"
 
-std::vector<Enemy*>* Player::enemies = nullptr;
-<<<<<<< Updated upstream
-Player::Player(TurnManager& turnmanager, Map& map) : turnmanager(turnmanager),
-                                                     map(map),
-                                                     moving_count(max_moving_count),
-                                                     is_moving(true),
-                                                     time_limit(start_time_limit) {
-=======
-Player::Player(Math::ivec2 start_index,TurnManager& turnmanager, Map& map) :
-    turnmanager(turnmanager),
-    map(map),
-    moving_count(max_moving_count),
-    is_moving(true),
-    player_moving_sound("Sounds/Moving_Sound.mp3"),
-    //time_limit(start_time_limit),
-    start_index(start_index),
-    player_rect({ static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) })
+Player::Player() :
+	GameObject(Math::ivec2{2,0}, 0.0, scale_const)
 {
->>>>>>> Stashed changes
+	AddGOComponent(new CS230::Sprite("Assets/Player.spt", this));
+	moving_sound_ptr = new Audio("Sounds/Moving_Sound.mp3");
+	moving_sound_ptr->SetLooping(false);
+	AddGOComponent(moving_sound_ptr);
+	map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
+	after_move_timer = new CS230::Timer(0.0);
+	AddGOComponent(after_move_timer);
 }
 
-void Player::Load() {
-    time_limit = start_time_limit;
-    is_attacked = false;
-    moving_count = max_moving_count;
-    current_index = {3, 3};
-    player_position = Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } + Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
-    player_rect = { static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
-    player_moving_sound.SetLooping(false);
+void Player::Update([[maybe_unused]]double dt) {
+	GameObject::Update(dt);
+	moving_sound_ptr->Update();
+	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(is_moving == true)) {
+		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
+			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
+				--SetIndex().x;
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+				
+
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+		}
+		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
+			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
+				--SetIndex().y;
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+			}
+		}
+		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
+			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
+				++SetIndex().x;
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+		}
+		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
+			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
+				++SetIndex().y;
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+			else {
+				turn_manager->Sub();
+				is_moving = false;
+				moving_sound_ptr->Play();
+				if (InGame::GetEnemies().size() == 0) {
+					after_move_timer->Set(0.05);
+				}
+				else {
+					after_move_timer->Set(after_move_time);
+				}
+
+			}
+		}
+		
+	}
+	if ((is_moving == false) && (turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(after_move_timer->Remaining()==0.0)) {
+		is_moving = true;
+		if (InGame::GetEnemies().size() != 0) {
+			++(turn_manager->SetCurrentTurn());
+		}
+			
+	}
+	SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 }
 
-void Player::Update(double dt/*,  Enemy& enemy*/) {
-    if (is_alive == false) {
-        Engine::GetGameStateManager().ReloadState();
-    }
-    if (is_moving == true) {
-        if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
-            if (
-                map.GetTileDesign()[current_index.x][current_index.y].isLeftEdge != true
-                ) {
-                // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
-                /*for (Enemy* enemy : *(enemies)) {
-                    for(enemy)
-                }*/
-                current_index.y--;
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            } else {
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            }
-            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy; 
-            turnmanager.CountReset();
-            player_moving_sound.Play();
-        }
-        if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
-            if (
-                map.GetTileDesign()[current_index.x][current_index.y].isRightEdge != true
-                ) {
-                // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
-                current_index.y++;
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            } else {
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            }
-            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
-            turnmanager.CountReset();
-            player_moving_sound.Play();
-        }
-        if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
-            if (
-                map.GetTileDesign()[current_index.x][current_index.y].isTopEdge != true
-                ) {
-                // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
-                current_index.x--;
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            } else {
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            }
-            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
-            turnmanager.CountReset();
-            player_moving_sound.Play();
-        }
-        if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-            if (
-                map.GetTileDesign()[current_index.x][current_index.y].isBotttomEdge != true
-                ) {
-                // Engine::GetLogger().LogDebug(std::to_string(map.GetTileDesign()[current_index.y][current_index.x]));
-                current_index.x++;
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            } else {
-                moving_count--;
-                time_limit = max_time_limit;
-                is_attacked = false;
-            }
-            turnmanager.SetCurrentTurn() = TurnManager::Turns::enemy;
-            turnmanager.CountReset();
-            player_moving_sound.Play();
-        }
-    }
-    //Engine::GetLogger().LogDebug(std::to_string(current_index.x)+", "+std::to_string(current_index.y));
-
-    if (moving_count == 0) {
-        is_moving = false;
-        Engine::GetGameStateManager().ReloadState();
-    }
-
-    time_limit -= dt;
-    // Engine::GetLogger().LogDebug("Time Limit :"+std::to_string(time_limit));
-
-    if (time_limit <= 0.0) {
-        Engine::GetGameStateManager().ReloadState();
-    }
-    player_position = Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } + Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
-    player_rect = { static_cast<float>(player_position.x),static_cast<float>(player_position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
-
-    
-
-    if (CheckCollisionRecs(player_rect, map.GetDownStairsRect())) {
-        //std::exit(EXIT_FAILURE);
-        Engine::GetLogger().LogDebug("exit!");
-    }
-    player_moving_sound.Update();
+void Player::Draw(Math::TransformationMatrix camera_matrix) {
+	CS230::GameObject::Draw(camera_matrix);
 }
 
-void Player::Draw() {
-    DrawRectangle(static_cast<int>(player_position.x), static_cast<int>(player_position.y), tile_size.x, tile_size.y, BLUE);
-    //temporary text background
-    DrawRectangle(
-        player_position.x  + 10,
-        player_position.y  - 20,
-        20,
-        20,
-        { 255,255,255,128 }
-    );
+bool Player::CanCollideWith(GameObjectTypes other_object_type) {
 
-    DrawText(
-        TextFormat("%d", moving_count),
-        player_position.x  + 10,
-        player_position.y  - 20,
-        20,
-        RED);
-
-    //temporary text background
-    DrawRectangle(
-        player_position.x - 40,
-        player_position.y + 40,
-        100,
-        15,
-        { 255,255,255,128 }
-    );
-    if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
-        DrawText(
-            TextFormat("PLAYER TURN"),
-            player_position.x-40,
-            player_position.y + 40,
-            15,
-            RED);
-    }
-    else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
-        DrawText(
-            TextFormat("ENEMY TURN"),
-            player_position.x-40,
-            player_position.y + 40,
-            15,
-            RED);
-    }
-    else if (turnmanager.GetCurrentTurn() == TurnManager::Turns::traps) {
-        DrawText(
-            TextFormat("TRAPS TURN"),
-            player_position.x - 40,
-            player_position.y + 40,
-            15,
-            RED);
-    }
-
-    //temporary text background
-    /*DrawRectangle(
-        player_position.x,
-        player_position.y,
-        20,
-        20,
-        { 255,255,255,128 }
-    );*/
-    if (time_limit <= start_time_limit && time_limit > start_time_limit - 1) {
-        DrawText(
-            TextFormat("5"),
-            player_position.x,
-            player_position.y,
-            20,
-            RED);
-    } else if (time_limit <= start_time_limit - 1 && time_limit > start_time_limit - 2) {
-        DrawText(
-            TextFormat("4"),
-            player_position.x,
-            player_position.y,
-            20,
-            RED);
-    } else if (time_limit <= start_time_limit - 2 && time_limit > start_time_limit - 3) {
-        DrawText(
-            TextFormat("3"),
-            player_position.x,
-            player_position.y,
-            20,
-            RED);
-    } else if (time_limit <= start_time_limit - 3 && time_limit > start_time_limit - 4) {
-        DrawText(
-            TextFormat("2"),
-            player_position.x,
-            player_position.y,
-            20,
-            RED);
-    } else {
-        DrawText(
-            TextFormat("1"),
-            player_position.x,
-            player_position.y,
-            20,
-            RED);
-    }
+	if (Engine::GetGameStateManager().GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
+		if (other_object_type == GameObjectTypes::Door) {
+			return true;
+		}
+		else if (other_object_type == GameObjectTypes::Enemy) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
-void Player::Unload() {
-    moving_count = max_moving_count;
-    is_moving = true;
+void Player::ResolveCollision(GameObject* other_object) {
+	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	switch (other_object->Type())
+	{
+	case GameObjectTypes::Door:
+		if (!(map->GetStage() == Stages::stage3 && map->GetRoom() == Rooms::Room3)) {
+			turn_manager->SetCurrentTurn() = Turns::Player;
+			if (map->GetRoom() == Rooms::Room3) {
+				++map->SetStage();
+			}
+			++map->SetRoom();
+			
+			SetIndex() = start_index;
+			map->InitializeStage(map->GetStage());
+			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
+			InGame::ChangeAudio();
+			is_moving = true;
+			
+		}
+		else {
+			Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+		}
+		break;
+	case GameObjectTypes::Enemy:
+		turn_manager->Add(5);
+		other_object->Destroy();
+		Engine::GetLogger().LogDebug("enemy is destroyed!");
+		std::vector<Enemy*>& enemies = InGame::SetEnemies();
+		enemies.erase(std::remove(enemies.begin(), enemies.end(), other_object), enemies.end());
+		break;
+	}
 }
 
-void Player::SetEnemiesReference(std::vector<Enemy*>& e)
-{
-    Player::enemies = &e;
-}

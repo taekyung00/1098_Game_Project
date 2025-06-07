@@ -10,6 +10,7 @@ Created:    March 11, 2025
 
 #include "GameStateManager.h"
 #include "Engine.h"
+#include "GameObjectManager.h"
 
 CS230::GameStateManager::GameStateManager() :
     current_gamestate(nullptr),
@@ -65,12 +66,15 @@ void CS230::GameStateManager::Update(double dt){
     case Status::UPDATING:
         //Your Code
         if (current_gamestate != next_gamestate) {
-            //do i have to call SetNextGameState() at here? --> "player" have to change gamestate by play ?!
             status = Status::UNLOADING;
         }
         else {
             Engine::GetLogger().LogVerbose("Update " + current_gamestate->GetName());
             current_gamestate->Update(dt);
+            GameObjectManager* current_gameobject_manager = current_gamestate->GetGSComponent<GameObjectManager>();
+            if (current_gameobject_manager != nullptr) {
+                current_gameobject_manager->CollisionTest();
+            }
             current_gamestate->Draw();
         }
         break;
@@ -79,6 +83,7 @@ void CS230::GameStateManager::Update(double dt){
         Engine::GetLogger().LogEvent("Unload " + current_gamestate->GetName());
         current_gamestate->Unload();
         Engine::GetLogger().LogEvent("Unload Complete");
+        Engine::GetTextureManager().Unload();
         if (next_gamestate == nullptr) {
             status = Status::STOPPING;
         }

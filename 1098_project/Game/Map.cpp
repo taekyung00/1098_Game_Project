@@ -1,40 +1,63 @@
 #include "Map.h"
-#include "InGame.h"
 
+void Map::InitializeStage(Stages _stage)
+{
+    stage = _stage;
+    selectedfiles.clear();
+    currentmapindex = 0;
+    designPath.clear();
 
-Map::Map() : 
-    current_index_amount({0, 0}), 
-    exit_index(current_index_amount), 
-    grid_size(tile_size.x * (Math::ivec2{ current_index_amount } + Math::ivec2{2, 2})),
-    stage(Stages::stage1)
-{}
+    // stage folder
+    std::string folder;
+    switch (stage)
+    {
+    case Stages::stage1: folder = "Game/stage1"; break;
+    case Stages::stage2: folder = "Game/stage2"; break;
+    case Stages::stage3: folder = "Game/stage3"; break;
+    }
 
-void Map::Load() {
+    // scan directory
+    availablefiles.clear();
+    for (auto& entry : std::filesystem::directory_iterator(folder))
+    {
+        if (entry.path().extension() == ".txt")
+        {
+            {
+                auto stem = entry.path().stem().string();
+                if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_m")
+                    continue;
+            }
+            availablefiles.push_back(entry.path().string());
+        }
+    }
+
+    // random shuffle
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::shuffle(availablefiles.begin(), availablefiles.end(), gen);
+
+    // if less then 3 
+    size_t count = std::min<size_t>(3, availablefiles.size());
+    selectedfiles.assign(availablefiles.begin(), availablefiles.begin() + count);
+
+    designPath = selectedfiles[currentmapindex];
+    Engine::GetLogger().LogDebug(designPath.c_str());
+
     tile_design.clear();
+    spawn_layer.clear();
+
     std::string temp_string;
     width_amount = 0;
     height_amount = 0;
 
     std::ifstream file_stream_design;
 
-    if (stage == Stages::stage1) {
-        file_stream_design.open(stage1_design_path);
-        if (file_stream_design.is_open() == false) {
-            throw std::runtime_error("fail to open in stage " + std::to_string(static_cast<int>(Stages::stage1)));
-        }
-        std::getline(file_stream_design, temp_string);
-        if (temp_string.size()==0) {
-            throw std::runtime_error("fail to open sprite in stage " + std::to_string(static_cast<int>(Stages::stage1)));
-        }
-        sprite.Load(temp_string, {0, 0});
+    file_stream_design.open(designPath.c_str());
+    if (file_stream_design.is_open() == false) {
+        throw std::runtime_error("fail to open in stage " + std::to_string(static_cast<int>(Stages::stage1)));
     }
+    //sprite_downstairs.Load("Assets/sprite_downstairs.png", { 0,0 });
 
-    /*sprite_trap_alive.Load("Assets/sprite_trap_alive.png",{0,0});
-    sprite_trap_dead.Load("Assets/sprite_trap_dead.png",{0,0});*/
-    sprite_downstairs.Load("Assets/sprite_downstairs.png",{0,0});
-
-    tiles_numbers.clear();
-    tiles_numbers.push_back({-1, -1});  // for nothing, [0]
     temp_string.clear();
 
     while (std::getline(file_stream_design, temp_string)) {
@@ -50,7 +73,7 @@ void Map::Load() {
             temp_string.erase(temp_string.find_last_not_of(" \t") + 1);
 
             if (!temp_string.empty()) {
-                row.push_back({std::stoi(temp_string)});
+                row.push_back({ std::stoi(temp_string) });
                 temp_width++;
             }
         }
@@ -61,51 +84,27 @@ void Map::Load() {
         ++height_amount;
         tile_design.push_back(row);
     }
+    //tile_design flip! - to use [0,0] as bottom-left
 
-    // tilecheck - hardcoded for stage1
-<<<<<<< Updated upstream
-    if (stage == Stages::stage1) {
-        for (int i = 0; i < tile_design.size(); ++i) {
-            for (int j = 0; j < tile_design[i].size(); ++j) {
-                // edge check
-                if (tile_design[i][j].tile_number == 1 ||
-                    tile_design[i][j].tile_number == 4 ||
-                    tile_design[i][j].tile_number == 9 ||
-                    tile_design[i][j].tile_number == 12 ||
-                    tile_design[i][j].tile_number == 17 ||
-                    tile_design[i][j].tile_number == 20) {
-                    tile_design[i][j].isLeftEdge = true;
-                }
+    for (int i = 0; i < (tile_design.size() - 1) / 2; ++i) {
+        for (int j = 0; j < tile_design[i].size(); ++j) {
+            int temp = tile_design[i][j].tile_number;
+            tile_design[i][j].tile_number = tile_design[tile_design.size() - 1 - i][j].tile_number;
+            tile_design[tile_design.size() - 1 - i][j].tile_number = temp;
+        }
+    }
 
-                if (
-                    tile_design[i][j].tile_number == 3 ||
-                    tile_design[i][j].tile_number == 6 ||
-                    tile_design[i][j].tile_number == 11 ||
-                    tile_design[i][j].tile_number == 14 ||
-                    tile_design[i][j].tile_number == 19 ||
-                    tile_design[i][j].tile_number == 22) {
-                    tile_design[i][j].isRightEdge = true;
-                }
-                if (
-                    tile_design[i][j].tile_number == 1 ||
-                    tile_design[i][j].tile_number == 2 ||
-                    tile_design[i][j].tile_number == 3 ||
-                    tile_design[i][j].tile_number == 4 ||
-                    tile_design[i][j].tile_number == 5 ||
-                    tile_design[i][j].tile_number == 6) {
-                    tile_design[i][j].isTopEdge = true;
-                }
-                if (
-                    tile_design[i][j].tile_number == 17 ||
-                    tile_design[i][j].tile_number == 18 ||
-                    tile_design[i][j].tile_number == 19 ||
-                    tile_design[i][j].tile_number == 20 ||
-                    tile_design[i][j].tile_number == 21 ||
-                    tile_design[i][j].tile_number == 22) {
-                    tile_design[i][j].isBotttomEdge = true;
-                }
-=======
-    
+    for (int i = 0; i < tile_design.size(); ++i) {
+        for (int j = i; j < tile_design[i].size(); ++j) {
+            int temp = tile_design[i][j].tile_number;
+            tile_design[i][j].tile_number = tile_design[j][i].tile_number;
+            tile_design[j][i].tile_number = temp;
+        }
+
+    }
+    height_amount = static_cast<int>(tile_design.size());
+    width_amount = static_cast<int>(tile_design[0].size());
+    // tilecheck - hardcoded
     for (int i = 0; i < tile_design.size(); ++i) {
         for (int j = 0; j < tile_design[i].size(); ++j) {
             // edge check
@@ -216,104 +215,93 @@ void Map::Load() {
                 tile_design[i][j].tile_number == 71 ||
                 tile_design[i][j].tile_number == 72) {
                 tile_design[i][j].isBottomEdge = true;
->>>>>>> Stashed changes
             }
         }
     }
-    
-    
-    // trapmake
-    //tile_design[2][5].isTrap = true;
-    //tile_design[2][5].isTrapAlive = true;
-    //trap_rect = { static_cast<float>(start_position.x) + tile_size.x * 5 + 5, static_cast<float>(start_position.y) + tile_size.x * 2 +5, static_cast<float>(tile_size.x) - 10,static_cast<float>(tile_size.y)  - 10};
-    // stairmake
-    tile_design[7][7].isDownStairs = true;
-    downstairs_rect = { float(start_position.x) + tile_size.x * 7 + 5, float(start_position.y) + tile_size.x * 7 + 5, float(tile_size.x) - 10,float(tile_size.y) - 10 };
 
-    //divide sprite of stage1
-    for (int i = 0; i * tile_size.y < sprite.GetTextureSize().y; ++i) {
-        for (int j = 0; j * tile_size.x < sprite.GetTextureSize().x; ++j) {
-            tiles_numbers.push_back(Math::ivec2{j * tile_size.x, i * tile_size.y});
-        }
-    }
-
-    current_index_amount = {width_amount, height_amount};
-
-    // current_index = new_index;
-    exit_index = {7, 7};
+    current_index_amount = { width_amount, height_amount };
     grid_size = tile_size.x * (Math::ivec2{ current_index_amount });
 
-    
-    Engine::GetWindow().Update(grid_size*2 + 2 * start_position);
     file_stream_design.close();
-    //trap_count = trap_max_count;
-}
 
-void Map::Update([[maybe_unused]]double dt) {
-    //trap_count -= dt;
-    //if (trap_count <= 0.0) {
-    //    //hardcoded index
-    //    if (tile_design[2][5].isTrapAlive == true) {
-    //        tile_design[2][5].isTrapAlive = false;
-    //    }
-    //    else {
-    //        tile_design[2][5].isTrapAlive = true;
-    //    }
-    //    
-    //    trap_count = trap_max_count;
-    //}
-}
+    std::filesystem::path mapPath{ designPath };
+    auto spawnFs = mapPath.parent_path()
+        / (mapPath.stem().string() + "_m.txt");
+    std::string spawnPath = spawnFs.string();
+    Engine::GetLogger().LogDebug(spawnPath.c_str());
 
-void Map::Draw() {
-    
+    std::ifstream spawnStream(spawnPath);
+    if (!spawnStream.is_open())
+        throw std::runtime_error("fail to open spawn file: " + spawnPath);
 
-    for (int i = 0; i < tile_design.size(); ++i) {
-        /*int i = 1;*/
-        for (int j = 0; j < tile_design[i].size(); ++j) {
-            /*int j = 2;*/
-            Math::vec2 position = Math::vec2{static_cast<double>(start_position.x), static_cast<double>(start_position.y)} + Math::vec2{ static_cast<double>(j * tile_size.x), static_cast<double>(i * tile_size.y)};
-            // position -= Math::vec2{ double(Engine::GetWindow().GetSize().x), double(Engine::GetWindow().GetSize().y) };
-            Rectangle rect = { static_cast<float>(tiles_numbers[tile_design[i][j].tile_number].x), static_cast<float>(tiles_numbers[tile_design[i][j].tile_number].y), static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) };
-            //if (tile_design[i][j].isTrap == true) {
-            //    if (tile_design[i][j].isTrapAlive == true) {
-            //        //use temp_rect for using raylib_based sprite.draw
-            //        sprite_trap_alive.DrawRay(position);
-            //    }
-            //    else {
-            //        sprite_trap_dead.DrawRay(position);
-            //    }
-            //} 
-            if (tile_design[i][j].isDownStairs == true) {
-                sprite_downstairs.DrawRay(position);
-            } else if (tile_design[i][j].tile_number != 0) {
-                sprite.Draw(
-                    position,
-                    rect);
-            }
-            DrawText(TextFormat("[%d, %d]", i, j), start_position.x + 5 + j * tile_size.x, start_position.y + 5 + i * tile_size.y, 10, BLACK);
-            DrawText(TextFormat("%d", tile_design[i][j].tile_number), start_position.x + 5 + j * tile_size.x, start_position.y + 15 + i * tile_size.y, 10, BLACK);
+    while (std::getline(spawnStream, temp_string)) {
+        std::stringstream ss(temp_string);
+        std::vector<int> row;
+        std::string cell;
+        while (std::getline(ss, cell, ',')) {
+            cell.erase(0, cell.find_first_not_of(" \t"));
+            cell.erase(cell.find_last_not_of(" \t") + 1);
+            row.push_back(cell.empty() ? 0 : std::stoi(cell));
+        }
+        spawn_layer.push_back(std::move(row));
+    }
+
+    //spawn_layer flip! - to use [0,0] as bottom-left
+
+    for (int i = 0; i < (spawn_layer.size() - 1) / 2; ++i) {
+        for (int j = 0; j < spawn_layer[i].size(); ++j) {
+            int temp = spawn_layer[i][j];
+            spawn_layer[i][j] = spawn_layer[tile_design.size() - 1 - i][j];
+            spawn_layer[tile_design.size() - 1 - i][j] = temp;
         }
     }
-}
 
-bool Map::isAble(const Math::ivec2& pos) const {
-    int row = pos.y;
-    int col = pos.x;
+    for (int i = 0; i < spawn_layer.size(); ++i) {
+        for (int j = i; j < spawn_layer[i].size(); ++j) {
+            int temp = spawn_layer[i][j];
+            spawn_layer[i][j] = spawn_layer[j][i];
+            spawn_layer[j][i] = temp;
+        }
 
-    if (row < 0 || row >= 10)
-        return false;
-
-    if (row < 5) {
-        if (col < 0 || col >= 10)
-            return false;
-    } else {
-        if (col < 5 || col >= 10)
-            return false;
     }
+    spawnStream.close();
 
-    return true;
+    //trap_count = trap_max_count;
+}
+//void Map::ClearEnemiesReachable()
+//{
+//    for (int i = 0; i < tile_design.size(); ++i) {
+//        for (int j = 0; j < tile_design[i].size(); ++j) {
+//            tile_design[i][j].isEnemyReachable = false;
+//        }
+//    }
+//}
+
+
+Map::Map(Stages start_stage, Rooms start_room):
+    stage(start_stage),
+    room(start_room),
+    GameObject(start_position, 0.0, scale_const),
+    enemy_trajectory("Assets/EnemyTrajectory.spt",this)
+{   
+    AddGOComponent(new CS230::Sprite("Assets/Tile_Assets.spt", this, true));
+    InitializeStage();  
 }
 
-void Map::Unload() {
-    //grid.clear();
+void Map::Update([[maybe_unused]] double dt) {}
+
+void Map::Draw(Math::TransformationMatrix camera_matrix) {
+	CS230::Sprite* sprite = GetGOComponent<CS230::Sprite>();
+	if (sprite != nullptr) {
+        Math::TransformationMatrix start_matrix = GetMatrix();
+        for (int j = 0; j < height_amount; ++j) {
+            for (int i = 0; i < width_amount; ++i) {
+                Math::TransformationMatrix draw_matrix = Math::TranslationMatrix(Math::vec2{ tile_size.x * i * GetScale().x, tile_size.y * j * GetScale().y }) * start_matrix;
+                sprite->Draw(camera_matrix * draw_matrix, tile_design[i][j].tile_number);
+                /*if (tile_design[i][j].isEnemyReachable == true) {
+                    enemy_trajectory.Draw(camera_matrix * draw_matrix);
+                }*/
+            }
+        }
+	}
 }
