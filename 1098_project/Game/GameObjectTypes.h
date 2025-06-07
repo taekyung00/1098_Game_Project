@@ -13,5 +13,8 @@ enum class GameObjectTypes {
     Player,
     Door,
     Enemy,
+    Trap,
+    CannonBall,
+    Arrow,
     Count,
 };

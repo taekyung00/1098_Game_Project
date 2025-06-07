@@ -121,29 +121,8 @@
     <ClCompile Include="Game\CannonBall.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Rook.cpp">
+    <ClCompile Include="Game\Trap.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\SpawnEnemy.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Splash.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Stages.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TurnManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Turns.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Rooms.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Audio.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -279,35 +258,8 @@
     <ClInclude Include="Game\CannonBall.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Rook.h">
+    <ClInclude Include="Game\Trap.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\SpawnEnemy.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Splash.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Stages.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\States.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Tile.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TurnManager.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Turns.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Rooms.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Audio.h">
-      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

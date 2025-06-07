@@ -10,11 +10,6 @@ Pawn::Pawn(Math::ivec2 index) :
 	//ChangeMapDesign();
 }
 
-	temp_index = GetIndex();
-	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
-		temp_index.x++;
-		reachable_indices.push_back(temp_index);
-	}
 
 
 

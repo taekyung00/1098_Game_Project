@@ -29,9 +29,20 @@ void Enemy::ChangeIndex()
 {
 	Math::ivec2 new_index = GetIndex();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
+	const std::vector<Enemy*>& enemies = InGame::GetEnemies();
 	for(Math::ivec2 _index : reachable_indices) {
 		if (Math::GetDistanceSquaredBetweenIndices(new_index, player->GetIndex()) > Math::GetDistanceSquaredBetweenIndices(_index, player->GetIndex())) {
-			new_index = _index;
+			bool index_over = false;
+			for (Enemy* enemy : enemies) {
+				if (_index == enemy->GetIndex()) {
+					index_over = true;
+					break;
+				}
+			}
+			if (index_over == false) {
+				new_index = _index;
+			}
+			
 		}
 	}
 	SetIndex() = new_index;

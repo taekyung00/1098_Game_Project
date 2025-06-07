@@ -23,12 +23,13 @@ void Player::Update([[maybe_unused]]double dt) {
 	moving_sound_ptr->Update();
 	std::vector<Enemy*>& enemies = InGame::SetEnemies();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+
 	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(is_moving == true)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 				bool enemy_attacked = false;
 				for (Enemy* enemy : enemies) {
-					if ( Math::ivec2{GetIndex().x - 1, GetIndex().y} == enemy->GetIndex()) {
+					if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x - 1, GetIndex().y } == enemy->GetIndex())) {
 						enemy_attacked = true;
 						enemy->Destroy(); 
 						Engine::GetLogger().LogDebug("enemy is destroyed!");
@@ -66,7 +67,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
 				bool enemy_attacked = false;
 				for (Enemy* enemy : enemies) {
-					if (Math::ivec2{ GetIndex().x , GetIndex().y -1 } == enemy->GetIndex()) {
+					if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y - 1 } == enemy->GetIndex())) {
 						enemy_attacked = true;
 						enemy->Destroy();
 						Engine::GetLogger().LogDebug("enemy is destroyed!");
@@ -103,7 +104,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
 				bool enemy_attacked = false;
 				for (Enemy* enemy : enemies) {
-					if (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex()) {
+					if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex())) {
 						enemy_attacked = true;
 						enemy->Destroy();
 						Engine::GetLogger().LogDebug("enemy is destroyed!");
@@ -141,7 +142,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
 				bool enemy_attacked = false;
 				for (Enemy* enemy : enemies) {
-					if (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex()) {
+					if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex())) {
 						enemy_attacked = true;
 						enemy->Destroy();
 						Engine::GetLogger().LogDebug("enemy is destroyed!");
@@ -217,7 +218,9 @@ void Player::ResolveCollision(GameObject* other_object) {
 			
 			SetIndex() = start_index;
 			map->InitializeStage(map->GetStage());
-			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies(InGame::SetEnemies());
+			//Engine::GetGameStateManager().GetGSComponent<SpawnTrap>()->SpawnTraps();
+			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies();
+			
 			InGame::ChangeAudio();
 			is_moving = true;
 			

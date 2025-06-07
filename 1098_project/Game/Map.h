@@ -22,6 +22,8 @@ public:
 	void			Draw(Math::TransformationMatrix camera_matrix) override;
 	GameObjectTypes Type() override { return GameObjectTypes::Map; }
 	std::string		TypeName() override { return "Map"; }
+	
+	//int DrawPriority() const override { return 0; }
 
 	const std::vector<std::vector<Tile>>&	GetTileDesign() const { return tile_design; }
 	std::vector<std::vector<Tile>>&			SetTileDesign() { return tile_design; }
@@ -36,6 +38,7 @@ public:
 
 	//void ClearEnemiesReachable();
 	const std::vector<std::vector<int>>& GetSpawnLayer() const { return spawn_layer; }
+	const std::vector<std::vector<int>>& GetSpawnTrapLayer() const { return spawn_trap_layer; }
 	
 private:
 	
@@ -53,6 +56,7 @@ private:
 	std::vector<std::string> selectedfiles;
 	size_t currentmapindex = 0;
 	std::vector<std::vector<int>> spawn_layer;
+	std::vector<std::vector<int>> spawn_trap_layer;
 
 	Stages stage;
 	Rooms room;

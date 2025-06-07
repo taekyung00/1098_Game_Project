@@ -1,3 +1,4 @@
+#include "Player.h"
 #include "InGame.h"
 
 
@@ -24,6 +25,7 @@ void InGame::update_turn_text()
 InGame::InGame() :
 	turncount_texture(nullptr),
 	turn_texture(nullptr),
+	push_button_texture(nullptr),
 	map_ptr(nullptr),
 	player_ptr(nullptr)
 {
@@ -34,12 +36,20 @@ void InGame::Load() {
 	AddGSComponent(new TurnManager(max_turn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
 	AddGSComponent(new SpawnEnemy());
+	//AddGSComponent(new SpawnTrap());
 	map_ptr = new Map();
 	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
+	
+
 	player_ptr = new Player();
 	GetGSComponent<CS230::GameObjectManager>()->Add(player_ptr);
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
-	GetGSComponent<SpawnEnemy>()->SpawnEnemies(enemies);
+	
+	//GetGSComponent<SpawnTrap>()->SpawnTraps();
+	GetGSComponent<SpawnEnemy>()->SpawnEnemies();
+	
+	
+	
 
 	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
 	stage1_audio_ptr->SetLooping(true);
@@ -77,6 +87,8 @@ void InGame::Update(double dt) {
 			break;
 		}
 	}
+
+	//GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Turns current_turn = turn_manager->GetCurrentTurn();
 	if (current_turn == Turns::Enemy&& are_enemies_all_outdated == true) {

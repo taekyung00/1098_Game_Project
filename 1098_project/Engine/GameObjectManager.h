@@ -10,6 +10,7 @@ Created:    April 25, 2025
 
 #pragma once
 #include <list>
+#include <algorithm>
 #include "GameObject.h"
 #include "Matrix.h"
 #include "Component.h"
@@ -23,6 +24,7 @@ namespace CS230 {
         void Unload();
 
         void UpdateAll(double dt);
+        //void SortForDraw();
         void DrawAll(Math::TransformationMatrix camera_matrix);
 
         void CollisionTest();

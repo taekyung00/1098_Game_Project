@@ -9,15 +9,19 @@
 #include "Rook.h"
 #include "Map.h"
 #include "Cannon.h"
+#include "Trap.h"
+#include "Archer.h"
+#include "InGame.h"
 
 class SpawnEnemy : public CS230::Component
 {
 public:
-	void SpawnEnemies(std::vector<Enemy*>& enemies);
+	void SpawnEnemies();
 	
 
 private:
 
 };
+
 
 
