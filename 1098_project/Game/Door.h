@@ -7,4 +7,5 @@ public:
     void Draw(Math::TransformationMatrix camera_matrix) override;
     GameObjectTypes Type() override { return GameObjectTypes::Door; }
     std::string TypeName() override { return "Door"; }
+    //int DrawPriority() const override { return 1; }
 };

@@ -22,6 +22,7 @@ public:
     void Draw(Math::TransformationMatrix camera_matrix) override;
     GameObjectTypes Type() override { return GameObjectTypes::Player; }
     std::string TypeName() override { return "Player"; }
+    //int DrawPriority() const override { return 4; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     

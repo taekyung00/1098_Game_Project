@@ -15,6 +15,7 @@ public:
     void Update(double dt) override;
     GameObjectTypes Type() override { return GameObjectTypes::Enemy; }
     std::string TypeName() override { return "Enemy"; }
+    //int DrawPriority() const override { return 3; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     virtual void ReachableIndexPush() = 0;

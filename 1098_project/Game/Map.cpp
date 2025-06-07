@@ -26,6 +26,8 @@ void Map::InitializeStage(Stages _stage)
                 auto stem = entry.path().stem().string();
                 if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_m")
                     continue;
+                if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_t")
+                    continue;
             }
             availablefiles.push_back(entry.path().string());
         }
@@ -45,6 +47,7 @@ void Map::InitializeStage(Stages _stage)
 
     tile_design.clear();
     spawn_layer.clear();
+    spawn_trap_layer.clear();
 
     std::string temp_string;
     width_amount = 0;
@@ -224,6 +227,7 @@ void Map::InitializeStage(Stages _stage)
 
     file_stream_design.close();
 
+    //enemy init
     std::filesystem::path mapPath{ designPath };
     auto spawnFs = mapPath.parent_path()
         / (mapPath.stem().string() + "_m.txt");
@@ -251,7 +255,7 @@ void Map::InitializeStage(Stages _stage)
     for (int i = 0; i < (spawn_layer.size() - 1) / 2; ++i) {
         for (int j = 0; j < spawn_layer[i].size(); ++j) {
             int temp = spawn_layer[i][j];
-            spawn_layer[i][j] = spawn_layer[tile_design.size() - 1 - i][j];
+            spawn_layer[i][j] = spawn_layer[spawn_layer.size() - 1 - i][j];
             spawn_layer[tile_design.size() - 1 - i][j] = temp;
         }
     }
@@ -266,7 +270,48 @@ void Map::InitializeStage(Stages _stage)
     }
     spawnStream.close();
 
-    //trap_count = trap_max_count;
+    //trap init
+
+    auto spawnTFs = mapPath.parent_path()
+        / (mapPath.stem().string() + "_t.txt");
+    std::string spawnTrapPath = spawnTFs.string();
+    Engine::GetLogger().LogDebug(spawnTrapPath.c_str());
+
+    std::ifstream spawnTrapStream(spawnTrapPath);
+    if (!spawnTrapStream.is_open())
+        throw std::runtime_error("fail to open spawn Trap file: " + spawnTrapPath);
+
+    while (std::getline(spawnTrapStream, temp_string)) {
+        std::stringstream ss(temp_string);
+        std::vector<int> row;
+        std::string cell;
+        while (std::getline(ss, cell, ',')) {
+            cell.erase(0, cell.find_first_not_of(" \t"));
+            cell.erase(cell.find_last_not_of(" \t") + 1);
+            row.push_back(cell.empty() ? 0 : std::stoi(cell));
+        }
+        spawn_trap_layer.push_back(std::move(row));
+    }
+
+    //spawn_layer flip! - to use [0,0] as bottom-left
+
+    for (int i = 0; i < (spawn_trap_layer.size() - 1) / 2; ++i) {
+        for (int j = 0; j < spawn_trap_layer[i].size(); ++j) {
+            int temp = spawn_trap_layer[i][j];
+            spawn_trap_layer[i][j] = spawn_trap_layer[spawn_trap_layer.size() - 1 - i][j];
+            spawn_trap_layer[spawn_trap_layer.size() - 1 - i][j] = temp;
+        }
+    }
+
+    for (int i = 0; i < spawn_trap_layer.size(); ++i) {
+        for (int j = i; j < spawn_trap_layer[i].size(); ++j) {
+            int temp = spawn_trap_layer[i][j];
+            spawn_trap_layer[i][j] = spawn_trap_layer[j][i];
+            spawn_trap_layer[j][i] = temp;
+        }
+
+    }
+    spawnTrapStream.close();
 }
 
 

@@ -10,7 +10,7 @@
 #include "Fonts.h"
 #include "States.h"
 #include "Map.h"
-#include "Player.h"
+
 #include "Door.h"
 #include "Turns.h"
 #include "TurnManager.h"
@@ -18,6 +18,7 @@
 #include "Rook.h"
 #include "Bishop.h"
 
+class Player;
 class InGame : public CS230::GameState {
 public:
     static InGame& Instance() {
@@ -31,6 +32,7 @@ public:
     void Draw() override;
     static std::vector<Enemy*>& SetEnemies() { return Instance().enemies; }
     const static std::vector<Enemy*> GetEnemies() { return Instance().enemies; }
+    //static Trap*& SetTrapPtr() { return Instance().trap_ptr; }
     static void ChangeAudio();
     std::string GetName() override {
         return "InGame";
@@ -41,6 +43,7 @@ private:
 
     Map* map_ptr;
     Player* player_ptr;
+    //Trap* trap_ptr;
     std::vector<Enemy*> enemies;
 
     CS230::Texture* turncount_texture;
