@@ -24,36 +24,45 @@ Player::Player() :
 void Player::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	moving_sound_ptr->Update();
+	if ((turn_manager->GetCurrentTurn() == Turns::Player)) {
+		if ((turn_manager->GetTurnCount() > 0) && (is_moving == true)) {
+			if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
+				move_left();
+			}
+			else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
+				move_bottom();
+			}
+			else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
+				move_right();
+			}
+			else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
+				move_top();
+			}
 
-	if ((turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0) &&(is_moving == true)) {
-		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
-			move_left();
 		}
-		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
-			move_bottom();
-		}
-		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
-			move_right();
-		}
-		else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
-			move_top();
-		}
-		
-	}
-	if ((is_moving == false) && (turn_manager->GetCurrentTurn() == Turns::Player) && (turn_manager->GetTurnCount() > 0)  && GetGOComponent<CS230::Sprite>()->AnimationEnded() == true/*&&(after_move_timer->Remaining()==0.0)*/) {
-		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
-		is_moving = true;
-		if (InGame::GetEnemies().size() != 0) {
-			++(turn_manager->SetCurrentTurn());
-		}
+		if ((is_moving == false) && (turn_manager->GetTurnCount() > 0)   /*&&(after_move_timer->Remaining()==0.0)*/) {
+			if (did_nothing == false && GetGOComponent<CS230::Sprite>()->AnimationEnded()) {
+				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
+				is_moving = true;
+				if (!((InGame::GetEnemies().size() == 0) || ((InGame::GetEnemies().size() == 1) && (InGame::GetEnemies()[0]->Type() == GameObjectTypes::Trap)))) {
+					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
+				}
+			}
+			else if (did_nothing == true) {
+				is_moving = true;
+				did_nothing = false;
+				if (!((InGame::GetEnemies().size() == 0) || ((InGame::GetEnemies().size() == 1) && (InGame::GetEnemies()[0]->Type() == GameObjectTypes::Trap)))) {
+					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
+				}
+			}
 			
+
+		}
+		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 	}
-	SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
+	
 }
 
-void Player::Draw(Math::TransformationMatrix camera_matrix) {
-	CS230::GameObject::Draw(camera_matrix);
-}
 
 bool Player::CanCollideWith(GameObjectTypes other_object_type) {
 
@@ -118,16 +127,13 @@ void Player::move_left()
 			--SetIndex().x;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
 	}
 	else {
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-
+		did_nothing = true;
 	}
+	turn_manager->Sub();
+	is_moving = false;
+	moving_sound_ptr->Play();
 }
 
 void Player::move_right()
@@ -148,28 +154,13 @@ void Player::move_right()
 			++SetIndex().x;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-		//if (InGame::GetEnemies().size() == 0) {
-		//	after_move_timer->Set(0.05);
-		//}
-		//else {
-		//	after_move_timer->Set(after_move_time);
-		//}
 	}
 	else {
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-		//if (InGame::GetEnemies().size() == 0) {
-		//	after_move_timer->Set(0.05);
-		//}
-		//else {
-		//	after_move_timer->Set(after_move_time);
-		//}
-
+		did_nothing = true;
 	}
+	turn_manager->Sub();
+	is_moving = false;
+	moving_sound_ptr->Play();
 }
 
 void Player::move_top()
@@ -190,29 +181,13 @@ void Player::move_top()
 			++SetIndex().y;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-		//if (InGame::GetEnemies().size() == 0) {
-		//	after_move_timer->Set(0.05);
-		//}
-		//else {
-		//	after_move_timer->Set(after_move_time);
-		//}
 	}
-
 	else {
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-		//if (InGame::GetEnemies().size() == 0) {
-		//	after_move_timer->Set(0.05);
-		//}
-		//else {
-		//	after_move_timer->Set(after_move_time);
-		//}
-
+		did_nothing = true;
 	}
+	turn_manager->Sub();
+	is_moving = false;
+	moving_sound_ptr->Play();
 }
 
 void Player::move_bottom()
@@ -233,26 +208,12 @@ void Player::move_bottom()
 			--SetIndex().y;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-		//if (InGame::GetEnemies().size() == 0) {
-		//	after_move_timer->Set(0.05);
-		//}
-		//else {
-		//	after_move_timer->Set(after_move_time);
-		//}
 	}
 	else {
-		turn_manager->Sub();
-		is_moving = false;
-		moving_sound_ptr->Play();
-		//if (InGame::GetEnemies().size() == 0) {
-		//	after_move_timer->Set(0.05);
-		//}
-		//else {
-		//	after_move_timer->Set(after_move_time);
-		//}
+		did_nothing = true;
 	}
+	turn_manager->Sub();
+	is_moving = false;
+	moving_sound_ptr->Play();
 }
 

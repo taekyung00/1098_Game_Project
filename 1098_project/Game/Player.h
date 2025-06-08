@@ -19,10 +19,9 @@ class Player : public CS230::GameObject {
 public:
 	Player();
     void Update(double dt) override;
-    void Draw(Math::TransformationMatrix camera_matrix) override;
     GameObjectTypes Type() override { return GameObjectTypes::Player; }
     std::string TypeName() override { return "Player"; }
-    //int DrawPriority() const override { return 4; }
+
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     
@@ -37,6 +36,7 @@ private:
     std::vector<Enemy*>& enemies ;
     TurnManager* turn_manager ;
     bool is_moving = true;
+    bool did_nothing = false;
     Map* map;
     Audio* moving_sound_ptr;
     //CS230::Timer* after_move_timer;
