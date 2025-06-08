@@ -14,6 +14,7 @@
 #include "TurnManager.h"
 #include "Turns.h"
 #include "SpawnEnemy.h"
+#include "ItemManager.h"
 
 class Player : public CS230::GameObject {
 public:

@@ -2,6 +2,7 @@
 #include "../Engine/Component.h"
 #include "Turns.h"
 
+
 class TurnManager : public CS230::Component {
 public:
 	TurnManager(int start_turn_count,Turns start_turn);

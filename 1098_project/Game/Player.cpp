@@ -76,7 +76,6 @@ bool Player::CanCollideWith(GameObjectTypes other_object_type) {
 }
 
 void Player::ResolveCollision(GameObject* other_object) {
-	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	switch (other_object->Type())
 	{
 	case GameObjectTypes::Door:
@@ -116,6 +115,7 @@ void Player::move_left()
 		for (Enemy* enemy : enemies) {
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x - 1, GetIndex().y } == enemy->GetIndex())) {
 				enemy_attacked = true;
+				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
@@ -143,6 +143,7 @@ void Player::move_right()
 		for (Enemy* enemy : enemies) {
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex())) {
 				enemy_attacked = true;
+				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
@@ -170,6 +171,7 @@ void Player::move_top()
 		for (Enemy* enemy : enemies) {
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex())) {
 				enemy_attacked = true;
+				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
@@ -197,6 +199,7 @@ void Player::move_bottom()
 		for (Enemy* enemy : enemies) {
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y - 1 } == enemy->GetIndex())) {
 				enemy_attacked = true;
+				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());

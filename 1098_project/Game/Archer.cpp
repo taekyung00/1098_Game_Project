@@ -10,7 +10,7 @@ Archer::Archer(Math::ivec2 index) :
 	ReachableIndexPush();
 }
 
-void Archer::Update(double dt) {
+void Archer::Update([[maybe_unused]]double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 
