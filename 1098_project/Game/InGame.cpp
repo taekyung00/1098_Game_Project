@@ -35,7 +35,8 @@ void InGame::Load() {
 	InitAudioDevice();
 	AddGSComponent(new TurnManager(MaxTurn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
-	AddGSComponent(new SpawnEnemy());
+	AddGSComponent(new EnemyManager());
+	AddGSComponent(new ItemManager());
 	//AddGSComponent(new SpawnTrap());
 	map_ptr = new Map();
 	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
@@ -46,7 +47,7 @@ void InGame::Load() {
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
 	
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
-	GetGSComponent<SpawnEnemy>()->SpawnEnemies();
+	GetGSComponent<EnemyManager>()->SpawnEnemies();
 	
 	
 	
@@ -71,36 +72,18 @@ void InGame::Load() {
 }
 
 void InGame::Update(double dt) {
-	//Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
-	//map->ClearEnemiesReachable();
+	EnemyManager* enemymanager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
+	std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
 	UpdateGSComponents(dt);
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	update_turncount_text();
 	update_turn_text();
 
 	current_audio_ptr->Update();
+	enemymanager->TurnChange();
 
-	bool are_enemies_all_outdated = true;
-	for (Enemy* enemy : enemies) {
-		if (enemy->GetIsOutdated() == false) {
-			are_enemies_all_outdated = false;
-			break;
-		}
-	}
 
-	//GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
-	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	Turns current_turn = turn_manager->GetCurrentTurn();
-	if ((current_turn == Turns::Enemy) && (are_enemies_all_outdated == true)) {
-		for (Enemy* enemy : enemies) {
-			enemy->SetDidAttact() = false;
-		}
-		turn_manager->SetCurrentTurn() = Turns::Player;
-	}
 
-	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
-		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
-	}
 }
 
 void InGame::Unload() {
@@ -112,7 +95,7 @@ void InGame::Unload() {
 	turn_texture = nullptr;
 	delete push_button_texture;
 	push_button_texture = nullptr;
-	enemies.clear();
+	//Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->ClearEnemies();
 
 }
 

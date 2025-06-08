@@ -9,6 +9,7 @@
 #include "Map.h"
 
 
+
 class Enemy : public CS230::GameObject {
 public:
 	Enemy(Math::ivec2 start_index);
@@ -28,4 +29,5 @@ protected:
     bool is_outdated = true;
     bool did_attack = false;
     void ChangeIndex();
+    virtual void attack();
 };

@@ -1,5 +1,5 @@
 #include "Enemy.h"
-
+#include "EnemyManager.h"
 #include "Player.h"
 
 Enemy::Enemy(Math::ivec2 start_index) : 
@@ -29,7 +29,17 @@ void Enemy::ChangeIndex()
 {
 	Math::ivec2 new_index = GetIndex();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
-	const std::vector<Enemy*>& enemies = InGame::GetEnemies();
+	const std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->GetEnemies();
+	bool is_player_in_reachable = false;
+	for (Math::ivec2 _index : reachable_indices) {
+		if (_index == player->GetIndex()) {
+			is_player_in_reachable = true;
+			reachable_indices.erase(std::remove(reachable_indices.begin(), reachable_indices.end(), _index), reachable_indices.end());
+		}
+	}
+	if (is_player_in_reachable == true) {
+		attack();
+	}
 	for(Math::ivec2 _index : reachable_indices) {
 		if (Math::GetDistanceSquaredBetweenIndices(new_index, player->GetIndex()) > Math::GetDistanceSquaredBetweenIndices(_index, player->GetIndex())) {
 			bool index_over = false;
@@ -46,6 +56,10 @@ void Enemy::ChangeIndex()
 		}
 	}
 	SetIndex() = new_index;
+}
+
+void Enemy::attack()
+{
 }
 
 //void Enemy::ChangeMapDesign() {

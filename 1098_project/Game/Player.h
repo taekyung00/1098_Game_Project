@@ -13,7 +13,8 @@
 #include "Map.h"
 #include "TurnManager.h"
 #include "Turns.h"
-#include "SpawnEnemy.h"
+#include "EnemyManager.h"
+
 #include "ItemManager.h"
 
 class Player : public CS230::GameObject {

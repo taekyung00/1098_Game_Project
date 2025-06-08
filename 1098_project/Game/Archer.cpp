@@ -45,10 +45,14 @@ void Archer::ReachableIndexPush() {
 
 void Archer::make_arrow()
 {
-	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
-	destroy_arrow();
-	arrow = new Arrow(reachable_indices[0]);
-	gameobjectmanager->Add(arrow);
+	if (did_attack == false) {
+		CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
+		destroy_arrow();
+		arrow = new Arrow(reachable_indices[0]);
+		gameobjectmanager->Add(arrow);
+		did_attack = true;
+	}
+	
 }
 
 void Archer::destroy_arrow()
@@ -67,8 +71,6 @@ void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 	}
 }
 
-void Archer::ResolveCollision(GameObject* other_object) {
-	if (did_attack = false) {
-		did_attack = true;
-	}
-}
+//void Archer::ResolveCollision(GameObject* other_object) {
+//
+//}

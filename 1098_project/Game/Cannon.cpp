@@ -111,13 +111,17 @@ void Cannon::ReachableIndexPush() {
 
 void Cannon::make_cannonball()
 {
-	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
-	destroy_cannonball();
-	for (Math::ivec2 _index : reachable_indices) {
-		CannonBall* new_cannonball = new CannonBall(_index);
-		cannonballs.push_back(new_cannonball);
-		gameobjectmanager->Add(new_cannonball);
+	if (did_attack == false) {
+		CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
+		destroy_cannonball();
+		for (Math::ivec2 _index : reachable_indices) {
+			CannonBall* new_cannonball = new CannonBall(_index);
+			cannonballs.push_back(new_cannonball);
+			gameobjectmanager->Add(new_cannonball);
+		}
+		did_attack = true;
 	}
+	
 }
 
 void Cannon::destroy_cannonball()
@@ -135,8 +139,6 @@ void Cannon::Draw(Math::TransformationMatrix camera_matrix) {
 	}
 }
 
-void Cannon::ResolveCollision(GameObject* other_object) {
-	if (did_attack = false) {
-		did_attack = true;
-	}
-}
+//void Cannon::ResolveCollision(GameObject* other_object) {
+//
+//}

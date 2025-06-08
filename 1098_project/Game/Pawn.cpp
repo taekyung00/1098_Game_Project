@@ -49,9 +49,9 @@ void Pawn::Draw(Math::TransformationMatrix camera_matrix) {
 	movable.Draw(camera_matrix * GetMatrix());
 }
 
-void Pawn::ResolveCollision(GameObject* other_object) {
+void Pawn::attack() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((did_attack == false) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
 		turnmanager->Sub(1);
 		did_attack = true;
 	}

@@ -3,7 +3,6 @@
 #include "../Engine/Engine.h"
 #include "../Engine/GameObjectManager.h"
 #include "../Engine/Component.h"
-#include "Enemy.h"
 #include "Pawn.h"
 #include "Bishop.h"
 #include "Rook.h"
@@ -13,15 +12,15 @@
 #include "Archer.h"
 #include "InGame.h"
 
-class SpawnEnemy : public CS230::Component
-{
+class EnemyManager : public CS230::Component {
 public:
 	void SpawnEnemies();
-	
+	void TurnChange();
+	//void ClearEnemies();
+	std::vector<Enemy*>& SetEnemies() { return enemies; }
+	const std::vector<Enemy*>& GetEnemies() const { return enemies; }
+
 
 private:
-
+	std::vector<Enemy*> enemies;
 };
-
-
-

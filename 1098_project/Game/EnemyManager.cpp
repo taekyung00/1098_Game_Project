@@ -1,16 +1,15 @@
-#include "SpawnEnemy.h"
-
-void SpawnEnemy::SpawnEnemies()
+#include "EnemyManager.h"
+#include "Enemy.h"
+void EnemyManager::SpawnEnemies()
 {
-	std::vector<Enemy*>& enemies = InGame::SetEnemies();
 	for (Enemy* enemy : enemies) {
 		enemy->Destroy();
 	}
 	enemies.clear();
 	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
 	Map* map_ptr = gameobjectmanager->GetGameObject<Map>();
-	[[maybe_unused]]const std::vector<std::vector<int>>& sp = map_ptr->GetSpawnLayer();
-	
+	[[maybe_unused]] const std::vector<std::vector<int>>& sp = map_ptr->GetSpawnLayer();
+
 
 	for (int i = 0; i < sp.size(); ++i) {
 		for (int j = 0; j < sp[i].size(); ++j) {
@@ -58,13 +57,31 @@ void SpawnEnemy::SpawnEnemies()
 	Engine::GetLogger().LogDebug(std::to_string(static_cast<int>(enemies.size())));
 }
 
-//void SpawnTrap::SpawnTraps()
+void EnemyManager::TurnChange()
+{
+	bool are_enemies_all_outdated = true;
+	for (Enemy* enemy : enemies) {
+		if (enemy->GetIsOutdated() == false) {
+			are_enemies_all_outdated = false;
+			break;
+		}
+	}
+
+	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	Turns current_turn = turn_manager->GetCurrentTurn();
+	if ((current_turn == Turns::Enemy) && (are_enemies_all_outdated == true)) {
+		for (Enemy* enemy : enemies) {
+			enemy->SetDidAttact() = false;
+		}
+		turn_manager->SetCurrentTurn() = Turns::Player;
+	}
+
+	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
+		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+	}
+}
+
+//void EnemyManager::ClearEnemies()
 //{
-//	Trap*& trap = InGame::SetTrapPtr();
-//	trap->Destroy();
-//	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
-//	Map* map_ptr = gameobjectmanager->GetGameObject<Map>();
-//	const std::vector<std::vector<int>>& spt = map_ptr->GetSpawnTrapLayer();
-//
-//	
+//	enemies.clear();
 //}
