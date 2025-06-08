@@ -91,7 +91,10 @@ void InGame::Update(double dt) {
 	//GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Turns current_turn = turn_manager->GetCurrentTurn();
-	if (current_turn == Turns::Enemy&& are_enemies_all_outdated == true) {
+	if ((current_turn == Turns::Enemy) && (are_enemies_all_outdated == true)) {
+		for (Enemy* enemy : enemies) {
+			enemy->SetDidAttact() = false;
+		}
 		turn_manager->SetCurrentTurn() = Turns::Player;
 	}
 

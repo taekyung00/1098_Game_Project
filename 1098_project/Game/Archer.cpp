@@ -66,3 +66,9 @@ void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 		movable.Draw(camera_matrix * GetMatrix());
 	}
 }
+
+void Archer::ResolveCollision(GameObject* other_object) {
+	if (did_attack = false) {
+		did_attack = true;
+	}
+}

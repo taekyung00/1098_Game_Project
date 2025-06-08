@@ -62,7 +62,7 @@ bool Enemy::CanCollideWith(GameObjectTypes other_object_type) {
 	return false;
 }
 
-void Enemy::ResolveCollision(GameObject* other_object) {
-	other_object->Destroy();
-	Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
-}
+//void Enemy::ResolveCollision(GameObject* other_object) {
+//	other_object->Destroy();
+//	Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+//}
