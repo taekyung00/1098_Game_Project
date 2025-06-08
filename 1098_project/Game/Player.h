@@ -28,11 +28,23 @@ public:
     
     
 private:
+    enum class Animations {
+        Idle,
+        Walking,
+        Attacking
+    };
+
+    std::vector<Enemy*>& enemies ;
+    TurnManager* turn_manager ;
     bool is_moving = true;
     Map* map;
     Audio* moving_sound_ptr;
-    CS230::Timer* after_move_timer;
-    static constexpr double after_move_time = 0.65;
+    //CS230::Timer* after_move_timer;
+    //static constexpr double after_move_time = 0.65;
     const Math::ivec2 start_index = { 2,0 };
+    void move_left();
+    void move_right();
+    void move_top();
+    void move_bottom();
     
 };
