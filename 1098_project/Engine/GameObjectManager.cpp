@@ -28,6 +28,12 @@ void CS230::GameObjectManager::UpdateAll(double dt){
 			destroy_objects.push_back(object);
 		}
 	}
+	//std::remove_if(objects.begin(), objects.end(), [&](GameObject* gameobject) {
+	//	for (GameObject* obj : destroy_objects) {
+	//		if(obj == )
+	//	}
+	//	return destroy_objects.contains(gameobject);
+	//	});
 	for (GameObject* destroy_object : destroy_objects) {
 		objects.remove(destroy_object);
 		delete destroy_object;
@@ -36,22 +42,22 @@ void CS230::GameObjectManager::UpdateAll(double dt){
 
 //void CS230::GameObjectManager::SortForDraw()
 //{
-//	if (objects.empty()) {
-//		return;
-//	}
-//	std::stable_sort(objects.begin(), objects.end(),
+//	//if (objects.empty()) {
+//	//	return;
+//	//}
+//	std::sort(objects.begin(), objects.end(),
 //		[](GameObject* a, GameObject* b) {
 //			return a->DrawPriority() < b->DrawPriority();
 //		});
-//	std::list<CS230::GameObject*>::iterator max_it = std::max_element(objects.begin(), objects.end(),
-//		[](GameObject* a, GameObject* b) {
-//			return a->DrawPriority() < b->DrawPriority();
-//		});
-//	if (max_it != objects.end() && std::next(max_it) != objects.end()) {
-//		GameObject* highest = *max_it;
-//		objects.erase(max_it);               
-//		objects.push_back(highest);         
-//	}
+//	//std::list<CS230::GameObject*>::iterator max_it = std::max_element(objects.begin(), objects.end(),
+//	//	[](GameObject* a, GameObject* b) {
+//	//		return a->DrawPriority() < b->DrawPriority();
+//	//	});
+//	//if (max_it != objects.end() && std::next(max_it) != objects.end()) {
+//	//	GameObject* highest = *max_it;
+//	//	objects.erase(max_it);               
+//	//	objects.push_back(highest);         
+//	//}
 //}
 
 void CS230::GameObjectManager::DrawAll(Math::TransformationMatrix camera_matrix){

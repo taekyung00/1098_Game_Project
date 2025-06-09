@@ -3,6 +3,7 @@
 #pragma once
 enum class Stages {
     First, // for check
+    Tutorial,
     stage1,
     stage2,
     stage3,

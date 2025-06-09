@@ -15,11 +15,12 @@ Created:    March 4, 2025
 #include "Game/InGame.h"
 #include "Game/Splash.h"
 #include "Game/MainMenu.h"
+#include "Game/Tutorial.h"
 
 
 int main() {
     try {
-        
+        InitAudioDevice();
         Engine& engine = Engine::Instance();
         engine.Start("10..9..8..");
 
@@ -30,6 +31,8 @@ int main() {
         engine.GetGameStateManager().AddGameState(splash);
         MainMenu mainmenu;
         engine.GetGameStateManager().AddGameState(mainmenu);
+        //Tutorial tutorial;
+        //engine.GetGameStateManager().AddGameState(tutorial);
         InGame& InGame = InGame::Instance();
         engine.GetGameStateManager().AddGameState(InGame);       
         

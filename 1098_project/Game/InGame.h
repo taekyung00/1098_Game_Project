@@ -6,7 +6,7 @@
 #include "../Engine/GameObjectManager.h"
 #include "../Engine/Audio.h"
 
-#include "SpawnEnemy.h"
+
 #include "Fonts.h"
 #include "States.h"
 #include "Map.h"
@@ -17,6 +17,7 @@
 #include "Pawn.h"
 #include "Rook.h"
 #include "Bishop.h"
+#include "EnemyManager.h"
 
 class Player;
 class InGame : public CS230::GameState {
@@ -30,8 +31,8 @@ public:
     void Update(double dt) override;
     void Unload() override;
     void Draw() override;
-    static std::vector<Enemy*>& SetEnemies() { return Instance().enemies; }
-    const static std::vector<Enemy*> GetEnemies() { return Instance().enemies; }
+    //static std::vector<Enemy*>& SetEnemies() { return Instance().enemies; }
+    //const static std::vector<Enemy*> GetEnemies() { return Instance().enemies; }
     //static Trap*& SetTrapPtr() { return Instance().trap_ptr; }
     static void ChangeAudio();
     std::string GetName() override {
@@ -45,7 +46,7 @@ private:
     Map* map_ptr;
     Player* player_ptr;
     //Trap* trap_ptr;
-    std::vector<Enemy*> enemies;
+    //std::vector<Enemy*> enemies;
 
     CS230::Texture* turncount_texture;
     CS230::Texture* turn_texture;

@@ -4,11 +4,9 @@
 #include "Pawn.h"
 #include "Rook.h"
 #include "Bishop.h"
-#include "InGame.h"
-
+#include "EnemyManager.h"
 Player::Player() :
 	GameObject(Math::ivec2{2,0}, 0.0, scale_const),
-	enemies(InGame::SetEnemies()),
 	turn_manager(Engine::GetGameStateManager().GetGSComponent<TurnManager>())
 {
 	AddGOComponent(new CS230::Sprite("Assets/Player.spt", this));
@@ -24,6 +22,7 @@ Player::Player() :
 void Player::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	moving_sound_ptr->Update();
+	const std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->GetEnemies();
 	if ((turn_manager->GetCurrentTurn() == Turns::Player)) {
 		if ((turn_manager->GetTurnCount() > 0) && (is_moving == true)) {
 			if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
@@ -44,14 +43,14 @@ void Player::Update([[maybe_unused]]double dt) {
 			if (did_nothing == false && GetGOComponent<CS230::Sprite>()->AnimationEnded()) {
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 				is_moving = true;
-				if (!((InGame::GetEnemies().size() == 0) || ((InGame::GetEnemies().size() == 1) && (InGame::GetEnemies()[0]->Type() == GameObjectTypes::Trap)))) {
+				if (!((enemies.size() == 0) || ((enemies.size() == 1) && (enemies[0]->Type() == GameObjectTypes::Trap)))) {
 					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
 				}
 			}
 			else if (did_nothing == true) {
 				is_moving = true;
 				did_nothing = false;
-				if (!((InGame::GetEnemies().size() == 0) || ((InGame::GetEnemies().size() == 1) && (InGame::GetEnemies()[0]->Type() == GameObjectTypes::Trap)))) {
+				if (!((enemies.size() == 0) || ((enemies.size() == 1) && (enemies[0]->Type() == GameObjectTypes::Trap)))) {
 					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
 				}
 			}
@@ -88,7 +87,8 @@ void Player::ResolveCollision(GameObject* other_object) {
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 			SetIndex() = start_index;
 			map->InitializeStage(map->GetStage());
-			Engine::GetGameStateManager().GetGSComponent<SpawnEnemy>()->SpawnEnemies();
+			Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+			Engine::GetGameStateManager().GetGSComponent<ItemManager>()->ClearItem();
 			
 			InGame::ChangeAudio();
 			is_moving = true;
@@ -110,6 +110,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 
 void Player::move_left()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -119,7 +120,7 @@ void Player::move_left()
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
@@ -138,6 +139,7 @@ void Player::move_left()
 
 void Player::move_right()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -147,7 +149,7 @@ void Player::move_right()
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
@@ -166,6 +168,7 @@ void Player::move_right()
 
 void Player::move_top()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -175,7 +178,7 @@ void Player::move_top()
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
@@ -194,6 +197,7 @@ void Player::move_top()
 
 void Player::move_bottom()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -203,7 +207,7 @@ void Player::move_bottom()
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}

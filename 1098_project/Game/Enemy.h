@@ -9,6 +9,7 @@
 #include "Map.h"
 
 
+
 class Enemy : public CS230::GameObject {
 public:
 	Enemy(Math::ivec2 start_index);
@@ -19,7 +20,7 @@ public:
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     //void ResolveCollision(GameObject* other_object) override;
     virtual void ReachableIndexPush() = 0;
-    //virtual void ChangeMapDesign();
+    virtual void ChangeMapDesign();
     const bool GetIsOutdated() const { return is_outdated; }
     const bool GetDidAttact() const { return did_attack; }
     bool& SetDidAttact() { return did_attack; }
@@ -28,4 +29,5 @@ protected:
     bool is_outdated = true;
     bool did_attack = false;
     void ChangeIndex();
+    virtual void attack();
 };

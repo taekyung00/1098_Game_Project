@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -97,7 +97,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -118,7 +118,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -183,6 +183,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Game\Chocolate.cpp" />
     <ClCompile Include="Game\Door.cpp" />
     <ClCompile Include="Game\Enemy.cpp" />
+    <ClCompile Include="Game\EnemyManager.cpp" />
     <ClCompile Include="Game\InGame.cpp" />
     <ClCompile Include="Game\Item.cpp" />
     <ClCompile Include="Game\ItemManager.cpp" />
@@ -194,12 +195,12 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Game\Rook.cpp" />
     <ClCompile Include="Game\Rooms.cpp" />
-    <ClCompile Include="Game\SpawnEnemy.cpp" />
     <ClCompile Include="Game\Splash.cpp" />
     <ClCompile Include="Game\Stages.cpp" />
     <ClCompile Include="Game\Trap.cpp" />
     <ClCompile Include="Game\TurnManager.cpp" />
     <ClCompile Include="Game\Turns.cpp" />
+    <ClCompile Include="Game\Tutorial.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +235,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\Chocolate.h" />
     <ClInclude Include="Game\Door.h" />
     <ClInclude Include="Game\Enemy.h" />
+    <ClInclude Include="Game\EnemyManager.h" />
     <ClInclude Include="Game\Fonts.h" />
     <ClInclude Include="Game\GameObjectTypes.h" />
     <ClInclude Include="Game\InGame.h" />
@@ -247,7 +249,6 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Rook.h" />
     <ClInclude Include="Game\Rooms.h" />
-    <ClInclude Include="Game\SpawnEnemy.h" />
     <ClInclude Include="Game\Splash.h" />
     <ClInclude Include="Game\Stages.h" />
     <ClInclude Include="Game\States.h" />
@@ -255,6 +256,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\Trap.h" />
     <ClInclude Include="Game\TurnManager.h" />
     <ClInclude Include="Game\Turns.h" />
+    <ClInclude Include="Game\Tutorial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
