@@ -6,12 +6,13 @@ Rook::Rook(Math::ivec2 index) :
 {
 	AddGOComponent(new CS230::Sprite("Assets/Rook.spt", this));
 	ReachableIndexPush();
-	//ChangeMapDesign();
+	ChangeMapDesign();
 }
 void Rook::Update([[maybe_unused]] double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
+		
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
 			ChangeIndex();
@@ -21,6 +22,7 @@ void Rook::Update([[maybe_unused]] double dt) {
 		}
 		
 		ReachableIndexPush();
+		
 		//ChangeMapDesign();
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
@@ -31,6 +33,7 @@ void Rook::Update([[maybe_unused]] double dt) {
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 void Rook::ReachableIndexPush() {
 	Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();

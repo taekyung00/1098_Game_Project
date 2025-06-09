@@ -15,6 +15,7 @@
 
 
 
+
 class Map : public CS230::GameObject {
 public:
 	Map(Stages start_stage = Stages::stage1, Rooms start_room = Rooms::Room1);
@@ -36,10 +37,10 @@ public:
 	const Rooms		GetRoom() const { return room; }
 	Rooms&			SetRoom() { return room; }
 
-	//void ClearEnemiesReachable();
+	
 	const std::vector<std::vector<int>>& GetSpawnLayer() const { return spawn_layer; }
 	const std::vector<std::vector<int>>& GetSpawnTrapLayer() const { return spawn_trap_layer; }
-	
+	void ClearEnemiesReachable();
 private:
 	
 	Math::ivec2 current_index_amount;

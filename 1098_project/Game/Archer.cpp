@@ -8,6 +8,7 @@ Archer::Archer(Math::ivec2 index) :
 {
 	AddGOComponent(new CS230::Sprite("Assets/Archer.spt", this));
 	ReachableIndexPush();
+	ChangeMapDesign();
 }
 
 void Archer::Update([[maybe_unused]]double dt) {
@@ -21,7 +22,7 @@ void Archer::Update([[maybe_unused]]double dt) {
 		}
 		else {
 			ReachableIndexPush();
-			ChangeMapDesign();
+			
 			destroy_arrow();
 			--current_turn;
 		}
@@ -35,6 +36,7 @@ void Archer::Update([[maybe_unused]]double dt) {
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 
 void Archer::ReachableIndexPush() {

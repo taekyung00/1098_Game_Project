@@ -1,4 +1,6 @@
 #include "Map.h"
+#include "Enemy.h"
+#include "EnemyManager.h"
 
 void Map::InitializeStage(Stages _stage)
 {
@@ -315,6 +317,15 @@ void Map::InitializeStage(Stages _stage)
     spawnTrapStream.close();
 }
 
+void Map::ClearEnemiesReachable()
+{
+    for (int j = 0; j < tile_design.size(); ++j) {
+        for (int i = 0; i < tile_design[j].size(); ++i) {
+            tile_design[j][i].isEnemyReachable = false;
+        }
+    }
+}
+
 
 Map::Map(Stages start_stage, Rooms start_room):
     stage(start_stage),
@@ -327,8 +338,13 @@ Map::Map(Stages start_stage, Rooms start_room):
 }
 
 void Map::Update([[maybe_unused]] double dt) {
+    
     if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Tab)) {
-        enemy_trajectory_draw != enemy_trajectory_draw;
+        enemy_trajectory_draw = !enemy_trajectory_draw;
+        if (enemy_trajectory_draw) {
+            Engine::GetLogger().LogDebug("enemy tra drawing");
+        }
+        
     }
 }
 
@@ -341,6 +357,7 @@ void Map::Draw(Math::TransformationMatrix camera_matrix) {
                 Math::TransformationMatrix draw_matrix = Math::TranslationMatrix(Math::vec2{ tile_size.x * i * GetScale().x, tile_size.y * j * GetScale().y }) * start_matrix;
                 sprite->Draw(camera_matrix * draw_matrix, tile_design[i][j].tile_number);
                 if (enemy_trajectory_draw == true && tile_design[i][j].isEnemyReachable == true) {
+                    
                     enemy_trajectory.Draw(camera_matrix * draw_matrix);
                 }
             }

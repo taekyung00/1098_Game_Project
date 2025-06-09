@@ -14,7 +14,7 @@ void Enemy::Update([[maybe_unused]]double dt) {
 		ReachableIndexPush();
 		ChangeIndex();
 		ReachableIndexPush();
-		ChangeMapDesign();
+		
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
@@ -24,6 +24,7 @@ void Enemy::Update([[maybe_unused]]double dt) {
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 void Enemy::ChangeIndex()
 {
@@ -67,6 +68,7 @@ void Enemy::ChangeMapDesign() {
 	for (Math::ivec2 _index : reachable_indices) {
 		map->SetTileDesign()[_index.x][_index.y].isEnemyReachable = true;
 	}
+	//map_changed = true;
 }
 
 bool Enemy::CanCollideWith(GameObjectTypes other_object_type) {

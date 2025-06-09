@@ -6,13 +6,14 @@ Bishop::Bishop(Math::ivec2 index) :
 {
 	AddGOComponent(new CS230::Sprite("Assets/Bishop.spt", this));
 	ReachableIndexPush();
-	//ChangeMapDesign();
+	ChangeMapDesign();
 }
 
 void Bishop::Update([[maybe_unused]] double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
+		
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
 			ChangeIndex();
@@ -22,6 +23,7 @@ void Bishop::Update([[maybe_unused]] double dt) {
 		}
 
 		ReachableIndexPush();
+		
 		//ChangeMapDesign();
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
@@ -32,6 +34,7 @@ void Bishop::Update([[maybe_unused]] double dt) {
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 
 void Bishop::ReachableIndexPush() {

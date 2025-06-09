@@ -74,10 +74,12 @@ void InGame::Load() {
 }
 
 void InGame::Update(double dt) {
+	map_ptr->ClearEnemiesReachable();
 	EnemyManager* enemymanager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
 	std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
 	UpdateGSComponents(dt);
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
+	
 	update_turncount_text();
 	update_turn_text();
 	//Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();

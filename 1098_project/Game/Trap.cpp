@@ -11,6 +11,7 @@ Trap::Trap(Math::ivec2 index) :
 	AddGOComponent(alive_sprite);
 	AddGOComponent(dead_sprite);
 	AddGOComponent(movable);
+
 }
 
 void Trap::Update( [[maybe_unused]] double dt) {
@@ -35,6 +36,7 @@ void Trap::Update( [[maybe_unused]] double dt) {
 			is_outdated = true;
 		}
 	}
+	
 }
 void Trap::Draw(Math::TransformationMatrix camera_matrix) {
 	if (is_alive == true) {

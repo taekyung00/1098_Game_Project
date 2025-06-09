@@ -5,7 +5,7 @@ Cannon::Cannon(Math::ivec2 index) :
 {
 	AddGOComponent(new CS230::Sprite("Assets/Cannon.spt", this));
 	ReachableIndexPush();
-	//ChangeMapDesign();
+	ChangeMapDesign();
 }
 
 void Cannon::Update([[maybe_unused]] double dt) {
@@ -15,7 +15,7 @@ void Cannon::Update([[maybe_unused]] double dt) {
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
 			ReachableIndexPush();
-			ChangeMapDesign();
+			
 			make_cannonball();
 		}
 		else {
@@ -32,6 +32,7 @@ void Cannon::Update([[maybe_unused]] double dt) {
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 
 void Cannon::ReachableIndexPush() {

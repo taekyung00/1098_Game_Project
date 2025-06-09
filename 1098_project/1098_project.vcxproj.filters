@@ -7,6 +7,12 @@
     <Filter Include="Game">
       <UniqueIdentifier>{984e5309-10d7-473b-b8aa-02ff71134cf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Enemy">
+      <UniqueIdentifier>{f0b6a548-9d6c-4ec9-8c48-b21f69305718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Item">
+      <UniqueIdentifier>{70b1f1e9-9ec4-4808-a151-a6452a5c4625}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -67,13 +73,7 @@
     <ClCompile Include="Engine\Window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Bishop.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Door.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Enemy.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\InGame.cpp">
@@ -85,13 +85,7 @@
     <ClCompile Include="Game\Map.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Pawn.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Player.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Rook.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Splash.cpp">
@@ -112,41 +106,53 @@
     <ClCompile Include="Engine\Audio.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Cannon.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CannonBall.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Trap.cpp">
+    <ClCompile Include="Game\Tutorial.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Archer.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\Arrow.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Item.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="Game\Bishop.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Chocolate.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="Game\Cannon.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Omurice.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="Game\CannonBall.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Pizza.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\ItemManager.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="Game\Enemy.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\EnemyManager.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Tutorial.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="Game\Chocolate.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Item.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ItemManager.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Omurice.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Pawn.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Pizza.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Rook.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Trap.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,13 +222,7 @@
     <ClInclude Include="Engine\Window.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Bishop.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Door.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Enemy.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Fonts.h">
@@ -240,13 +240,7 @@
     <ClInclude Include="Game\Map.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Pawn.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Player.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Rook.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Splash.h">
@@ -273,41 +267,53 @@
     <ClInclude Include="Engine\Audio.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Cannon.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CannonBall.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Trap.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Item.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Archer.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Arrow.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Chocolate.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Omurice.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Pizza.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\ItemManager.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Tutorial.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Archer.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Arrow.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Bishop.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Cannon.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CannonBall.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="Game\EnemyManager.h">
-      <Filter>Game</Filter>
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Chocolate.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Item.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ItemManager.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Omurice.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Pawn.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Pizza.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rook.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Trap.h">
+      <Filter>Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

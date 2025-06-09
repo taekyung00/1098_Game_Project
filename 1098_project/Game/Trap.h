@@ -20,4 +20,5 @@ private:
 	const int max_turn_count = 2;
 	int current_turn = 0;
 	bool is_alive = true;
+	//bool map_changed = true;
 };
