@@ -38,6 +38,7 @@ void ItemManager::DropItem(Math::ivec2 index)
 
 void ItemManager::StoreItem(Math::ivec2 index)
 {
+    Engine::GetLogger().LogDebug("in the store!");
     CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
     std::random_device rd;
     std::mt19937 gen(rd());

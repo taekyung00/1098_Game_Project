@@ -38,7 +38,7 @@ void InGame::Load() {
 	AddGSComponent(new EnemyManager());
 	AddGSComponent(new ItemManager());
 	//AddGSComponent(new SpawnTrap());
-	map_ptr = new Map();
+	map_ptr = new Map(/*Stages::stage1,Rooms::Store*/);
 	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
 	
 
@@ -76,18 +76,15 @@ void InGame::Load() {
 void InGame::Update(double dt) {
 	map_ptr->ClearEnemiesReachable();
 	EnemyManager* enemymanager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
-	std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
+	//std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
 	UpdateGSComponents(dt);
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	
 	update_turncount_text();
 	update_turn_text();
-	//Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
+	Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	current_audio_ptr->Update();
 	enemymanager->TurnChange();
-
-
-
 }
 
 void InGame::Unload() {

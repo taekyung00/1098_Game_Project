@@ -23,7 +23,7 @@ public:
     void Update(double dt) override;
     GameObjectTypes Type() override { return GameObjectTypes::Player; }
     std::string TypeName() override { return "Player"; }
-    int DrawPriority() const override { return 70; }
+    int DrawPriority() const override { return 20; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     

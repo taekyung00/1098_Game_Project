@@ -320,10 +320,10 @@ void Map::ChangeStageAndRoom()
 
 void Map::initialize_store()
 {
-    /*ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+    ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
     item_manager->StoreItem({ 1,1 });
     item_manager->StoreItem({ 2,1 });
-    item_manager->StoreItem({ 3,1 });*/
+    item_manager->StoreItem({ 3,1 });
 }
 
 

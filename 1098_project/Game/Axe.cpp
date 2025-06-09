@@ -7,17 +7,11 @@ Axe::Axe(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseItemR
 }
 
 void Axe::ResolveCollision(GameObject* other_object) {
-	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	//TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if (other_object->Type() == GameObjectTypes::Player) {
 		get_it = true;
+		SetIndex() = { -1,-1 };
+		SetPosition(Math::vec2{ -20.0, 300.0 } + start_position);
 	}
 }
 
-void Axe::Draw(Math::TransformationMatrix camera_matrix) {
-	if (get_it == false) {
-		GameObject::Draw(camera_matrix);
-	}
-	else {
-		
-	}
-}

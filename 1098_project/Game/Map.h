@@ -27,7 +27,7 @@ public:
 	GameObjectTypes Type() override { return GameObjectTypes::Map; }
 	std::string		TypeName() override { return "Map"; }
 	
-	//int DrawPriority() const override { return 0; }
+	int DrawPriority() const override { return 5; }
 
 	const std::vector<std::vector<Tile>>&	GetTileDesign() const { return tile_design; }
 	std::vector<std::vector<Tile>>&			SetTileDesign() { return tile_design; }
