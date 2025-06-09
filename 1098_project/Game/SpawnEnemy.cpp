@@ -35,16 +35,13 @@ void SpawnEnemy::SpawnEnemies()
 				enemies.push_back(enemy);
 				gameobjectmanager->Add(enemy);
 			}
-			if (id == 5)
-			{
+			if (id == 5) {
 				Enemy* enemy = new Archer({ i,j });
 				enemies.push_back(enemy);
 				gameobjectmanager->Add(enemy);
 			}
 		}
 	}
-
-
 
 	const std::vector<std::vector<int>>& spt = map_ptr->GetSpawnTrapLayer();
 	for (int i = 0; i < spt.size(); ++i) {

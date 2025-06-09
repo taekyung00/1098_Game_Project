@@ -55,6 +55,9 @@ bool Trap::CanCollideWith(GameObjectTypes other_object_type) {
 }
 
 void Trap::ResolveCollision(GameObject* other_object) {
-	other_object->Destroy();
-	Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
+		turnmanager->Sub(3);
+		did_attack = true;
+	}
 }

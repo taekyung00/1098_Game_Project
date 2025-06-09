@@ -7,5 +7,6 @@ public:
 	GameObjectTypes Type() override { return GameObjectTypes::Arrow; }
 	std::string TypeName() override { return "Arrow"; }
 	void ReachableIndexPush() override {};
+	void ResolveCollision(GameObject* other_object) override;
 
 };

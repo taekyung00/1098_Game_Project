@@ -10,7 +10,7 @@ Archer::Archer(Math::ivec2 index) :
 	ReachableIndexPush();
 }
 
-void Archer::Update(double dt) {
+void Archer::Update([[maybe_unused]]double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 
@@ -64,5 +64,11 @@ void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 	GameObject::Draw(camera_matrix);
 	if (current_turn == 0) {
 		movable.Draw(camera_matrix * GetMatrix());
+	}
+}
+
+void Archer::ResolveCollision(GameObject* other_object) {
+	if (did_attack = false) {
+		did_attack = true;
 	}
 }

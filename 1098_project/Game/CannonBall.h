@@ -8,5 +8,6 @@ public:
 	GameObjectTypes Type() override { return GameObjectTypes::CannonBall; }
 	std::string TypeName() override { return "CannonBall"; }
 	void ReachableIndexPush() override {};
+	void ResolveCollision(GameObject* other_object) override;
 
 };

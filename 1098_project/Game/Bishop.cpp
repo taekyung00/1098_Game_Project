@@ -77,3 +77,12 @@ void Bishop::Draw(Math::TransformationMatrix camera_matrix) {
 		movable.Draw(camera_matrix * GetMatrix());
 	}
 }
+
+void Bishop::ResolveCollision(GameObject* other_object) {
+	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
+		turnmanager->Sub(4);
+		did_attack = true;
+	}
+}
+

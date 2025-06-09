@@ -16,5 +16,6 @@ enum class GameObjectTypes {
     Trap,
     CannonBall,
     Arrow,
+    Item,
     Count,
 };

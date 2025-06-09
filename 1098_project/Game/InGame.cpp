@@ -33,7 +33,7 @@ InGame::InGame() :
 
 void InGame::Load() {
 	InitAudioDevice();
-	AddGSComponent(new TurnManager(max_turn,Turns::Player));
+	AddGSComponent(new TurnManager(MaxTurn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
 	AddGSComponent(new SpawnEnemy());
 	//AddGSComponent(new SpawnTrap());
@@ -91,7 +91,10 @@ void InGame::Update(double dt) {
 	//GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Turns current_turn = turn_manager->GetCurrentTurn();
-	if (current_turn == Turns::Enemy&& are_enemies_all_outdated == true) {
+	if ((current_turn == Turns::Enemy) && (are_enemies_all_outdated == true)) {
+		for (Enemy* enemy : enemies) {
+			enemy->SetDidAttact() = false;
+		}
 		turn_manager->SetCurrentTurn() = Turns::Player;
 	}
 

@@ -17,12 +17,15 @@ public:
     std::string TypeName() override { return "Enemy"; }
     //int DrawPriority() const override { return 3; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
-    void ResolveCollision(GameObject* other_object) override;
+    //void ResolveCollision(GameObject* other_object) override;
     virtual void ReachableIndexPush() = 0;
     //virtual void ChangeMapDesign();
     const bool GetIsOutdated() const { return is_outdated; }
+    const bool GetDidAttact() const { return did_attack; }
+    bool& SetDidAttact() { return did_attack; }
 protected:
     std::vector<Math::ivec2> reachable_indices;
     bool is_outdated = true;
+    bool did_attack = false;
     void ChangeIndex();
 };
