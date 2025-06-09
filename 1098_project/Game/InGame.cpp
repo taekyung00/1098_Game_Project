@@ -32,7 +32,7 @@ InGame::InGame() :
 }
 
 void InGame::Load() {
-	InitAudioDevice();
+	
 	AddGSComponent(new TurnManager(MaxTurn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
 	AddGSComponent(new EnemyManager());

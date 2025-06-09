@@ -15,6 +15,7 @@
 class EnemyManager : public CS230::Component {
 public:
 	void SpawnEnemies();
+	void SpawnEnemiesTutorial();
 	void TurnChange();
 	//void ClearEnemies();
 	std::vector<Enemy*>& SetEnemies() { return enemies; }

@@ -200,6 +200,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Game\Trap.cpp" />
     <ClCompile Include="Game\TurnManager.cpp" />
     <ClCompile Include="Game\Turns.cpp" />
+    <ClCompile Include="Game\Tutorial.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +256,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\Trap.h" />
     <ClInclude Include="Game\TurnManager.h" />
     <ClInclude Include="Game\Turns.h" />
+    <ClInclude Include="Game\Tutorial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

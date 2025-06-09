@@ -94,9 +94,6 @@
     <ClCompile Include="Game\Rook.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\SpawnEnemy.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Splash.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -143,6 +140,12 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\ItemManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EnemyManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Tutorial.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -246,9 +249,6 @@
     <ClInclude Include="Game\Rook.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\SpawnEnemy.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Splash.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -301,6 +301,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\ItemManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EnemyManager.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

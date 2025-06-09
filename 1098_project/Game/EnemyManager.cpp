@@ -57,6 +57,28 @@ void EnemyManager::SpawnEnemies()
 	Engine::GetLogger().LogDebug(std::to_string(static_cast<int>(enemies.size())));
 }
 
+void EnemyManager::SpawnEnemiesTutorial()
+{
+	for (Enemy* enemy : enemies) {
+		enemy->Destroy();
+	}
+	enemies.clear();
+	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
+	Map* map_ptr = gameobjectmanager->GetGameObject<Map>();
+	[[maybe_unused]] const std::vector<std::vector<int>>& sp = map_ptr->GetSpawnLayer();
+	if (map_ptr->GetStage() == Stages::Tutorial) {
+		switch (map_ptr->GetRoom())
+		{
+
+		default:
+			break;
+		}
+	}
+	else {
+		Engine::GetLogger().LogDebug("Use Wrong SpawnEnemies!!");
+	}
+}
+
 void EnemyManager::TurnChange()
 {
 	bool are_enemies_all_outdated = true;

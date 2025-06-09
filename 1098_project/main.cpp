@@ -19,7 +19,7 @@ Created:    March 4, 2025
 
 int main() {
     try {
-        
+        InitAudioDevice();
         Engine& engine = Engine::Instance();
         engine.Start("10..9..8..");
 
