@@ -78,17 +78,17 @@ void Player::ResolveCollision(GameObject* other_object) {
 	switch (other_object->Type())
 	{
 	case GameObjectTypes::Door:
-		if (!(map->GetStage() == Stages::stage3 && map->GetRoom() == Rooms::Room3)) {
+		map->ChangeStageAndRoom();
+		if (!(map->GetStage() == Stages::End && map->GetRoom() == Rooms::Count)) {
 			turn_manager->SetCurrentTurn() = Turns::Player;
-			if (map->GetRoom() == Rooms::Room3) {
-				++map->SetStage();
-			}
-			++map->SetRoom();
+
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 			SetIndex() = start_index;
 			map->InitializeStage(map->GetStage());
+			
+			
 			Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
-			Engine::GetGameStateManager().GetGSComponent<ItemManager>()->ClearItem();
+			Engine::GetGameStateManager().GetGSComponent<ItemManager>()->ClearDropItem();
 			
 			InGame::ChangeAudio();
 			is_moving = true;
@@ -97,6 +97,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 		else {
 			Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
 		}
+		
 		break;
 	//case GameObjectTypes::Enemy:
 	//	turn_manager->Add(5);
@@ -110,7 +111,8 @@ void Player::ResolveCollision(GameObject* other_object) {
 
 void Player::move_left()
 {
-	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
+	EnemyManager* enemy_manager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
+	std::vector<Enemy*>& enemies = enemy_manager->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -119,7 +121,7 @@ void Player::move_left()
 				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
 				enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
-				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+				enemy_manager->EraseEnemy(enemy);
 				turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}

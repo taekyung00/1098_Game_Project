@@ -5,13 +5,16 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 #include "..\Engine\GameObject.h"
 #include "..\Engine\Sprite.h"
 #include "..\Engine\Vec2.h"
+
 #include "GameObjectTypes.h"
 #include "Stages.h"
 #include "Rooms.h"
 #include "Tile.h"
+#include "ItemManager.h"
 
 
 
@@ -33,14 +36,18 @@ public:
 	Stages&			SetStage() { return stage; }
 
 	void			InitializeStage(Stages _stage = Stages::stage1);
+	
 
 	const Rooms		GetRoom() const { return room; }
 	Rooms&			SetRoom() { return room; }
 
 	
-	const std::vector<std::vector<int>>& GetSpawnLayer() const { return spawn_layer; }
-	const std::vector<std::vector<int>>& GetSpawnTrapLayer() const { return spawn_trap_layer; }
+	//const std::vector<std::vector<int>>& GetSpawnLayer() const { return spawn_layer; }
+	//const std::vector<std::vector<int>>& GetSpawnTrapLayer() const { return spawn_trap_layer; }
 	void ClearEnemiesReachable();
+	const std::string& GetDesignPath() const { return designPath; }
+
+	void ChangeStageAndRoom();
 private:
 	
 	Math::ivec2 current_index_amount;
@@ -57,9 +64,9 @@ private:
 	std::vector<std::string> availablefiles;
 	std::vector<std::string> selectedfiles;
 	size_t currentmapindex = 0;
-	std::vector<std::vector<int>> spawn_layer;
-	std::vector<std::vector<int>> spawn_trap_layer;
-
+	//std::vector<std::vector<int>> spawn_layer;
+	//std::vector<std::vector<int>> spawn_trap_layer;
+	void			initialize_store();
 	Stages stage;
 	Rooms room;
 };

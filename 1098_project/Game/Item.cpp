@@ -1,6 +1,9 @@
 #include "Item.h"
 
-Item::Item(Math::ivec2 start_index) :
+Item::Item(Math::ivec2 start_index, ItemKind item_kind , UseItem use_item , UseItemRank use_item_rank ) :
+	item_kind(item_kind),
+	use_item(use_item),
+	use_item_rank(use_item_rank),
 	GameObject(start_index, 0.0, scale_const){}
 
 bool Item::CanCollideWith(GameObjectTypes other_object_type) {

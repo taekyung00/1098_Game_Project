@@ -7,6 +7,7 @@ enum class Stages {
     stage1,
     stage2,
     stage3,
+    Boss,
     End // for check
 };
 const Stages GetFirstStage();

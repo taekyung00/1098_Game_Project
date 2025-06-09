@@ -8,49 +8,57 @@ void Map::InitializeStage(Stages _stage)
     selectedfiles.clear();
     currentmapindex = 0;
     designPath.clear();
-    
-    // stage folder
-    std::string folder;
-    switch (stage)
-    {
-    //case Stages::Tutorial: 
-    case Stages::stage1: folder = "Game/stage1"; break;
-    case Stages::stage2: folder = "Game/stage2"; break;
-    case Stages::stage3: folder = "Game/stage3"; break;
-    }
 
-    // scan directory
-    availablefiles.clear();
-    for (auto& entry : std::filesystem::directory_iterator(folder))
-    {
-        if (entry.path().extension() == ".txt")
+    //make designpath
+    if (room == Rooms::Store) {
+        designPath = "Game/store/s.txt";
+        initialize_store();
+    }
+    else {
+        std::string folder;
+
+        switch (stage)
         {
-            {
-                auto stem = entry.path().stem().string();
-                if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_m")
-                    continue;
-                if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_t")
-                    continue;
-            }
-            availablefiles.push_back(entry.path().string());
+            //case Stages::Tutorial: 
+        case Stages::stage1: folder = "Game/stage1"; break;
+        case Stages::stage2: folder = "Game/stage2"; break;
+        case Stages::stage3: folder = "Game/stage3"; break;
         }
+        // scan directory
+        availablefiles.clear();
+        for (auto& entry : std::filesystem::directory_iterator(folder))
+        {
+            if (entry.path().extension() == ".txt")
+            {
+                {
+                    auto stem = entry.path().stem().string();
+                    if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_m")
+                        continue;
+                    if (stem.size() > 2 && stem.substr(stem.size() - 2) == "_t")
+                        continue;
+                }
+                availablefiles.push_back(entry.path().string());
+            }
+        }
+
+        // random shuffle
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::shuffle(availablefiles.begin(), availablefiles.end(), gen);
+
+        // if less then 3 
+        size_t count = std::min<size_t>(3, availablefiles.size());
+        selectedfiles.assign(availablefiles.begin(), availablefiles.begin() + count);
+
+        designPath = selectedfiles[currentmapindex];
     }
-
-    // random shuffle
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::shuffle(availablefiles.begin(), availablefiles.end(), gen);
-
-    // if less then 3 
-    size_t count = std::min<size_t>(3, availablefiles.size());
-    selectedfiles.assign(availablefiles.begin(), availablefiles.begin() + count);
-
-    designPath = selectedfiles[currentmapindex];
+    
+    //designPath = designPath = "Game/stage1/4.txt";
     Engine::GetLogger().LogDebug(designPath.c_str());
 
     tile_design.clear();
-    spawn_layer.clear();
-    spawn_trap_layer.clear();
+    //spawn_layer.clear();
+    //spawn_trap_layer.clear();
 
     std::string temp_string;
     width_amount = 0;
@@ -229,93 +237,8 @@ void Map::InitializeStage(Stages _stage)
     grid_size = tile_size.x * (Math::ivec2{ current_index_amount });
 
     file_stream_design.close();
-
-    //enemy init
-    std::filesystem::path mapPath{ designPath };
-    auto spawnFs = mapPath.parent_path()
-        / (mapPath.stem().string() + "_m.txt");
-    std::string spawnPath = spawnFs.string();
-    Engine::GetLogger().LogDebug(spawnPath.c_str());
-
-    std::ifstream spawnStream(spawnPath);
-    if (!spawnStream.is_open())
-        throw std::runtime_error("fail to open spawn file: " + spawnPath);
-
-    while (std::getline(spawnStream, temp_string)) {
-        std::stringstream ss(temp_string);
-        std::vector<int> row;
-        std::string cell;
-        while (std::getline(ss, cell, ',')) {
-            cell.erase(0, cell.find_first_not_of(" \t"));
-            cell.erase(cell.find_last_not_of(" \t") + 1);
-            row.push_back(cell.empty() ? 0 : std::stoi(cell));
-        }
-        spawn_layer.push_back(std::move(row));
-    }
-
-    //spawn_layer flip! - to use [0,0] as bottom-left
-
-    for (int i = 0; i < (spawn_layer.size() - 1) / 2; ++i) {
-        for (int j = 0; j < spawn_layer[i].size(); ++j) {
-            int temp = spawn_layer[i][j];
-            spawn_layer[i][j] = spawn_layer[spawn_layer.size() - 1 - i][j];
-            spawn_layer[tile_design.size() - 1 - i][j] = temp;
-        }
-    }
-
-    for (int i = 0; i < spawn_layer.size(); ++i) {
-        for (int j = i; j < spawn_layer[i].size(); ++j) {
-            int temp = spawn_layer[i][j];
-            spawn_layer[i][j] = spawn_layer[j][i];
-            spawn_layer[j][i] = temp;
-        }
-
-    }
-    spawnStream.close();
-
-    //trap init
-
-    auto spawnTFs = mapPath.parent_path()
-        / (mapPath.stem().string() + "_t.txt");
-    std::string spawnTrapPath = spawnTFs.string();
-    Engine::GetLogger().LogDebug(spawnTrapPath.c_str());
-
-    std::ifstream spawnTrapStream(spawnTrapPath);
-    if (!spawnTrapStream.is_open())
-        throw std::runtime_error("fail to open spawn Trap file: " + spawnTrapPath);
-
-    while (std::getline(spawnTrapStream, temp_string)) {
-        std::stringstream ss(temp_string);
-        std::vector<int> row;
-        std::string cell;
-        while (std::getline(ss, cell, ',')) {
-            cell.erase(0, cell.find_first_not_of(" \t"));
-            cell.erase(cell.find_last_not_of(" \t") + 1);
-            row.push_back(cell.empty() ? 0 : std::stoi(cell));
-        }
-        spawn_trap_layer.push_back(std::move(row));
-    }
-
-    //spawn_layer flip! - to use [0,0] as bottom-left
-
-    for (int i = 0; i < (spawn_trap_layer.size() - 1) / 2; ++i) {
-        for (int j = 0; j < spawn_trap_layer[i].size(); ++j) {
-            int temp = spawn_trap_layer[i][j];
-            spawn_trap_layer[i][j] = spawn_trap_layer[spawn_trap_layer.size() - 1 - i][j];
-            spawn_trap_layer[spawn_trap_layer.size() - 1 - i][j] = temp;
-        }
-    }
-
-    for (int i = 0; i < spawn_trap_layer.size(); ++i) {
-        for (int j = i; j < spawn_trap_layer[i].size(); ++j) {
-            int temp = spawn_trap_layer[i][j];
-            spawn_trap_layer[i][j] = spawn_trap_layer[j][i];
-            spawn_trap_layer[j][i] = temp;
-        }
-
-    }
-    spawnTrapStream.close();
 }
+
 
 void Map::ClearEnemiesReachable()
 {
@@ -324,6 +247,83 @@ void Map::ClearEnemiesReachable()
             tile_design[j][i].isEnemyReachable = false;
         }
     }
+}
+
+void Map::ChangeStageAndRoom()
+{
+    switch (stage)
+    {
+    case Stages::Tutorial:
+        break;
+    case Stages::stage1:
+        switch (room)
+        {
+        case Rooms::Room1:
+            room = Rooms::Room2;
+            break;
+        case Rooms::Room2:
+            room = Rooms::Room3;
+            break;
+        case Rooms::Room3:
+            room = Rooms::Store;
+            break;
+        case Rooms::Store:
+            room = Rooms::Room1;
+            stage = Stages::stage2;            
+            break;
+        }
+        break;
+    case Stages::stage2:
+        switch (room)
+        {
+        case Rooms::Room1:
+            room = Rooms::Room2;
+            break;
+        case Rooms::Room2:
+            room = Rooms::Room3;
+            break;
+        case Rooms::Room3:
+            room = Rooms::Store;
+            break;
+        case Rooms::Store:
+            room = Rooms::Room1;
+            stage = Stages::stage3;
+            break;
+        }
+        break;
+    case Stages::stage3:
+        switch (room)
+        {
+        case Rooms::Room1:
+            room = Rooms::Room2;
+            break;
+        case Rooms::Room2:
+            room = Rooms::Room3;
+            break;
+        case Rooms::Room3:
+            room = Rooms::Store;
+            break;
+        case Rooms::Store:
+            room = Rooms::Room1;
+            stage = Stages::Boss;
+            break;
+        }
+        break;
+    case Stages::Boss:
+        stage = Stages::End;
+        room = Rooms::Count;
+        break;
+    default:
+        break;
+    }
+}
+
+void Map::initialize_store()
+{
+    /*ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+    item_manager->StoreItem({ 1,1 });
+    item_manager->StoreItem({ 2,1 });
+    item_manager->StoreItem({ 3,1 });*/
 }
 
 

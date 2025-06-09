@@ -8,11 +8,17 @@
 #include "Item.h"
 
 
+
 class ItemManager : public CS230::Component {
 public:
 	void DropItem(Math::ivec2 index);
-	void ClearItem();
+	void StoreItem(Math::ivec2 index);
+	void ClearDropItem();
+	void EraseDropItem(Item* item);
+	void EraseUseItem(Item* item);
+
 private:
-	std::vector<Item*> items;
+	std::vector<Item*> drop_items;
+	std::vector<Item*> use_items;
 	//void StoreItem();
 };

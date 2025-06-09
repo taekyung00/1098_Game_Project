@@ -142,9 +142,6 @@
     <ClCompile Include="Game\Omurice.cpp">
       <Filter>Game\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Pawn.cpp">
-      <Filter>Game\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Pizza.cpp">
       <Filter>Game\Item</Filter>
     </ClCompile>
@@ -153,6 +150,18 @@
     </ClCompile>
     <ClCompile Include="Game\Trap.cpp">
       <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Pawn.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shield.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Spear.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Axe.cpp">
+      <Filter>Game\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +312,6 @@
     <ClInclude Include="Game\Omurice.h">
       <Filter>Game\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Pawn.h">
-      <Filter>Game\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Pizza.h">
       <Filter>Game\Item</Filter>
     </ClInclude>
@@ -314,6 +320,18 @@
     </ClInclude>
     <ClInclude Include="Game\Trap.h">
       <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Pawn.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shield.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Spear.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Axe.h">
+      <Filter>Game\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
