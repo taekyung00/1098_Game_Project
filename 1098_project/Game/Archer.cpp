@@ -21,6 +21,7 @@ void Archer::Update([[maybe_unused]]double dt) {
 		}
 		else {
 			ReachableIndexPush();
+			ChangeMapDesign();
 			destroy_arrow();
 			--current_turn;
 		}

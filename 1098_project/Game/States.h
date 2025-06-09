@@ -11,6 +11,6 @@ Created:    March 12, 2025
 enum class States {
     Splash,
     MainMenu,
-    Tutorial,
+    //Tutorial,
     InGame
 };

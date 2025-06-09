@@ -7,7 +7,6 @@
 #include "EnemyManager.h"
 Player::Player() :
 	GameObject(Math::ivec2{2,0}, 0.0, scale_const),
-	enemies(Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies()),
 	turn_manager(Engine::GetGameStateManager().GetGSComponent<TurnManager>())
 {
 	AddGOComponent(new CS230::Sprite("Assets/Player.spt", this));
@@ -111,6 +110,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 
 void Player::move_left()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -139,6 +139,7 @@ void Player::move_left()
 
 void Player::move_right()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -167,6 +168,7 @@ void Player::move_right()
 
 void Player::move_top()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
@@ -195,6 +197,7 @@ void Player::move_top()
 
 void Player::move_bottom()
 {
+	std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SetEnemies();
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {

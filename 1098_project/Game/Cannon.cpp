@@ -15,6 +15,7 @@ void Cannon::Update([[maybe_unused]] double dt) {
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
 			ReachableIndexPush();
+			ChangeMapDesign();
 			make_cannonball();
 		}
 		else {

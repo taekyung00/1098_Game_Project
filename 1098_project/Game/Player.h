@@ -23,7 +23,7 @@ public:
     void Update(double dt) override;
     GameObjectTypes Type() override { return GameObjectTypes::Player; }
     std::string TypeName() override { return "Player"; }
-
+    int DrawPriority() const override { return 70; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     
@@ -35,7 +35,7 @@ private:
         Attacking
     };
 
-    std::vector<Enemy*>& enemies ;
+    
     TurnManager* turn_manager ;
     bool is_moving = true;
     bool did_nothing = false;

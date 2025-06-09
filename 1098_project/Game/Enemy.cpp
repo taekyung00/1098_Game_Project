@@ -14,7 +14,7 @@ void Enemy::Update([[maybe_unused]]double dt) {
 		ReachableIndexPush();
 		ChangeIndex();
 		ReachableIndexPush();
-		//ChangeMapDesign();
+		ChangeMapDesign();
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
@@ -62,12 +62,12 @@ void Enemy::attack()
 {
 }
 
-//void Enemy::ChangeMapDesign() {
-//	Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
-//	for (Math::ivec2 _index : reachable_indices) {
-//		map->SetTileDesign()[_index.x][_index.y].isEnemyReachable = true;
-//	}
-//}
+void Enemy::ChangeMapDesign() {
+	Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
+	for (Math::ivec2 _index : reachable_indices) {
+		map->SetTileDesign()[_index.x][_index.y].isEnemyReachable = true;
+	}
+}
 
 bool Enemy::CanCollideWith(GameObjectTypes other_object_type) {
 	if (Engine::GetGameStateManager().GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy && other_object_type == GameObjectTypes::Player) {

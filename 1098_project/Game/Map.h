@@ -51,6 +51,7 @@ private:
 	int height_amount = 0;
 
 	CS230::Sprite enemy_trajectory;
+	bool enemy_trajectory_draw = false;
 	std::string designPath;
 	std::vector<std::string> availablefiles;
 	std::vector<std::string> selectedfiles;

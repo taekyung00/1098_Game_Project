@@ -8,7 +8,7 @@ struct Tile {
 	bool isBottomEdge = false;
 	bool isUpStairs = false;
 	bool isDownStairs = false;
-	//bool isEnemyReachable = false;
+	bool isEnemyReachable = false;
 };
 
 const Math::ivec2 tile_size = { 32,32 };

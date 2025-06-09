@@ -51,6 +51,8 @@ void InGame::Load() {
 	
 	
 	
+	
+	
 
 	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
 	stage1_audio_ptr->SetLooping(true);
@@ -78,7 +80,7 @@ void InGame::Update(double dt) {
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	update_turncount_text();
 	update_turn_text();
-
+	//Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	current_audio_ptr->Update();
 	enemymanager->TurnChange();
 

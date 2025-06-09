@@ -6,11 +6,12 @@ void Map::InitializeStage(Stages _stage)
     selectedfiles.clear();
     currentmapindex = 0;
     designPath.clear();
-
+    
     // stage folder
     std::string folder;
     switch (stage)
     {
+    //case Stages::Tutorial: 
     case Stages::stage1: folder = "Game/stage1"; break;
     case Stages::stage2: folder = "Game/stage2"; break;
     case Stages::stage3: folder = "Game/stage3"; break;
@@ -325,7 +326,11 @@ Map::Map(Stages start_stage, Rooms start_room):
     InitializeStage();  
 }
 
-void Map::Update([[maybe_unused]] double dt) {}
+void Map::Update([[maybe_unused]] double dt) {
+    if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Tab)) {
+        enemy_trajectory_draw != enemy_trajectory_draw;
+    }
+}
 
 void Map::Draw(Math::TransformationMatrix camera_matrix) {
 	CS230::Sprite* sprite = GetGOComponent<CS230::Sprite>();
@@ -335,9 +340,9 @@ void Map::Draw(Math::TransformationMatrix camera_matrix) {
             for (int i = 0; i < width_amount; ++i) {
                 Math::TransformationMatrix draw_matrix = Math::TranslationMatrix(Math::vec2{ tile_size.x * i * GetScale().x, tile_size.y * j * GetScale().y }) * start_matrix;
                 sprite->Draw(camera_matrix * draw_matrix, tile_design[i][j].tile_number);
-                /*if (tile_design[i][j].isEnemyReachable == true) {
+                if (enemy_trajectory_draw == true && tile_design[i][j].isEnemyReachable == true) {
                     enemy_trajectory.Draw(camera_matrix * draw_matrix);
-                }*/
+                }
             }
         }
 	}
