@@ -23,6 +23,17 @@ void Player::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	moving_sound_ptr->Update();
 	const std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->GetEnemies();
+
+	if (turn_manager->GetTurnCount() <= 0 && (GetGOComponent<CS230::Sprite>()->CurrentAnimation() != static_cast<int>(Animations::Defeated))) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Defeated));
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded())) {
+		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded())) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
+	}
 	if ((turn_manager->GetCurrentTurn() == Turns::Player)) {
 		if ((turn_manager->GetTurnCount() > 0) && (is_moving == true)) {
 			if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
@@ -40,7 +51,9 @@ void Player::Update([[maybe_unused]]double dt) {
 
 		}
 		if ((is_moving == false) && (turn_manager->GetTurnCount() > 0)   /*&&(after_move_timer->Remaining()==0.0)*/) {
-			if (did_nothing == false && GetGOComponent<CS230::Sprite>()->AnimationEnded()) {
+			if (did_nothing == false &&
+				(GetGOComponent<CS230::Sprite>()->CurrentAnimation() != static_cast<int>(Animations::Idle)) &&
+				GetGOComponent<CS230::Sprite>()->AnimationEnded()) {
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 				is_moving = true;
 				if (!((enemies.size() == 0) || ((enemies.size() == 1) && (enemies[0]->Type() == GameObjectTypes::Trap)))) {
@@ -54,8 +67,6 @@ void Player::Update([[maybe_unused]]double dt) {
 					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
 				}
 			}
-			
-
 		}
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 	}
@@ -109,6 +120,14 @@ void Player::ResolveCollision(GameObject* other_object) {
 	}
 }
 
+void Player::ChangeAnimation(int new_anime)
+{
+	if (GetGOComponent<CS230::Sprite>()->CurrentAnimation() != new_anime) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(new_anime);
+	}
+	
+}
+
 void Player::move_left()
 {
 	EnemyManager* enemy_manager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
@@ -134,7 +153,10 @@ void Player::move_left()
 	else {
 		did_nothing = true;
 	}
-	turn_manager->Sub();
+	if (map->GetRoom() != Rooms::Store) {
+		turn_manager->Sub();
+	}
+	
 	is_moving = false;
 	moving_sound_ptr->Play();
 }
@@ -163,7 +185,9 @@ void Player::move_right()
 	else {
 		did_nothing = true;
 	}
-	turn_manager->Sub();
+	if (map->GetRoom() != Rooms::Store) {
+		turn_manager->Sub();
+	}
 	is_moving = false;
 	moving_sound_ptr->Play();
 }
@@ -192,7 +216,9 @@ void Player::move_top()
 	else {
 		did_nothing = true;
 	}
-	turn_manager->Sub();
+	if (map->GetRoom() != Rooms::Store) {
+		turn_manager->Sub();
+	}
 	is_moving = false;
 	moving_sound_ptr->Play();
 }
@@ -221,7 +247,9 @@ void Player::move_bottom()
 	else {
 		did_nothing = true;
 	}
-	turn_manager->Sub();
+	if (map->GetRoom() != Rooms::Store) {
+		turn_manager->Sub();
+	}
 	is_moving = false;
 	moving_sound_ptr->Play();
 }

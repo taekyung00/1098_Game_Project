@@ -49,7 +49,7 @@ void ItemManager::StoreItem(Math::ivec2 index)
     int rank_result = dist1(gen);
     int kind_result = dist2(gen);
 
-    UseItemRank rank;
+    UseItemRank rank = UseItemRank::None;
     switch (rank_result)
     {
     case 0:
@@ -93,10 +93,12 @@ void ItemManager::ClearDropItem()
 
 void ItemManager::EraseDropItem(Item* item)
 {
+    item->Destroy();
     drop_items.erase(std::remove(drop_items.begin(), drop_items.end(), item), drop_items.end());
 }
 
 void ItemManager::EraseUseItem(Item* item)
 {
+    item->Destroy();
     use_items.erase(std::remove(use_items.begin(), use_items.end(), item), use_items.end());
 }

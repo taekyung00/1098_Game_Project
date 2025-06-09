@@ -10,7 +10,7 @@ Enemy::Enemy(Math::ivec2 start_index) :
 
 void Enemy::Update([[maybe_unused]]double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
 		ChangeIndex();
 		ReachableIndexPush();
@@ -19,8 +19,9 @@ void Enemy::Update([[maybe_unused]]double dt) {
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
-	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+			turn_ended = true;
 			is_outdated = true;
 		}
 	}

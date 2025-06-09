@@ -21,14 +21,21 @@ public:
     //void ResolveCollision(GameObject* other_object) override;
     virtual void ReachableIndexPush() = 0;
     virtual void ChangeMapDesign();
+
+
     const bool GetIsOutdated() const { return is_outdated; }
+    bool& SetIsOutdated() { return is_outdated; }
     const bool GetDidAttact() const { return did_attack; }
     //const bool GetMapChanged() const { return map_changed; }
     //bool& SetMapChanged() { return map_changed; }
     bool& SetDidAttact() { return did_attack; }
+
+    const bool GetTurnEnded() const { return turn_ended; }
+    bool& SetTurnEnded() { return turn_ended; }
 protected:
     std::vector<Math::ivec2> reachable_indices;
     bool is_outdated = true;
+    bool turn_ended = false;
     bool did_attack = false;
     //bool map_changed = false;
     void ChangeIndex();

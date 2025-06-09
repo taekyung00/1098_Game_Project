@@ -13,7 +13,7 @@ Archer::Archer(Math::ivec2 index) :
 
 void Archer::Update([[maybe_unused]]double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
@@ -31,8 +31,9 @@ void Archer::Update([[maybe_unused]]double dt) {
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
-	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+			turn_ended = true;
 			is_outdated = true;
 		}
 	}

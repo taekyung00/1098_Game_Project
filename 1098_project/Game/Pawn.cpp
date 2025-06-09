@@ -1,6 +1,7 @@
 #include "Pawn.h"
 #include "Rook.h"
 #include "TurnManager.h"
+#include "Player.h"
 
 Pawn::Pawn(Math::ivec2 index) :
 	Enemy(index) ,
@@ -51,8 +52,10 @@ void Pawn::Draw(Math::TransformationMatrix camera_matrix) {
 
 void Pawn::attack() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
 		turnmanager->Sub(1);
 		did_attack = true;
+		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 	}
 }

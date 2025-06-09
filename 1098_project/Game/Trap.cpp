@@ -1,5 +1,6 @@
 #include "InGame.h"
 #include "Trap.h"
+#include "Player.h"
 
 Trap::Trap(Math::ivec2 index) : 
 	Enemy(index),
@@ -16,7 +17,7 @@ Trap::Trap(Math::ivec2 index) :
 
 void Trap::Update( [[maybe_unused]] double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
@@ -31,9 +32,10 @@ void Trap::Update( [[maybe_unused]] double dt) {
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
-	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
 			is_outdated = true;
+			turn_ended = true;
 		}
 	}
 	
@@ -58,8 +60,10 @@ bool Trap::CanCollideWith(GameObjectTypes other_object_type) {
 
 void Trap::ResolveCollision(GameObject* other_object) {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
 		turnmanager->Sub(1);
 		did_attack = true;
+		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 	}
 }

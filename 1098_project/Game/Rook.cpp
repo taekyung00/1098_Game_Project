@@ -1,4 +1,5 @@
 #include "Rook.h"
+#include "Player.h"
 
 Rook::Rook(Math::ivec2 index) :
 	Enemy(index),
@@ -10,7 +11,7 @@ Rook::Rook(Math::ivec2 index) :
 }
 void Rook::Update([[maybe_unused]] double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
 		
 		if (current_turn == 0) {
@@ -28,8 +29,9 @@ void Rook::Update([[maybe_unused]] double dt) {
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
-	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+			turn_ended = true;
 			is_outdated = true;
 		}
 	}
@@ -77,8 +79,10 @@ void Rook::Draw(Math::TransformationMatrix camera_matrix) {
 
 void Rook::attack() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
 		turnmanager->Sub(1);
 		did_attack = true;
+		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 	}
 }

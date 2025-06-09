@@ -1,6 +1,7 @@
 #pragma once
 #include "Item.h"
 #include "Tile.h"
+#include "ItemManager.h"
 
 class Axe : public Item {
 public:

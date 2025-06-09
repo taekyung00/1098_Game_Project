@@ -11,7 +11,6 @@ void Omurice::ResolveCollision(GameObject* other_object) {
 	ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
 	if (other_object->Type() == GameObjectTypes::Player) {
 		turn_manager->Add(5);
-		Destroy();
 		item_manager->EraseDropItem(this);
 	}
 }

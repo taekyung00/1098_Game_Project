@@ -11,6 +11,6 @@ void Shield::ResolveCollision(GameObject* other_object) {
 		if (other_object->Type() == GameObjectTypes::Player) {
 			get_it = true;
 			SetIndex() = { -1,-1 };
-			SetPosition(Math::vec2{ -20.0, 100.0 } + start_position);
+			SetPosition(Math::vec2{ -50.0, 100.0 } + start_position);
 		}
 }

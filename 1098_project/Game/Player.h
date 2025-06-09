@@ -27,13 +27,16 @@ public:
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     
-    
-private:
     enum class Animations {
         Idle,
         Walking,
-        Attacking
+        Attacking,
+        Attacked,
+        Defeated
     };
+    void ChangeAnimation(int new_anime);
+private:
+    
 
     
     TurnManager* turn_manager ;

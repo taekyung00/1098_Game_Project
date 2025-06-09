@@ -175,19 +175,20 @@ void EnemyManager::SpawnEnemies()
 
 void EnemyManager::TurnChange()
 {
-	bool are_enemies_all_outdated = true;
+	bool are_enemies_turn_ended = true;
 	for (Enemy* enemy : enemies) {
-		if (enemy->GetIsOutdated() == false) {
-			are_enemies_all_outdated = false;
+		if (enemy->GetTurnEnded() == false) {
+			are_enemies_turn_ended = false;
 			break;
 		}
 	}
 
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Turns current_turn = turn_manager->GetCurrentTurn();
-	if ((current_turn == Turns::Enemy) && (are_enemies_all_outdated == true)) {
+	if ((current_turn == Turns::Enemy) && (are_enemies_turn_ended == true)) {
 		for (Enemy* enemy : enemies) {
 			enemy->SetDidAttact() = false;
+			enemy->SetTurnEnded() = false;
 		}
 		turn_manager->SetCurrentTurn() = Turns::Player;
 	}

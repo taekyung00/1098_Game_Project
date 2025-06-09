@@ -47,12 +47,7 @@ void InGame::Load() {
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
 	
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
-	GetGSComponent<EnemyManager>()->SpawnEnemies();
-	
-	
-	
-	
-	
+	GetGSComponent<EnemyManager>()->SpawnEnemies();	
 
 	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
 	stage1_audio_ptr->SetLooping(true);
