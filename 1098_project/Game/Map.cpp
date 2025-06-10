@@ -234,7 +234,7 @@ void Map::InitializeStage(Stages _stage)
     auto spawnFs = mapPath.parent_path()
         / (mapPath.stem().string() + "_m.txt");
     //std::string spawnPath = spawnFs.string();
-    std::string spawnPath = "Game/stage1/5_m.txt";
+    std::string spawnPath = "Game/stage3/5_m.txt";
     Engine::GetLogger().LogDebug(spawnPath.c_str());    
     std::ifstream spawnStream(spawnPath);
     if (!spawnStream.is_open())
@@ -277,7 +277,7 @@ void Map::InitializeStage(Stages _stage)
     auto spawnTFs = mapPath.parent_path()
         / (mapPath.stem().string() + "_t.txt");
     //std::string spawnTrapPath = spawnTFs.string();
-    std::string spawnTrapPath = "Game/stage1/5_t.txt";
+    std::string spawnTrapPath = "Game/stage3/5_t.txt";
 
     Engine::GetLogger().LogDebug(spawnTrapPath.c_str());
 
@@ -285,7 +285,7 @@ void Map::InitializeStage(Stages _stage)
     if (!spawnTrapStream.is_open())
         throw std::runtime_error("fail to open spawn Trap file: " + spawnTrapPath);
 
-    while (std::getline(spawnTrapStream, temp_string)) {
+    while (std::getline(spawnTrapStream, temp_string)) {    
         std::stringstream ss(temp_string);
         std::vector<int> row;
         std::string cell;
