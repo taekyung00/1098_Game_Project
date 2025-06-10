@@ -3,6 +3,9 @@ enum class Rooms {
     Room1,
     Room2,
     Room3,
+    Room4,
+    Room5,
+    Room6,
     Store,
     Count // for check
 };

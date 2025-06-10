@@ -1,3 +1,47 @@
 Assets/Rook.png
-HotSpot 0 0
-FrameSize 32 32
+HotSpot 32 0
+FrameSize 96 64
+Frame 0 0
+Frame 96 0
+Frame 192 0
+Frame 288 0
+Frame 384 0
+Frame 0 64
+Frame 96 64
+Frame 192 64
+Frame 288 64
+Frame 384 64
+Frame 480 64
+Frame 576 64
+Frame 672 64
+Frame 0 128
+Frame 96 128
+Frame 0 192
+Frame 96 192
+Frame 192 192
+Frame 288 192
+Frame 384 192
+Frame 480 192
+Frame 576 192
+Frame 672 192
+Frame 768 192
+Frame 0 256
+Frame 96 256
+Frame 192 256
+Frame 288 256
+Frame 384 256
+Frame 480 256
+Frame 576 256
+Frame 672 256
+Frame 768 256
+Frame 864 256
+Frame 960 256
+Frame 1056 256
+Frame 1152 256
+Frame 1248 256
+Frame 1344 256
+Anim Assets/RookIdle.anm
+Anim Assets/RookAttack.anm
+Anim Assets/RookAttackable.anm
+Anim Assets/RookAttacked.anm
+Anim Assets/RookDefeated.anm

@@ -31,22 +31,16 @@ public:
     void Update(double dt) override;
     void Unload() override;
     void Draw() override;
-    //static std::vector<Enemy*>& SetEnemies() { return Instance().enemies; }
-    //const static std::vector<Enemy*> GetEnemies() { return Instance().enemies; }
-    //static Trap*& SetTrapPtr() { return Instance().trap_ptr; }
+
     static void ChangeAudio();
     std::string GetName() override {
         return "InGame";
     }
-    static constexpr int MaxTurn = 100;
+    static constexpr int MaxTurn = 10;
     
 private:
-    
-
     Map* map_ptr;
     Player* player_ptr;
-    //Trap* trap_ptr;
-    //std::vector<Enemy*> enemies;
 
     CS230::Texture* turncount_texture;
     CS230::Texture* turn_texture;
@@ -56,6 +50,9 @@ private:
     inline static Audio* stage1_audio_ptr;
     inline static Audio* stage2_audio_ptr;
     inline static Audio* stage3_audio_ptr;
+    inline static Audio* boss_audio_ptr;
+    inline static Audio* shop_audio_ptr;
+
     
     
     void update_turncount_text();

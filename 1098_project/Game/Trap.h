@@ -10,7 +10,7 @@ public:
 	void Draw(Math::TransformationMatrix camera_matrix) override;
 	GameObjectTypes Type() override { return GameObjectTypes::Trap; }
 	std::string TypeName() override { return "Trap"; }
-	//int DrawPriority() const override { return 2; }
+	int DrawPriority() const override { return 5; }
 	bool CanCollideWith(GameObjectTypes other_object_type) override;
 	void ResolveCollision(GameObject* other_object) override;
 private:
@@ -20,4 +20,5 @@ private:
 	const int max_turn_count = 2;
 	int current_turn = 0;
 	bool is_alive = true;
+	//bool map_changed = true;
 };

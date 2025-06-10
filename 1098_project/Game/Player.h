@@ -23,24 +23,27 @@ public:
     void Update(double dt) override;
     GameObjectTypes Type() override { return GameObjectTypes::Player; }
     std::string TypeName() override { return "Player"; }
-    int DrawPriority() const override { return 70; }
+    int DrawPriority() const override { return 20; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
     
-    
-private:
     enum class Animations {
         Idle,
         Walking,
-        Attacking
+        Attacking,
+        Attacked,
+        Defeated
     };
-
-    
+    void ChangeAnimation(int new_anime);
+private:
     TurnManager* turn_manager ;
     bool is_moving = true;
     bool did_nothing = false;
     Map* map;
     Audio* moving_sound_ptr;
+    Audio* attack_sound_ptr;
+    Audio* coin_sound_ptr;
+    Audio* stage_change_ptr;
     //CS230::Timer* after_move_timer;
     //static constexpr double after_move_time = 0.65;
     const Math::ivec2 start_index = { 2,0 };
@@ -48,5 +51,6 @@ private:
     void move_right();
     void move_top();
     void move_bottom();
+    void attack();
     
 };

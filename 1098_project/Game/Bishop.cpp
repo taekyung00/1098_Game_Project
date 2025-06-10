@@ -1,4 +1,5 @@
 #include "Bishop.h"
+#include "Player.h"
 
 Bishop::Bishop(Math::ivec2 index) :
 	Enemy(index) ,
@@ -6,13 +7,33 @@ Bishop::Bishop(Math::ivec2 index) :
 {
 	AddGOComponent(new CS230::Sprite("Assets/Bishop.spt", this));
 	ReachableIndexPush();
-	//ChangeMapDesign();
+	ChangeMapDesign();
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 }
 
 void Bishop::Update([[maybe_unused]] double dt) {
+	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Defeated));
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->EraseEnemy(this);
+		Destroy();
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacking)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		if (current_turn == 0) {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+		}
+		else {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
+		}
+	}
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
+		
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
 			ChangeIndex();
@@ -20,18 +41,26 @@ void Bishop::Update([[maybe_unused]] double dt) {
 		else {
 			--current_turn;
 		}
-
+		if (current_turn == 0) {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+		}
+		else {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
+		}
 		ReachableIndexPush();
+		
 		//ChangeMapDesign();
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
-	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+			turn_ended = true;
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 
 void Bishop::ReachableIndexPush() {
@@ -74,15 +103,21 @@ void Bishop::ReachableIndexPush() {
 void Bishop::Draw(Math::TransformationMatrix camera_matrix) {
 	GameObject::Draw(camera_matrix);
 	if (current_turn == 0) {
-		movable.Draw(camera_matrix * GetMatrix());
+		//movable.Draw(camera_matrix * GetMatrix());
 	}
 }
 
 void Bishop::attack() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false)  && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
-		turnmanager->Sub(4);
+		turnmanager->Sub(3);
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 		did_attack = true;
+		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 	}
 }
-
+void Bishop::Defeated()
+{
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacked));
+}

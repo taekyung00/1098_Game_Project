@@ -40,25 +40,14 @@ void CS230::GameObjectManager::UpdateAll(double dt){
 	}
 }
 
-//void CS230::GameObjectManager::SortForDraw()
-//{
-//	//if (objects.empty()) {
-//	//	return;
-//	//}
-//	std::sort(objects.begin(), objects.end(),
-//		[](GameObject* a, GameObject* b) {
-//			return a->DrawPriority() < b->DrawPriority();
-//		});
-//	//std::list<CS230::GameObject*>::iterator max_it = std::max_element(objects.begin(), objects.end(),
-//	//	[](GameObject* a, GameObject* b) {
-//	//		return a->DrawPriority() < b->DrawPriority();
-//	//	});
-//	//if (max_it != objects.end() && std::next(max_it) != objects.end()) {
-//	//	GameObject* highest = *max_it;
-//	//	objects.erase(max_it);               
-//	//	objects.push_back(highest);         
-//	//}
-//}
+void CS230::GameObjectManager::SortForDraw()
+{
+	objects.sort(
+		[](GameObject* a, GameObject* b) {
+			return a->DrawPriority() < b->DrawPriority();
+		}
+	);
+}
 
 void CS230::GameObjectManager::DrawAll(Math::TransformationMatrix camera_matrix){
 	for (GameObject* object : objects) {

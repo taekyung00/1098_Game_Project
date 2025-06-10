@@ -15,13 +15,17 @@
 class EnemyManager : public CS230::Component {
 public:
 	void SpawnEnemies();
-	void SpawnEnemiesTutorial();
+	//void SpawnEnemiesTutorial();
 	void TurnChange();
 	//void ClearEnemies();
 	std::vector<Enemy*>& SetEnemies() { return enemies; }
 	const std::vector<Enemy*>& GetEnemies() const { return enemies; }
 
+	void EraseEnemy(Enemy* enemy);
+
 
 private:
 	std::vector<Enemy*> enemies;
+	std::vector<std::vector<int>> spawn_layer;
+	std::vector<std::vector<int>> spawn_trap_layer;
 };

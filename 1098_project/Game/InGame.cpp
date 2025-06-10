@@ -5,19 +5,19 @@
 void InGame::update_turncount_text()
 {
 	delete turncount_texture;
-	turncount_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Turn: " + std::to_string(GetGSComponent<TurnManager>()->GetTurnCount()), 0xFFFFFFFF);
+	turncount_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("" + std::to_string(GetGSComponent<TurnManager>()->GetTurnCount()), 0xFFFFFFFF);
 }
 void InGame::update_turn_text()
 {
 	delete turn_texture;
 	delete push_button_texture;
 	if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
-		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
+		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("", 0xFFFFFFFF);
 		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push WASD To Move", 0xFFFFFFFF);
 
 	}
 	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
-		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
+		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("", 0xFFFFFFFF);
 		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE To Change Turn", 0xFFFFFFFF);
 	}
 }
@@ -29,10 +29,11 @@ InGame::InGame() :
 	map_ptr(nullptr),
 	player_ptr(nullptr)
 {
+	
 }
 
 void InGame::Load() {
-	
+	InitAudioDevice();
 	AddGSComponent(new TurnManager(MaxTurn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
 	AddGSComponent(new EnemyManager());
@@ -47,16 +48,11 @@ void InGame::Load() {
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
 	
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
-	GetGSComponent<EnemyManager>()->SpawnEnemies();
-	
-	
-	
-	
-	
+	GetGSComponent<EnemyManager>()->SpawnEnemies();	
 
 	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
 	stage1_audio_ptr->SetLooping(true);
-	AddGSComponent(stage1_audio_ptr);
+	AddGSComponent(stage1_audio_ptr);	
 
 	stage2_audio_ptr = new Audio("Sounds/Forest_bgm_final.mp3");
 	stage2_audio_ptr->SetLooping(true);
@@ -66,6 +62,14 @@ void InGame::Load() {
 	stage3_audio_ptr->SetLooping(true);
 	AddGSComponent(stage3_audio_ptr);
 
+	boss_audio_ptr = new Audio("Sounds/Boss_bgm.mp3");
+	boss_audio_ptr->SetLooping(true);
+	AddGSComponent(boss_audio_ptr);
+
+	shop_audio_ptr = new Audio("Sounds/Shop.mp3");
+	shop_audio_ptr->SetLooping(true);
+	AddGSComponent(shop_audio_ptr);
+
 	current_audio_ptr = stage1_audio_ptr;
 	current_audio_ptr->Play();
 
@@ -74,18 +78,21 @@ void InGame::Load() {
 }
 
 void InGame::Update(double dt) {
+	map_ptr->ClearEnemiesReachable();
+	current_audio_ptr->Update();
 	EnemyManager* enemymanager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
-	std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
+	//std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
 	UpdateGSComponents(dt);
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
+	
 	update_turncount_text();
 	update_turn_text();
-	//Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
-	current_audio_ptr->Update();
+	Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
+	
 	enemymanager->TurnChange();
-
-
-
+	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
+		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+	}
 }
 
 void InGame::Unload() {
@@ -98,6 +105,7 @@ void InGame::Unload() {
 	delete push_button_texture;
 	push_button_texture = nullptr;
 	//Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->ClearEnemies();
+	
 
 }
 
@@ -113,14 +121,20 @@ void InGame::ChangeAudio()
 {
 	current_audio_ptr->Stop();
 	Map* static_map_ptr = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
-	if (static_map_ptr->GetStage() == Stages::stage1) {
+	if (static_map_ptr->GetStage() == Stages::stage1 && static_map_ptr->GetRoom() != Rooms::Store) {
 		current_audio_ptr = stage1_audio_ptr;
 	}
-	else if (static_map_ptr->GetStage() == Stages::stage2) {
+	else if (static_map_ptr->GetStage() == Stages::stage2 && static_map_ptr->GetRoom() != Rooms::Store) {
 		current_audio_ptr = stage2_audio_ptr;
 	}
-	else if (static_map_ptr->GetStage() == Stages::stage3) {
+	else if (static_map_ptr->GetStage() == Stages::stage3 && static_map_ptr->GetRoom() != Rooms::Store) {
 		current_audio_ptr = stage3_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::Boss && static_map_ptr->GetRoom() != Rooms::Store) {
+		current_audio_ptr = boss_audio_ptr;
+	}
+	else if (static_map_ptr->GetRoom() == Rooms::Store) {
+		current_audio_ptr = shop_audio_ptr;
 	}
 	current_audio_ptr->Play();
 }

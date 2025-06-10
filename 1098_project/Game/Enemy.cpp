@@ -10,20 +10,22 @@ Enemy::Enemy(Math::ivec2 start_index) :
 
 void Enemy::Update([[maybe_unused]]double dt) {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	if ((is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
 		ChangeIndex();
 		ReachableIndexPush();
-		ChangeMapDesign();
+		
 		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
 	}
-	if ((is_outdated == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+			turn_ended = true;
 			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
 }
 void Enemy::ChangeIndex()
 {
@@ -67,6 +69,7 @@ void Enemy::ChangeMapDesign() {
 	for (Math::ivec2 _index : reachable_indices) {
 		map->SetTileDesign()[_index.x][_index.y].isEnemyReachable = true;
 	}
+	//map_changed = true;
 }
 
 bool Enemy::CanCollideWith(GameObjectTypes other_object_type) {

@@ -1,3 +1,72 @@
 Assets/Archer.png
-HotSpot 0 0
-FrameSize 32 32
+HotSpot 32 0
+FrameSize 96 64
+Frame 0 0
+Frame 96 0
+Frame 192 0
+Frame 288 0
+Frame 384 0
+Frame 480 0
+Frame 0 64
+Frame 96 64
+Frame 192 64
+Frame 288 64
+Frame 384 64
+Frame 480 64
+Frame 576 64
+Frame 672 64
+Frame 768 64
+Frame 864 64
+Frame 960 64
+Frame 1056 64
+Frame 1152 64
+Frame 1248 64
+Frame 1344 64
+Frame 1440 64
+Frame 1536 64
+Frame 1632 64
+Frame 1728 64
+Frame 1824 64
+Frame 1920 64
+Frame 2016 64
+Frame 2112 64
+Frame 2208 64
+Frame 2304 64
+Frame 0 128
+Frame 96 128
+Frame 192 128
+Frame 288 128
+Frame 384 128
+Frame 480 128
+Frame 0 192
+Frame 96 192
+Frame 192 192
+Frame 288 192
+Frame 384 192
+Frame 0 256
+Frame 96 256
+Frame 192 256
+Frame 288 256
+Frame 384 256
+Frame 480 256
+Frame 576 256
+Frame 672 256
+Frame 768 256
+Frame 864 256
+Frame 960 256
+Frame 1056 256
+Frame 1152 256
+Frame 1248 256
+Frame 1344 256
+Frame 1440 256
+Frame 1536 256
+Frame 1632 256
+Frame 1728 256
+Frame 1824 256
+Frame 1920 256
+Frame 2016 256
+Anim Assets/ArcherIdle.anm
+Anim Assets/ArcherAttack.anm
+Anim Assets/ArcherAttackable.anm
+Anim Assets/ArcherAttacked.anm
+Anim Assets/ArcherDefeated.anm

@@ -177,6 +177,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Engine\Window.cpp" />
     <ClCompile Include="Game\Archer.cpp" />
     <ClCompile Include="Game\Arrow.cpp" />
+    <ClCompile Include="Game\Axe.cpp" />
     <ClCompile Include="Game\Bishop.cpp" />
     <ClCompile Include="Game\Cannon.cpp" />
     <ClCompile Include="Game\CannonBall.cpp" />
@@ -189,12 +190,15 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Game\ItemManager.cpp" />
     <ClCompile Include="Game\MainMenu.cpp" />
     <ClCompile Include="Game\Map.cpp" />
+    <ClCompile Include="Game\Merchant.cpp" />
     <ClCompile Include="Game\Omurice.cpp" />
     <ClCompile Include="Game\Pawn.cpp" />
     <ClCompile Include="Game\Pizza.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Game\Rook.cpp" />
     <ClCompile Include="Game\Rooms.cpp" />
+    <ClCompile Include="Game\Shield.cpp" />
+    <ClCompile Include="Game\Spear.cpp" />
     <ClCompile Include="Game\Splash.cpp" />
     <ClCompile Include="Game\Stages.cpp" />
     <ClCompile Include="Game\Trap.cpp" />
@@ -229,6 +233,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="Game\Archer.h" />
     <ClInclude Include="Game\Arrow.h" />
+    <ClInclude Include="Game\Axe.h" />
     <ClInclude Include="Game\Bishop.h" />
     <ClInclude Include="Game\Cannon.h" />
     <ClInclude Include="Game\CannonBall.h" />
@@ -243,12 +248,15 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\ItemManager.h" />
     <ClInclude Include="Game\MainMenu.h" />
     <ClInclude Include="Game\Map.h" />
+    <ClInclude Include="Game\Merchant.h" />
     <ClInclude Include="Game\Omurice.h" />
     <ClInclude Include="Game\Pawn.h" />
     <ClInclude Include="Game\Pizza.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Rook.h" />
     <ClInclude Include="Game\Rooms.h" />
+    <ClInclude Include="Game\Shield.h" />
+    <ClInclude Include="Game\Spear.h" />
     <ClInclude Include="Game\Splash.h" />
     <ClInclude Include="Game\Stages.h" />
     <ClInclude Include="Game\States.h" />
