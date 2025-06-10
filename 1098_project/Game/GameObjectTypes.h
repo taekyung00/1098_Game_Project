@@ -11,11 +11,14 @@ Created:    May 20, 2025
 enum class GameObjectTypes {
     Map,
     Player,
+    Merchant,
     Door,
     Enemy,
     Trap,
     CannonBall,
     Arrow,
     Item,
+    Axe,
+    Spear,
     Count,
 };

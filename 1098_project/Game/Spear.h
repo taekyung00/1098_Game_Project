@@ -6,5 +6,7 @@
 class Spear : public Item {
 public:
 	Spear(Math::ivec2 start_index, ItemKind item_kind = ItemKind::Use, UseItem use_item = UseItem::Spear, UseItemRank use_item_rank = UseItemRank::Common);
+	GameObjectTypes Type() override { return GameObjectTypes::Spear; }
+	std::string TypeName() override { return "Spear"; }
 	void ResolveCollision(GameObject* other_object) override;
 };

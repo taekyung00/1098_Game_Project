@@ -36,7 +36,7 @@ public:
     std::string GetName() override {
         return "InGame";
     }
-    static constexpr int MaxTurn = 5;
+    static constexpr int MaxTurn = 100;
     
 private:
     Map* map_ptr;

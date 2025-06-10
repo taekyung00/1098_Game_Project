@@ -193,9 +193,7 @@ void EnemyManager::TurnChange()
 		turn_manager->SetCurrentTurn() = Turns::Player;
 	}
 
-	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
-		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
-	}
+	
 }
 
 void EnemyManager::EraseEnemy(Enemy* enemy)

@@ -29,16 +29,17 @@ InGame::InGame() :
 	map_ptr(nullptr),
 	player_ptr(nullptr)
 {
+	
 }
 
 void InGame::Load() {
-	
+	InitAudioDevice();
 	AddGSComponent(new TurnManager(MaxTurn,Turns::Player));
 	AddGSComponent(new CS230::GameObjectManager());
 	AddGSComponent(new EnemyManager());
 	AddGSComponent(new ItemManager());
 	//AddGSComponent(new SpawnTrap());
-	map_ptr = new Map(/*Stages::stage1,Rooms::Store*/);
+	map_ptr = new Map(Stages::stage1,Rooms::Store);
 	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
 	
 
@@ -70,6 +71,7 @@ void InGame::Load() {
 
 void InGame::Update(double dt) {
 	map_ptr->ClearEnemiesReachable();
+	current_audio_ptr->Update();
 	EnemyManager* enemymanager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
 	//std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
 	UpdateGSComponents(dt);
@@ -78,11 +80,15 @@ void InGame::Update(double dt) {
 	update_turncount_text();
 	update_turn_text();
 	Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
-	current_audio_ptr->Update();
+	
 	enemymanager->TurnChange();
+	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
+		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+	}
 }
 
 void InGame::Unload() {
+	current_audio_ptr->Stop();
 	GetGSComponent<CS230::GameObjectManager>()->Unload();
 	ClearGSComponents();
 	delete turncount_texture;
@@ -92,6 +98,7 @@ void InGame::Unload() {
 	delete push_button_texture;
 	push_button_texture = nullptr;
 	//Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->ClearEnemies();
+	
 
 }
 

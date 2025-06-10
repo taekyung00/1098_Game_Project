@@ -16,6 +16,10 @@ public:
 	void ClearDropItem();
 	void EraseDropItem(Item* item);
 	void EraseUseItem(Item* item);
+	void PushUseItem(Item* item);
+
+	const std::vector<Item*>& GetUseItems() const { return use_items; }
+	std::vector<Item*>& SetUseItems() { return use_items; }
 
 private:
 	std::vector<Item*> drop_items;

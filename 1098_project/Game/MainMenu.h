@@ -34,16 +34,18 @@ public:
 private:
     CS230::Texture* title_texture;
     CS230::Texture* InGame_texture;
+    CS230::Texture* Tutorial_texture;
     CS230::Texture* exit_texture;
 
 
-    unsigned int gam150_color ;
+    unsigned int ingame_color ;
+    unsigned int tutorial_color ;
     unsigned int exit_color ;
 
     enum class Option
     {
-
         InGame,
+        Tutorial,
         exit
     };
     Option current_option;

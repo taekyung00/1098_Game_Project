@@ -36,9 +36,6 @@ public:
     };
     void ChangeAnimation(int new_anime);
 private:
-    
-
-    
     TurnManager* turn_manager ;
     bool is_moving = true;
     bool did_nothing = false;
@@ -51,5 +48,6 @@ private:
     void move_right();
     void move_top();
     void move_bottom();
+    void attack();
     
 };

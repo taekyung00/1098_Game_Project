@@ -163,6 +163,9 @@
     <ClCompile Include="Game\Axe.cpp">
       <Filter>Game\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Merchant.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Animation.h">
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="Game\Axe.h">
       <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Merchant.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

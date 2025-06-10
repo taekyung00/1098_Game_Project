@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Enemy.h"
 #include "EnemyManager.h"
+#include "Merchant.h"
 
 void Map::InitializeStage(Stages _stage)
 {
@@ -13,6 +14,29 @@ void Map::InitializeStage(Stages _stage)
     if (room == Rooms::Store) {
         designPath = "Game/store/s.txt";
         initialize_store();
+    }
+    else if (stage == Stages::Tutorial) {
+        switch (room)
+        {
+        case Rooms::Room1:
+            designPath = "Game/tutorial/1.txt";
+            break;
+        case Rooms::Room2:
+            designPath = "Game/tutorial/2.txt";
+            break;
+        case Rooms::Room3:
+            designPath = "Game/tutorial/3.txt";
+            break;
+        case Rooms::Room4:
+            designPath = "Game/tutorial/4.txt";
+            break;
+        case Rooms::Room5:
+            designPath = "Game/tutorial/5.txt";
+            break;
+        case Rooms::Room6:
+            designPath = "Game/tutorial/6.txt";
+            break;
+        }
     }
     else {
         std::string folder;
@@ -254,6 +278,26 @@ void Map::ChangeStageAndRoom()
     switch (stage)
     {
     case Stages::Tutorial:
+        switch (room)
+        {
+        case Rooms::Room1:
+            room = Rooms::Room2;
+            break;
+        case Rooms::Room2:
+            room = Rooms::Room3;
+            break;
+        case Rooms::Room3:
+            room = Rooms::Room4;
+            break;
+        case Rooms::Room4:
+            room = Rooms::Room5;
+            break;
+        case Rooms::Room5:
+            room = Rooms::Room6;
+        case Rooms::Room6:
+            Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+            break;
+        }
         break;
     case Stages::stage1:
         switch (room)
@@ -324,6 +368,7 @@ void Map::initialize_store()
     item_manager->StoreItem({ 1,1 });
     item_manager->StoreItem({ 2,1 });
     item_manager->StoreItem({ 3,1 });
+    Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->Add(new Merchant({ 2,2 }));
 }
 
 
@@ -334,7 +379,7 @@ Map::Map(Stages start_stage, Rooms start_room):
     enemy_trajectory("Assets/EnemyTrajectory.spt",this)
 {   
     AddGOComponent(new CS230::Sprite("Assets/Tile_Assets.spt", this, true));
-    InitializeStage();  
+    InitializeStage(stage);  
 }
 
 void Map::Update([[maybe_unused]] double dt) {

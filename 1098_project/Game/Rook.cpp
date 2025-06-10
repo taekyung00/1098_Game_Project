@@ -8,18 +8,45 @@ Rook::Rook(Math::ivec2 index) :
 	AddGOComponent(new CS230::Sprite("Assets/Rook.spt", this));
 	ReachableIndexPush();
 	ChangeMapDesign();
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 }
 void Rook::Update([[maybe_unused]] double dt) {
+	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Defeated));
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->EraseEnemy(this);
+		Destroy();
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacking)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		if (current_turn == 0) {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+		}
+		else {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
+		}
+	}
 	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();
 		
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
+			
 			ChangeIndex();
 		}
 		else {
+			
 			--current_turn;
+		}
+		if (current_turn == 0) {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+		}
+		else {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 		}
 		
 		ReachableIndexPush();
@@ -71,10 +98,12 @@ void Rook::ReachableIndexPush() {
 }
 
 void Rook::Draw(Math::TransformationMatrix camera_matrix) {
-	GameObject::Draw(camera_matrix);
+	
 	if (current_turn == 0) {
+		//GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
 		movable.Draw(camera_matrix * GetMatrix());
 	}
+	GameObject::Draw(camera_matrix);
 }
 
 void Rook::attack() {
@@ -82,7 +111,13 @@ void Rook::attack() {
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
 		turnmanager->Sub(1);
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 		did_attack = true;
 		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 	}
+}
+
+void Rook::Defeated()
+{
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacked));
 }

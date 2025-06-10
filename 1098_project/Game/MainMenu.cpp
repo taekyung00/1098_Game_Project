@@ -13,8 +13,11 @@ Created:    May 6, 2025
 
 MainMenu::MainMenu() : 
 	current_option(Option::InGame),
-	title_texture(Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("GAM150 Engine Porting", title_color))
+	title_texture(Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("10..9..8", title_color))
 {
+	InGame_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("INGAME", ingame_color);
+	Tutorial_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("TUTORIAL", tutorial_color);
+	exit_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("EXIT", exit_color);
 	update_textures();
 }
 
@@ -28,10 +31,13 @@ void MainMenu::Update([[maybe_unused]] double dt)
 	if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Down)) {
 		switch (current_option)
 		{
-		case MainMenu::Option::InGame:
+		case Option::InGame:
+			current_option = Option::Tutorial;
+			break;
+		case Option::Tutorial:
 			current_option = Option::exit;
 			break;
-		case MainMenu::Option::exit:
+		case Option::exit:
 			current_option = Option::InGame;
 			break;
 		}
@@ -43,8 +49,11 @@ void MainMenu::Update([[maybe_unused]] double dt)
 		case MainMenu::Option::InGame:
 			current_option = Option::exit;
 			break;
-		case MainMenu::Option::exit:
+		case Option::Tutorial:
 			current_option = Option::InGame;
+			break;
+		case MainMenu::Option::exit:
+			current_option = Option::Tutorial;
 			break;
 		}
 	}
@@ -52,10 +61,13 @@ void MainMenu::Update([[maybe_unused]] double dt)
 	if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Enter)) {
 		switch (current_option)
 		{
-		case MainMenu::Option::InGame:
+		case Option::InGame:
 			Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::InGame));
 			break;
-		case MainMenu::Option::exit:
+		case Option::Tutorial:
+			Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Tutorial));
+			break;
+		case Option::exit:
 			Engine::GetGameStateManager().ClearNextGameState();
 			break;
 		}
@@ -78,30 +90,42 @@ void MainMenu::Draw()
 		Engine::GetWindow().GetSize().x / 2 - InGame_texture->GetSize().x / 2,
 		Engine::GetWindow().GetSize().y - InGame_texture->GetSize().y - 280 }));
 
+	Tutorial_texture->Draw(Math::TranslationMatrix(Math::ivec2{
+		Engine::GetWindow().GetSize().x / 2 - Tutorial_texture->GetSize().x / 2,
+		Engine::GetWindow().GetSize().y - Tutorial_texture->GetSize().y - 350 }));
+
 	exit_texture->Draw(Math::TranslationMatrix(Math::ivec2{
 		Engine::GetWindow().GetSize().x / 2 - 10 - exit_texture->GetSize().x / 2,
-		Engine::GetWindow().GetSize().y - exit_texture->GetSize().y - 350 }));
+		Engine::GetWindow().GetSize().y - exit_texture->GetSize().y - 420 }));
 
 }
 
 
 void MainMenu::update_textures()
 {
-
 	delete InGame_texture;
+	delete Tutorial_texture;
 	delete exit_texture;
 	switch (current_option)
 	{
-	case MainMenu::Option::InGame:
-		gam150_color = seleted_color;
+	case Option::InGame:
+		ingame_color = seleted_color;
+		tutorial_color = non_seleted_color;
 		exit_color = non_seleted_color;
 		break;
-	case MainMenu::Option::exit:
-		gam150_color = non_seleted_color;
+	case Option::Tutorial:
+		ingame_color = non_seleted_color;
+		tutorial_color = seleted_color;
+		exit_color = non_seleted_color;
+		break;
+	case Option::exit:
+		ingame_color = non_seleted_color;
+		tutorial_color = non_seleted_color;
 		exit_color = seleted_color;
 		break;
 	}
-	InGame_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("10..9..8..", gam150_color);
-	exit_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Exit", exit_color);
+	InGame_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("INGAME", ingame_color);
+	Tutorial_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("TUTORIAL", tutorial_color);
+	exit_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("EXIT", exit_color);
 
 }

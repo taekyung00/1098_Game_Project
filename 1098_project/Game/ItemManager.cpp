@@ -68,17 +68,14 @@ void ItemManager::StoreItem(Math::ivec2 index)
     {
     case 0:
         new_item = new Shield(index, ItemKind::Use, UseItem::Shield, rank);
-        use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
     case 1:
         new_item = new Spear(index, ItemKind::Use, UseItem::Spear, rank);
-        use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
     case 2:
         new_item = new Axe(index, ItemKind::Use, UseItem::Axe, rank);
-        use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
     }
@@ -101,4 +98,17 @@ void ItemManager::EraseUseItem(Item* item)
 {
     item->Destroy();
     use_items.erase(std::remove(use_items.begin(), use_items.end(), item), use_items.end());
+}
+
+void ItemManager::PushUseItem(Item* item)
+{
+    if (item->Type() == GameObjectTypes::Axe || item->Type() == GameObjectTypes::Spear) {
+        std::vector<Item*>::iterator iter = std::find_if(use_items.begin(), use_items.end(), [](Item* find_item) {
+            return find_item->Type() == GameObjectTypes::Axe || find_item->Type() == GameObjectTypes::Spear;
+            });
+        if (iter != use_items.end()) {
+            EraseUseItem(*iter);
+        }
+    }
+    use_items.push_back(item);
 }

@@ -5,6 +5,7 @@
 #include "Rook.h"
 #include "Bishop.h"
 #include "EnemyManager.h"
+
 Player::Player() :
 	GameObject(Math::ivec2{2,0}, 0.0, scale_const),
 	turn_manager(Engine::GetGameStateManager().GetGSComponent<TurnManager>())
@@ -89,6 +90,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 	switch (other_object->Type())
 	{
 	case GameObjectTypes::Door:
+		Engine::GetWindow().Clear(0x000000FF);
 		map->ChangeStageAndRoom();
 		if (!(map->GetStage() == Stages::End && map->GetRoom() == Rooms::Count)) {
 			turn_manager->SetCurrentTurn() = Turns::Player;
@@ -100,8 +102,10 @@ void Player::ResolveCollision(GameObject* other_object) {
 			
 			Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
 			Engine::GetGameStateManager().GetGSComponent<ItemManager>()->ClearDropItem();
+			if (map->GetStage() != Stages::Tutorial) {
+				InGame::ChangeAudio();
+			}
 			
-			InGame::ChangeAudio();
 			is_moving = true;
 			
 		}
@@ -138,7 +142,7 @@ void Player::move_left()
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x - 1, GetIndex().y } == enemy->GetIndex())) {
 				enemy_attacked = true;
 				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
-				enemy->Destroy();
+				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemy_manager->EraseEnemy(enemy);
 				turn_manager->Add(2);
@@ -170,7 +174,8 @@ void Player::move_right()
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex())) {
 				enemy_attacked = true;
 				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
-				enemy->Destroy();
+				enemy->Defeated();
+				//enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				turn_manager->Add(2);
@@ -201,7 +206,7 @@ void Player::move_top()
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex())) {
 				enemy_attacked = true;
 				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
-				enemy->Destroy();
+				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				turn_manager->Add(2);
@@ -232,7 +237,7 @@ void Player::move_bottom()
 			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y - 1 } == enemy->GetIndex())) {
 				enemy_attacked = true;
 				Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(enemy->GetIndex());
-				enemy->Destroy();
+				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				turn_manager->Add(2);
@@ -254,3 +259,25 @@ void Player::move_bottom()
 	moving_sound_ptr->Play();
 }
 
+void Player::attack() {
+	ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+	const std::vector<Item*>& use_items = item_manager->GetUseItems();
+	std::vector<Item*>::const_iterator iter = std::find_if(use_items.begin(), use_items.end(),[](Item* item) {
+		return item->Type() == GameObjectTypes::Axe;
+		});
+	if (iter != use_items.end()) {
+		//attack_with_axe
+		item_manager->EraseUseItem(*iter);
+		return;
+	}
+	iter = std::find_if(use_items.begin(), use_items.end(), [](Item* item) {
+		return item->Type() == GameObjectTypes::Spear;
+		});
+	if (iter != use_items.end()) {
+		//attack_with_spear
+		item_manager->EraseUseItem(*iter);
+		return;
+	}
+
+	//just_attack
+}

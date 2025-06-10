@@ -9,10 +9,21 @@ Archer::Archer(Math::ivec2 index) :
 	AddGOComponent(new CS230::Sprite("Assets/Archer.spt", this));
 	ReachableIndexPush();
 	ChangeMapDesign();
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 }
 
 void Archer::Update([[maybe_unused]]double dt) {
+	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacking)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		if (current_turn == 0) {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+		}
+		else {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
+		}
+		return;
+	}
 	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 
 		if (current_turn == 0) {
@@ -25,6 +36,12 @@ void Archer::Update([[maybe_unused]]double dt) {
 			
 			destroy_arrow();
 			--current_turn;
+		}
+		if (current_turn == 0) {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+		}
+		else {
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 		}
 
 		//SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
@@ -52,7 +69,8 @@ void Archer::make_arrow()
 	if (did_attack == false) {
 		CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
 		destroy_arrow();
-		arrow = new Arrow(reachable_indices[0]);
+		arrow = new Arrow(GetIndex(), reachable_indices[0]);
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 		gameobjectmanager->Add(arrow);
 		did_attack = true;
 	}
