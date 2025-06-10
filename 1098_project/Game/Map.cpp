@@ -22,18 +22,21 @@ void Map::InitializeStage(Stages _stage)
             designPath = "Game/tutorial/1.txt";
             break;
         case Rooms::Room2:
-            designPath = "Game/tutorial/2.txt";
+            designPath = "Game/tutorial/1.1.txt";
             break;
         case Rooms::Room3:
-            designPath = "Game/tutorial/3.txt";
+            designPath = "Game/tutorial/2.txt";
             break;
         case Rooms::Room4:
-            designPath = "Game/tutorial/4.txt";
+            designPath = "Game/tutorial/3.txt";
             break;
         case Rooms::Room5:
-            designPath = "Game/tutorial/5.txt";
+            designPath = "Game/tutorial/4.txt";
             break;
         case Rooms::Room6:
+            designPath = "Game/tutorial/5.txt";
+            break;
+        case Rooms::Room7:
             designPath = "Game/tutorial/6.txt";
             break;
         }
@@ -296,6 +299,9 @@ void Map::ChangeStageAndRoom()
             room = Rooms::Room6;
             break;
         case Rooms::Room6:
+            room = Rooms::Room7;
+            break;
+        case Rooms::Room7:
             room = Rooms::Store;
             break;
         case Rooms::Store:

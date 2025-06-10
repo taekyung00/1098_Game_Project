@@ -5,6 +5,7 @@ Spear::Spear(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseI
 	Item(start_index, item_kind, use_item, use_item_rank)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Spear.spt", this));
+	is_get = false;
 	switch (use_item_rank)
 	{
 	case UseItemRank::Common:
@@ -43,5 +44,17 @@ void Spear::Update([[maybe_unused]] double dt) {
 	if (life <= 0) {
 		item_manager->EraseUseItem(this);
 		player->EraseUseItem(this);
+	}
+}
+
+void Spear::Draw(Math::TransformationMatrix camera_matrix) {
+	if (is_get == false) {
+		Math::TransformationMatrix draw_matrix = GetMatrix();
+		CS230::Sprite* sprite = GetGOComponent<CS230::Sprite>();
+		if (sprite != nullptr) {
+			sprite->Draw(draw_matrix, static_cast<int>(use_item_rank));
+		}
+		cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
+		cost_texture->Draw(draw_matrix);
 	}
 }
