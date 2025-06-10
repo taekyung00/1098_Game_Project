@@ -42,6 +42,7 @@ void Tutorial::Load() {
 	player_ptr = new Player();
 	GetGSComponent<CS230::GameObjectManager>()->Add(player_ptr);
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({ 2,4 }));
+	AddGSComponent(new UI());
 
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
 	GetGSComponent<EnemyManager>()->SpawnEnemies();
@@ -86,6 +87,7 @@ void Tutorial::Unload() {
 void Tutorial::Draw() {
 	Engine::GetWindow().Clear(0x000000FF);
 	GetGSComponent<CS230::GameObjectManager>()->DrawAll(Math::TransformationMatrix());
+	GetGSComponent<UI>()->Draw();
 	turncount_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turncount_texture->GetSize().x, Engine::GetWindow().GetSize().y - turncount_texture->GetSize().y - 5 }));
 	turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
 	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - push_button_texture->GetSize().x, push_button_texture->GetSize().y }));
