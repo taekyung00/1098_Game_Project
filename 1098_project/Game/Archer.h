@@ -11,8 +11,11 @@ public:
 	enum class Animations {
 		Idle,
 		Attacking,
-		Attackable
+		Attackable,
+		Attacked,
+		Defeated
 	};
+	void Defeated() override;
 private:
 	CS230::Sprite movable;
 	const int max_turn_count = 1;

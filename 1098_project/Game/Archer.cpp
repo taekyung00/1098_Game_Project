@@ -15,6 +15,15 @@ Archer::Archer(Math::ivec2 index) :
 void Archer::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Defeated));
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->EraseEnemy(this);
+		Destroy();
+		return;
+	}
 	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacking)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
 		if (current_turn == 0) {
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
@@ -22,7 +31,6 @@ void Archer::Update([[maybe_unused]]double dt) {
 		else {
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 		}
-		return;
 	}
 	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 
@@ -92,7 +100,10 @@ void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 		movable.Draw(camera_matrix * GetMatrix());
 	}
 }
-
+void Archer::Defeated()
+{
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacked));
+}
 //void Archer::ResolveCollision(GameObject* other_object) {
 //
 //}

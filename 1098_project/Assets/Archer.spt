@@ -38,6 +38,35 @@ Frame 192 128
 Frame 288 128
 Frame 384 128
 Frame 480 128
+Frame 0 192
+Frame 96 192
+Frame 192 192
+Frame 288 192
+Frame 384 192
+Frame 0 256
+Frame 96 256
+Frame 192 256
+Frame 288 256
+Frame 384 256
+Frame 480 256
+Frame 576 256
+Frame 672 256
+Frame 768 256
+Frame 864 256
+Frame 960 256
+Frame 1056 256
+Frame 1152 256
+Frame 1248 256
+Frame 1344 256
+Frame 1440 256
+Frame 1536 256
+Frame 1632 256
+Frame 1728 256
+Frame 1824 256
+Frame 1920 256
+Frame 2016 256
 Anim Assets/ArcherIdle.anm
 Anim Assets/ArcherAttack.anm
 Anim Assets/ArcherAttackable.anm
+Anim Assets/ArcherAttacked.anm
+Anim Assets/ArcherDefeated.anm
