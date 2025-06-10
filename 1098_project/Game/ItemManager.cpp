@@ -43,7 +43,7 @@ void ItemManager::StoreItem(Math::ivec2 index)
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    std::discrete_distribution<> dist1({33.4 , 33.3, 33.3 }); // index 0:33.4% - common, 1:33.3% - rare , 2:33.3% - unique
+    std::discrete_distribution<> dist1({55 , 30, 10, 5 }); // index 0:55% - common, 1:30% - rare , 2:10% - unique, 3: 5% - legendary
     std::discrete_distribution<> dist2({33.4 , 33.3, 33.3 }); // index 0:33.4% - shield, 1:33.3% - spare , 2:33.3% - axe
 
     int rank_result = dist1(gen);
@@ -61,6 +61,9 @@ void ItemManager::StoreItem(Math::ivec2 index)
     case 2:
         rank = UseItemRank::Unique;
         break;
+    case 3:
+        rank = UseItemRank::Legendary;
+        break;
     }
 
     Item* new_item;
@@ -68,14 +71,17 @@ void ItemManager::StoreItem(Math::ivec2 index)
     {
     case 0:
         new_item = new Shield(index, ItemKind::Use, UseItem::Shield, rank);
+        use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
     case 1:
         new_item = new Spear(index, ItemKind::Use, UseItem::Spear, rank);
+        use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
     case 2:
         new_item = new Axe(index, ItemKind::Use, UseItem::Axe, rank);
+        use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
     }
@@ -85,6 +91,25 @@ void ItemManager::ClearDropItem()
 {
     for (Item* item : drop_items) {
         item->Destroy();
+    }
+}
+
+void ItemManager::ClearUseItem()
+{
+    Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
+    
+    for (Item* use_item : use_items) {
+        bool is_in_player = false;
+        for (Item* player_use_item : player->GetUseItem()) {
+            if (use_item == player_use_item) {
+                is_in_player = true;
+                break;
+            }
+        }
+
+        if (is_in_player == false) {
+            EraseUseItem(use_item);
+        }
     }
 }
 
@@ -100,15 +125,32 @@ void ItemManager::EraseUseItem(Item* item)
     use_items.erase(std::remove(use_items.begin(), use_items.end(), item), use_items.end());
 }
 
-void ItemManager::PushUseItem(Item* item)
+void ItemManager::PushUseItemToPlayer(Item* item)
 {
+    std::vector<Item*>& player_use_item = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>()->SetUseItem();
+    //spear or axe
     if (item->Type() == GameObjectTypes::Axe || item->Type() == GameObjectTypes::Spear) {
-        std::vector<Item*>::iterator iter = std::find_if(use_items.begin(), use_items.end(), [](Item* find_item) {
+        std::vector<Item*>::iterator iter = std::find_if(player_use_item.begin(), player_use_item.end(), [](Item* find_item) {
             return find_item->Type() == GameObjectTypes::Axe || find_item->Type() == GameObjectTypes::Spear;
             });
-        if (iter != use_items.end()) {
+        if (iter != player_use_item.end()) {
             EraseUseItem(*iter);
+            player_use_item.erase(std::remove(player_use_item.begin(), player_use_item.end(), *iter), player_use_item.end());
         }
+        player_use_item.push_back(item);
     }
-    use_items.push_back(item);
+    
+
+    //shield
+    else if (item->Type() == GameObjectTypes::Shield ) {
+        std::vector<Item*>::iterator iter = std::find_if(player_use_item.begin(), player_use_item.end(), [](Item* find_item) {
+            return find_item->Type() == GameObjectTypes::Shield ;
+            });
+        if (iter != player_use_item.end()) {
+            EraseUseItem(*iter);
+            player_use_item.erase(std::remove(player_use_item.begin(), player_use_item.end(), *iter), player_use_item.end());
+        }
+        player_use_item.push_back(item);
+    }
+    
 }

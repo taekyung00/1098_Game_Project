@@ -5,13 +5,13 @@
 Trap::Trap(Math::ivec2 index) : 
 	Enemy(index),
 	alive_sprite(new CS230::Sprite("Assets/TrapAlive.spt",this)),
-	dead_sprite(new CS230::Sprite("Assets/TrapDead.spt",this)),
-	movable(new CS230::Sprite("Assets/Movable.spt",this))
+	dead_sprite(new CS230::Sprite("Assets/TrapDead.spt",this))
+	//movable(new CS230::Sprite("Assets/Movable.spt",this))
 
 {
 	AddGOComponent(alive_sprite);
 	AddGOComponent(dead_sprite);
-	AddGOComponent(movable);
+	//AddGOComponent(movable);
 
 }
 
@@ -47,9 +47,9 @@ void Trap::Draw(Math::TransformationMatrix camera_matrix) {
 	else {
 		dead_sprite->Draw(camera_matrix * GetMatrix());
 	}
-	if (current_turn == 0) {
-		movable->Draw(camera_matrix * GetMatrix());
-	}
+	//if (current_turn == 0) {
+	//	movable->Draw(camera_matrix * GetMatrix());
+	//}
 }
 bool Trap::CanCollideWith(GameObjectTypes other_object_type) {
 	if ((Engine::GetGameStateManager().GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) && (other_object_type == GameObjectTypes::Player) &&(is_alive == true)) {

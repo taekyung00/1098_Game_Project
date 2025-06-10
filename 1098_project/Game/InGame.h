@@ -18,6 +18,7 @@
 #include "Rook.h"
 #include "Bishop.h"
 #include "EnemyManager.h"
+#include "UI.h"
 
 class Player;
 class InGame : public CS230::GameState {
@@ -44,7 +45,7 @@ private:
 
     CS230::Texture* turncount_texture;
     CS230::Texture* turn_texture;
-    CS230::Texture* push_button_texture;
+    //CS230::Texture* push_button_texture;
 
     inline static Audio* current_audio_ptr;
     inline static Audio* stage1_audio_ptr;

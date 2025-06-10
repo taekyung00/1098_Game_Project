@@ -63,7 +63,7 @@ void Tutorial::Update(double dt) {
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	update_turncount_text();
 	update_turn_text();
-	
+	Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	enemymanager->TurnChange();
 	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
 		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));

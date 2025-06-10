@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "../Engine/GameObject.h"
 #include "../Engine/Vec2.h"
 #include "../Engine/GameObjectManager.h"
@@ -26,7 +27,9 @@ public:
     int DrawPriority() const override { return 20; }
     bool CanCollideWith(GameObjectTypes other_object_type) override;
     void ResolveCollision(GameObject* other_object) override;
-    
+    void EraseUseItem(Item* item);
+    std::vector<Item*>& SetUseItem() { return use_items; }
+    const std::vector<Item*>& GetUseItem() const { return use_items; }
     enum class Animations {
         Idle,
         Walking,
@@ -44,10 +47,12 @@ private:
     //CS230::Timer* after_move_timer;
     //static constexpr double after_move_time = 0.65;
     const Math::ivec2 start_index = { 2,0 };
+    std::vector<Item*> use_items;
     void move_left();
     void move_right();
     void move_top();
     void move_bottom();
-    void attack();
+    void attack(CS230::Input::Keys input);
+    bool used_item = false;
     
 };

@@ -1,20 +1,48 @@
 #include "Axe.h"
+#include "Player.h"
 
 Axe::Axe(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseItemRank use_item_rank) :
 	Item(start_index, item_kind, use_item, use_item_rank)
 {
+	is_get = false;
+	switch (use_item_rank)
+	{
+	case UseItemRank::Common:
+		life = 1;
+		cost = 3;
+		break;
+	case UseItemRank::Rare:
+		life = 2;
+		cost = 4;
+		break;
+	case UseItemRank::Unique:
+		life = 3;
+		cost = 5;
+		break;
+	case UseItemRank::Legendary:
+		life = 5;
+		cost = 6;
+		break;
+	}
 	AddGOComponent(new CS230::Sprite("Assets/Axe.spt", this));
 }
 
 void Axe::ResolveCollision(GameObject* other_object) {
-	//TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
 	
 	if (other_object->Type() == GameObjectTypes::Player) {
-		item_manager->PushUseItem(this);
-		SetIndex() = { -1,-1 };
-		SetPosition(Math::vec2{ -50.0, 300.0 } + start_position);
-
+		item_manager->PushUseItemToPlayer(this);
+		turn_manager->Sub(cost);
+		is_get = true;
 	}
 }
 
+void Axe::Update([[maybe_unused]]double dt) {
+	ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
+	if (life <= 0) {
+		item_manager->EraseUseItem(this);
+		player->EraseUseItem(this);
+	}
+}

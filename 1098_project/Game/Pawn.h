@@ -17,7 +17,7 @@ public:
 	};
 	void Defeated() override;
 private:
-	CS230::Sprite movable;
+	//CS230::Sprite movable;
 	void attack() override;
 
 };

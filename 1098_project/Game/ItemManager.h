@@ -14,9 +14,10 @@ public:
 	void DropItem(Math::ivec2 index);
 	void StoreItem(Math::ivec2 index);
 	void ClearDropItem();
+	void ClearUseItem();
 	void EraseDropItem(Item* item);
 	void EraseUseItem(Item* item);
-	void PushUseItem(Item* item);
+	void PushUseItemToPlayer(Item* item);
 
 	const std::vector<Item*>& GetUseItems() const { return use_items; }
 	std::vector<Item*>& SetUseItems() { return use_items; }

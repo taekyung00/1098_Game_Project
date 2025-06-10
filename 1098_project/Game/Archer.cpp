@@ -3,7 +3,7 @@
 
 Archer::Archer(Math::ivec2 index) : 
 	Enemy(index),
-	movable("Assets/Movable.spt", this),
+	//movable("Assets/Movable.spt", this),
 	arrow(nullptr)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Archer.spt", this));
@@ -19,9 +19,12 @@ void Archer::Update([[maybe_unused]]double dt) {
 		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Defeated));
 		return;
 	}
-	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
-		Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->EraseEnemy(this);
-		Destroy();
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated))) {
+		if ((GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+			Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->EraseEnemy(this);
+			Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(GetIndex());
+			Destroy();
+		}
 		return;
 	}
 	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacking)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
@@ -96,9 +99,9 @@ void Archer::destroy_arrow()
 
 void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 	GameObject::Draw(camera_matrix);
-	if (current_turn == 0) {
-		movable.Draw(camera_matrix * GetMatrix());
-	}
+	//if (current_turn == 0) {
+	//	movable.Draw(camera_matrix * GetMatrix());
+	//}
 }
 void Archer::Defeated()
 {

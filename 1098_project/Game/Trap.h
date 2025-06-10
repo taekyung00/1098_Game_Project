@@ -16,7 +16,7 @@ public:
 private:
 	CS230::Sprite* alive_sprite;
 	CS230::Sprite* dead_sprite;
-	CS230::Sprite* movable;
+	//CS230::Sprite* movable;
 	const int max_turn_count = 2;
 	int current_turn = 0;
 	bool is_alive = true;

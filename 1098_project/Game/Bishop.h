@@ -17,7 +17,7 @@ public:
 	};
 	void Defeated() override;
 private:
-	CS230::Sprite movable;
+	//CS230::Sprite movable;
 	const int max_turn_count = 1;
 	int current_turn = 1;
 	void attack() override;

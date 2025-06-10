@@ -294,7 +294,11 @@ void Map::ChangeStageAndRoom()
             break;
         case Rooms::Room5:
             room = Rooms::Room6;
+            break;
         case Rooms::Room6:
+            room = Rooms::Store;
+            break;
+        case Rooms::Store:
             Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
             break;
         }
