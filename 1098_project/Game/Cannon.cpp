@@ -7,6 +7,8 @@ Cannon::Cannon(Math::ivec2 index) :
 	ReachableIndexPush();
 	ChangeMapDesign();
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::IdleHorizon));
+	turn_timer = new CS230::Timer(0.0);
+	AddGOComponent(turn_timer);
 }
 
 void Cannon::Update([[maybe_unused]] double dt) {
@@ -114,9 +116,10 @@ void Cannon::Update([[maybe_unused]] double dt) {
 		//SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
+		turn_timer->Set(turn_time);
 	}
 	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
-		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+		if (turn_timer->Remaining() == 0.0) {
 			turn_ended = true;
 			is_outdated = true;
 		}

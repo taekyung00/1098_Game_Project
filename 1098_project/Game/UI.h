@@ -19,7 +19,7 @@ private:
 	CS230::Texture* shield_texture;
 	CS230::Texture* life_texture;
 	const Player* player_ptr;
-	const Math::ivec2 start_position = { 472,629 };
+	const Math::ivec2 start_position = { 472,620 };
 	const Math::ivec2 player_button_position = { 4,3 };
 	const Math::ivec2 enemy_button_position = { 538,3 };
 	const Math::ivec2 button_frame_size = { 175,37 };

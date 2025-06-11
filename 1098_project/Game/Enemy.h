@@ -4,6 +4,7 @@
 #include "../Engine/GameObject.h"
 #include "../Engine/GameObjectManager.h"
 #include "../Engine/Vec2.h"
+#include "../Engine/Timer.h"
 #include "Tile.h"
 #include "TurnManager.h"
 #include "Map.h"
@@ -40,4 +41,6 @@ protected:
     //bool map_changed = false;
     void ChangeIndex();
     virtual void attack();
+    CS230::Timer* turn_timer;
+    static constexpr double turn_time = 1.0;
 };

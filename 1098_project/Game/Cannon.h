@@ -2,6 +2,7 @@
 #include <vector>
 #include "../Engine/Vec2.h"
 #include "../Engine/GameObjectManager.h"
+#include "../Engine/Timer.h"
 #include "Enemy.h"
 #include "Player.h"
 #include "CannonBall.h"
@@ -33,4 +34,6 @@ private:
 	void destroy_cannonball();
 	bool is_horizon = true;
 	bool is_flipped = false;
+	CS230::Timer* turn_timer;
+	static constexpr double turn_time = 1.0;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "States.h"
 #include "Enemy.h"
+#include "../Engine/Timer.h"
 
 class Trap : public Enemy {
 public:
@@ -21,4 +22,6 @@ private:
 	int current_turn = 0;
 	bool is_alive = true;
 	//bool map_changed = true;
+	CS230::Timer* turn_timer;
+	static constexpr double turn_time = 1.0;
 };

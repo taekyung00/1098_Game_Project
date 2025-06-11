@@ -4,7 +4,7 @@ Tutorial::Tutorial() :
 	map_ptr(nullptr),
 	player_ptr(nullptr),
 	turncount_texture(nullptr),
-	turn_texture(nullptr),
+	//turn_texture(nullptr),
 	push_button_texture(nullptr)
 {
 
@@ -16,16 +16,16 @@ void Tutorial::update_turncount_text()
 }
 void Tutorial::update_turn_text()
 {
-	delete turn_texture;
+	//delete turn_texture;
 	delete push_button_texture;
 	if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
-		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
+		//turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
 		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push WASD To Move", 0xFFFFFFFF);
 
 	}
 	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
-		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
-		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE To Change Turn", 0xFFFFFFFF);
+		//turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
+		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Please Wait To Change Turn", 0xFFFFFFFF);
 	}
 }
 void Tutorial::Load() {
@@ -77,8 +77,8 @@ void Tutorial::Unload() {
 	ClearGSComponents();
 	delete turncount_texture;
 	turncount_texture = nullptr;
-	delete turn_texture;
-	turn_texture = nullptr;
+	//delete turn_texture;
+	//turn_texture = nullptr;
 	delete push_button_texture;
 	push_button_texture = nullptr;
 	
@@ -89,6 +89,6 @@ void Tutorial::Draw() {
 	GetGSComponent<CS230::GameObjectManager>()->DrawAll(Math::TransformationMatrix());
 	GetGSComponent<UI>()->Draw();
 	turncount_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turncount_texture->GetSize().x, Engine::GetWindow().GetSize().y - turncount_texture->GetSize().y - 5 }));
-	turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
-	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - push_button_texture->GetSize().x, push_button_texture->GetSize().y }));
+	//turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
+	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ 0, Engine::GetWindow().GetSize().y - push_button_texture->GetSize().y }));
 }

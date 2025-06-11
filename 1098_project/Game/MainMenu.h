@@ -32,7 +32,8 @@ public:
     static constexpr unsigned int non_seleted_color = 0x3ADF00FF;
     static constexpr unsigned int seleted_color = 0xFFFFFFFF;
 private:
-    CS230::Texture* title_texture;
+    CS230::Texture* title;
+    //CS230::Texture* title_texture;
     CS230::Texture* InGame_texture;
     CS230::Texture* Tutorial_texture;
     CS230::Texture* exit_texture;
@@ -50,5 +51,5 @@ private:
     };
     Option current_option;
     void update_textures();
-
+    
 };

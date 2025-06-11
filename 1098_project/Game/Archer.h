@@ -1,4 +1,5 @@
 #pragma once
+#include "../Engine/Timer.h"
 #include "Enemy.h"
 #include "Arrow.h"
 class Archer : public Enemy {
@@ -23,4 +24,6 @@ private:
 	Arrow* arrow;
 	void make_arrow();
 	void destroy_arrow();
+	CS230::Timer* turn_timer;
+	static constexpr double turn_time = 1.0;
 };

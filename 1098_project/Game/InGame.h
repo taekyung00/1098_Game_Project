@@ -44,7 +44,7 @@ private:
     Player* player_ptr;
 
     CS230::Texture* turncount_texture;
-    CS230::Texture* turn_texture;
+    //CS230::Texture* turn_texture;
     //CS230::Texture* push_button_texture;
 
     inline static Audio* current_audio_ptr;
