@@ -117,7 +117,7 @@ void Bishop::attack() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false)  && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
-		turnmanager->Sub(1);
+		turnmanager->Sub(3);
 		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 		did_attack = true;
 		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));

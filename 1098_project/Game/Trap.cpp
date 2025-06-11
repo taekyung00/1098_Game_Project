@@ -43,6 +43,7 @@ void Trap::Update( [[maybe_unused]] double dt) {
 	}
 	
 }
+
 void Trap::Draw(Math::TransformationMatrix camera_matrix) {
 	if (is_alive == true) {
 		alive_sprite->Draw(camera_matrix * GetMatrix());
@@ -54,6 +55,7 @@ void Trap::Draw(Math::TransformationMatrix camera_matrix) {
 	//	movable->Draw(camera_matrix * GetMatrix());
 	//}
 }
+
 bool Trap::CanCollideWith(GameObjectTypes other_object_type) {
 	if ((Engine::GetGameStateManager().GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) && (other_object_type == GameObjectTypes::Player) &&(is_alive == true)) {
 		return true;
@@ -65,7 +67,7 @@ void Trap::ResolveCollision(GameObject* other_object) {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
-		turnmanager->Sub(1);
+		turnmanager->Sub(3);
 		did_attack = true;
 		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 	}

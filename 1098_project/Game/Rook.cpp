@@ -12,6 +12,7 @@ Rook::Rook(Math::ivec2 index) :
 	turn_timer = new CS230::Timer(0.0);
 	AddGOComponent(turn_timer);
 }
+
 void Rook::Update([[maybe_unused]] double dt) {
 	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
@@ -70,6 +71,7 @@ void Rook::Update([[maybe_unused]] double dt) {
 	}
 	ChangeMapDesign();
 }
+
 void Rook::ReachableIndexPush() {
 	Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	reachable_indices.clear();
@@ -116,7 +118,7 @@ void Rook::attack() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
-		turnmanager->Sub(1);
+		turnmanager->Sub(3);
 		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 		did_attack = true;
 		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
