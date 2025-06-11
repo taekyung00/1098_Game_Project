@@ -25,6 +25,7 @@ Shield::Shield(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, Us
 		cost = 6;
 		break;
 	}
+	cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
 }
 
 void Shield::ResolveCollision(GameObject* other_object) {
@@ -56,7 +57,7 @@ void Shield::Draw(Math::TransformationMatrix camera_matrix) {
 		if (sprite != nullptr) {
 			sprite->Draw(draw_matrix, static_cast<int>(use_item_rank));
 		}
-		cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
+		
 		cost_texture->Draw(cost_draw_matrix);
 	}
 }

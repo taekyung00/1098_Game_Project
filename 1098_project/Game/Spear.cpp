@@ -25,6 +25,7 @@ Spear::Spear(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseI
 		cost = 6;
 		break;
 	}
+	cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
 }
 
 void Spear::ResolveCollision(GameObject* other_object) {
@@ -55,7 +56,7 @@ void Spear::Draw(Math::TransformationMatrix camera_matrix) {
 		if (sprite != nullptr) {
 			sprite->Draw(draw_matrix, static_cast<int>(use_item_rank));
 		}
-		cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
+		
 		cost_texture->Draw(cost_draw_matrix);
 	}
 }
