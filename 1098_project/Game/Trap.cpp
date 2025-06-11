@@ -17,6 +17,7 @@ Trap::Trap(Math::ivec2 index) :
 }
 
 void Trap::Update( [[maybe_unused]] double dt) {
+	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 

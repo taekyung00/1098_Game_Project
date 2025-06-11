@@ -54,11 +54,12 @@ void Axe::Update([[maybe_unused]]double dt) {
 void Axe::Draw(Math::TransformationMatrix camera_matrix) {
 	if (is_get == false) {
 		Math::TransformationMatrix draw_matrix = GetMatrix();
+		Math::TransformationMatrix cost_draw_matrix = Math::TranslationMatrix(GetPosition() );
 		CS230::Sprite* sprite = GetGOComponent<CS230::Sprite>();
 		if (sprite != nullptr) {
 			sprite->Draw(draw_matrix, static_cast<int>(use_item_rank));
 		}		
 		cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
-		cost_texture->Draw(draw_matrix );
+		cost_texture->Draw(cost_draw_matrix);
 	}
 }
