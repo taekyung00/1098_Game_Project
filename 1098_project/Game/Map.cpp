@@ -47,6 +47,8 @@ void Map::InitializeStage(Stages _stage)
         case Stages::stage1: folder = "Game/stage1"; break;
         case Stages::stage2: folder = "Game/stage2"; break;
         case Stages::stage3: folder = "Game/stage3"; break;
+        case Stages::Boss: folder = "Game/Boss"; break;
+            
         }
         // scan directory
         availablefiles.clear();

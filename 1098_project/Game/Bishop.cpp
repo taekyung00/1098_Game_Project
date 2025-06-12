@@ -14,6 +14,9 @@ Bishop::Bishop(Math::ivec2 index) :
 }
 
 void Bishop::Update([[maybe_unused]] double dt) {
+	if (Destroyed() == true) {
+		return;
+	}
 	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {

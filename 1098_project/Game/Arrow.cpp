@@ -46,6 +46,9 @@ void Arrow::Update([[maybe_unused]] double dt) {
 	SetPosition({ start_position.x + start_index.x * tile_size.x * scale_const.x, start_position.y + start_index.y * tile_size.y * scale_const.y });
 }
 void Arrow::ResolveCollision(GameObject* other_object) {
+	if (Destroyed() == true) {
+		return;
+	}
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {

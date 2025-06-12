@@ -13,6 +13,9 @@ Enemy::Enemy(Math::ivec2 start_index, Math::vec2 scale) :
 }
 
 void Enemy::Update([[maybe_unused]]double dt) {
+	if (Destroyed() == true) {
+		return;
+	}
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
 		ReachableIndexPush();

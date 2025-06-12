@@ -392,7 +392,7 @@ void Player::attack(CS230::Input::Keys input) {
 			for (int i = 0; i < near_indices.size(); ++i) {
 				if (near_indices[i] == idx) {
 					enemy->Defeated();
-					enemy_manager->EraseEnemy(enemy);
+					//enemy_manager->EraseEnemy(enemy);
 					used_item = true;
 					is_moving = false;
 					did_spear_worked = true;
