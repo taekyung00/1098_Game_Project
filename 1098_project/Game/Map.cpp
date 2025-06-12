@@ -22,21 +22,18 @@ void Map::InitializeStage(Stages _stage)
             designPath = "Game/tutorial/1.txt";
             break;
         case Rooms::Room2:
-            designPath = "Game/tutorial/1.1.txt";
-            break;
-        case Rooms::Room3:
             designPath = "Game/tutorial/2.txt";
             break;
-        case Rooms::Room4:
+        case Rooms::Room3:
             designPath = "Game/tutorial/3.txt";
             break;
-        case Rooms::Room5:
+        case Rooms::Room4:
             designPath = "Game/tutorial/4.txt";
             break;
-        case Rooms::Room6:
+        case Rooms::Room5:
             designPath = "Game/tutorial/5.txt";
             break;
-        case Rooms::Room7:
+        case Rooms::Room6:
             designPath = "Game/tutorial/6.txt";
             break;
         }

@@ -2,9 +2,9 @@
 #include "Player.h"
 
 Archer::Archer(Math::ivec2 index) : 
-	Enemy(index,{scale_const.x,scale_const.y/1.5}),
+	Enemy(index,{scale_const.x,scale_const.y/1.5})
 	//movable("Assets/Movable.spt", this),
-	arrow(nullptr)
+	//arrow(nullptr)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Archer.spt", this));
 	ReachableIndexPush();
@@ -47,7 +47,7 @@ void Archer::Update([[maybe_unused]]double dt) {
 		else {
 			ReachableIndexPush();
 			
-			destroy_arrow();
+			//destroy_arrow();
 			--current_turn;
 		}
 		if (current_turn == 0) {
@@ -82,23 +82,23 @@ void Archer::make_arrow()
 {
 	if (did_attack == false) {
 		CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
-		destroy_arrow();
-		arrow = new Arrow(GetIndex(), reachable_indices[0]);
+		//destroy_arrow();
+		//arrow = ;
 		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
-		gameobjectmanager->Add(arrow);
+		gameobjectmanager->Add(new Arrow(GetIndex(), reachable_indices[0]));
 		did_attack = true;
 	}
 	
 }
 
-void Archer::destroy_arrow()
-{
-	if (arrow != nullptr) {
-		arrow->Destroy();
-		arrow = nullptr;
-	}
-	
-}
+//void Archer::destroy_arrow()
+//{
+//	if (arrow != nullptr) {
+//		arrow->Destroy();
+//		arrow = nullptr;
+//	}
+//	
+//}
 
 void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 	GameObject::Draw(camera_matrix);
