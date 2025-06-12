@@ -1,8 +1,8 @@
-PlayFrame 0 .3
-PlayFrame 1 .3
-PlayFrame 2 .3
-PlayFrame 3 .3
-PlayFrame 4 .3
-PlayFrame 5 .3
-PlayFrame 6 .3
+PlayFrame 0 .03
+PlayFrame 1 .03
+PlayFrame 2 .03
+PlayFrame 3 .03
+PlayFrame 4 .03
+PlayFrame 5 .03
+PlayFrame 6 .03
 Loop 6

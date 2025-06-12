@@ -53,7 +53,7 @@ void Axe::Update([[maybe_unused]]double dt) {
 	}
 }
 
-void Axe::Draw(Math::TransformationMatrix camera_matrix) {
+void Axe::Draw([[maybe_unused]] Math::TransformationMatrix camera_matrix) {
 	if (is_get == false) {
 		Math::TransformationMatrix draw_matrix = GetMatrix();
 		Math::TransformationMatrix cost_draw_matrix = Math::TranslationMatrix(GetPosition() );

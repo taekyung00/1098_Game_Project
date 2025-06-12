@@ -48,7 +48,7 @@ void Spear::Update([[maybe_unused]] double dt) {
 	}
 }
 
-void Spear::Draw(Math::TransformationMatrix camera_matrix) {
+void Spear::Draw([[maybe_unused]] Math::TransformationMatrix camera_matrix) {
 	if (is_get == false) {
 		Math::TransformationMatrix draw_matrix = GetMatrix();
 		Math::TransformationMatrix cost_draw_matrix = Math::TranslationMatrix(GetPosition());
