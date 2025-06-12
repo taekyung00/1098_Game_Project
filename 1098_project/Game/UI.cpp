@@ -7,6 +7,7 @@ UI::UI():
 	axe_texture(Engine::GetTextureManager().Load("Assets/Axe.png")),
 	spear_texture(Engine::GetTextureManager().Load("Assets/Spear.png")),
 	shield_texture(Engine::GetTextureManager().Load("Assets/Shield.png")),
+	boots_texture(Engine::GetTextureManager().Load("Assets/Boots.png")),
 	player_ptr(Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>())
 {}
 
@@ -37,6 +38,9 @@ void UI::Draw() {
 				break;
 			case GameObjectTypes::Shield:
 				shield_texture->Draw(item_draw_matrix, use_items_texel_positions[static_cast<int>(player_use_items[i]->GetUseItemRank())], use_items_frame_size);
+				break;
+			case GameObjectTypes::Boots:
+				boots_texture->Draw(item_draw_matrix, use_items_texel_positions[static_cast<int>(player_use_items[i]->GetUseItemRank())], use_items_frame_size);
 				break;
 			}
 			life_texture->Draw(life_draw_matrix);

@@ -21,5 +21,6 @@ enum class GameObjectTypes {
     Axe,
     Spear,
     Shield,
-    Count,
+    Boots,
+    Count
 };

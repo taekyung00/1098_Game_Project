@@ -5,6 +5,7 @@
 #include "Axe.h"
 #include "Shield.h"
 #include "Spear.h"
+#include "Boots.h"
 
 void ItemManager::DropItem(Math::ivec2 index)
 {
@@ -44,7 +45,7 @@ void ItemManager::StoreItem(Math::ivec2 index)
     std::mt19937 gen(rd());
 
     std::discrete_distribution<> dist1({55 , 30, 10, 5 }); // index 0:55% - common, 1:30% - rare , 2:10% - unique, 3: 5% - legendary
-    std::discrete_distribution<> dist2({33.4 , 33.3, 33.3 }); // index 0:33.4% - shield, 1:33.3% - spare , 2:33.3% - axe
+    std::discrete_distribution<> dist2({25 , 25, 25, 25 }); // index 0:25% - shield, 1:25% - spare , 2:25% - axe , 3 : 25% - boots
 
     int rank_result = dist1(gen);
     int kind_result = dist2(gen);
@@ -81,6 +82,12 @@ void ItemManager::StoreItem(Math::ivec2 index)
         break;
     case 2:
         new_item = new Axe(index, ItemKind::Use, UseItem::Axe, rank);
+        use_items.push_back(new_item);
+        gameobjectmanager->Add(new_item);
+        break;
+
+    case 3:
+        new_item = new Boots(index, ItemKind::Use, UseItem::Axe, rank);
         use_items.push_back(new_item);
         gameobjectmanager->Add(new_item);
         break;
@@ -153,4 +160,15 @@ void ItemManager::PushUseItemToPlayer(Item* item)
         player_use_item.push_back(item);
     }
     
+    //boots
+    else if (item->Type() == GameObjectTypes::Boots) {
+        std::vector<Item*>::iterator iter = std::find_if(player_use_item.begin(), player_use_item.end(), [](Item* find_item) {
+            return find_item->Type() == GameObjectTypes::Boots;
+            });
+        if (iter != player_use_item.end()) {
+            EraseUseItem(*iter);
+            player_use_item.erase(std::remove(player_use_item.begin(), player_use_item.end(), *iter), player_use_item.end());
+        }
+        player_use_item.push_back(item);
+    }
 }

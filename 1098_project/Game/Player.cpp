@@ -85,7 +85,7 @@ void Player::Update([[maybe_unused]]double dt) {
 				GetGOComponent<CS230::Sprite>()->AnimationEnded()) {
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 				is_moving = true;
-				if (!((enemies.size() == 0) || ((enemies.size() == 1) && (enemies[0]->Type() == GameObjectTypes::Trap)))) {
+				if (enemies.size() != 0)  {
 					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
 					used_item = false;
 				}
@@ -93,7 +93,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			else if (did_nothing == true) {
 				is_moving = true;
 				did_nothing = false;
-				if (!((enemies.size() == 0) || ((enemies.size() == 1) && (enemies[0]->Type() == GameObjectTypes::Trap)))) {
+				if (enemies.size() != 0) {
 					(turn_manager->SetCurrentTurn()) = Turns::Enemy;
 					used_item = false;
 				}
@@ -316,6 +316,9 @@ void Player::attack(CS230::Input::Keys input) {
 		bool did_axe_worked = false;
 		int axe_killed_amount = 0;
 		for (Enemy* enemy : enemies) {
+			if (enemy->Type() == GameObjectTypes::Trap) {
+				continue;
+			}
 			Math::ivec2 idx = enemy->GetIndex();
 			for (int i = 0; i < near_indices.size(); ++i) {
 				if (near_indices[i] == idx) {

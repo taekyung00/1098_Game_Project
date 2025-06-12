@@ -14,7 +14,8 @@ enum class UseItem {
 	None,
 	Shield,
 	Spear,
-	Axe
+	Axe,
+	Boots
 };
 enum class UseItemRank {
 	Common,

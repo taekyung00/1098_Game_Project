@@ -17,6 +17,7 @@ private:
 	CS230::Texture* axe_texture;
 	CS230::Texture* spear_texture;
 	CS230::Texture* shield_texture;
+	CS230::Texture* boots_texture;
 	CS230::Texture* life_texture;
 	const Player* player_ptr;
 	const Math::ivec2 start_position = { 472,620 };

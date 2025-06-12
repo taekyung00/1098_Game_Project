@@ -8,6 +8,7 @@
 #include "Tile.h"
 #include "TurnManager.h"
 #include "Map.h"
+#include "Shield.h"
 
 
 
