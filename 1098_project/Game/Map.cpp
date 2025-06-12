@@ -299,9 +299,6 @@ void Map::ChangeStageAndRoom()
             room = Rooms::Room6;
             break;
         case Rooms::Room6:
-            room = Rooms::Room7;
-            break;
-        case Rooms::Room7:
             room = Rooms::Store;
             break;
         case Rooms::Store:

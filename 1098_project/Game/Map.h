@@ -36,7 +36,6 @@ public:
 	Stages&			SetStage() { return stage; }
 
 	void			InitializeStage(Stages _stage = Stages::stage1);
-	
 
 	const Rooms		GetRoom() const { return room; }
 	Rooms&			SetRoom() { return room; }

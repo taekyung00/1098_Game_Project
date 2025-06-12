@@ -33,7 +33,7 @@ void Arrow::Update([[maybe_unused]] double dt) {
 		
 	}
 	else {
-		ResolveCollision(Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>());
+		//ResolveCollision(Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>());
 		turn_ended = true;
 		
 	}

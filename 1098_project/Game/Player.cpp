@@ -177,7 +177,7 @@ void Player::move_left()
 				
 				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
-				enemy_manager->EraseEnemy(enemy);
+				//enemy_manager->EraseEnemy(enemy);
 				turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
@@ -210,7 +210,7 @@ void Player::move_right()
 				enemy->Defeated();
 				//enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
-				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
@@ -241,7 +241,7 @@ void Player::move_top()
 
 				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
-				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
@@ -272,7 +272,7 @@ void Player::move_bottom()
 
 				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
-				enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
@@ -323,7 +323,7 @@ void Player::attack(CS230::Input::Keys input) {
 			for (int i = 0; i < near_indices.size(); ++i) {
 				if (near_indices[i] == idx) {
 					enemy->Defeated();
-					enemy_manager->EraseEnemy(enemy);
+					//enemy_manager->EraseEnemy(enemy);
 					used_item = true;
 					is_moving = false;
 					did_axe_worked = true;
