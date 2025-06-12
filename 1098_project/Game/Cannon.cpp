@@ -99,7 +99,7 @@ void Cannon::Update([[maybe_unused]] double dt) {
 			}
 			
 		}
-		else {
+		else if(current_turn == max_turn_count - 1){
 			if (is_horizon == true) {
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::IdleHorizon));
 				if (is_flipped == true) {

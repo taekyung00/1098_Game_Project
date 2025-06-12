@@ -3,7 +3,10 @@
 #include "Player.h"
 
 Enemy::Enemy(Math::ivec2 start_index) : 
-	GameObject(start_index, 0.0, scale_const)
+	Enemy(start_index,scale_const){}
+
+Enemy::Enemy(Math::ivec2 start_index, Math::vec2 scale) : 
+	GameObject(start_index, 0.0, scale)
 {
 	turn_timer = new CS230::Timer(0.0);
 	AddGOComponent(turn_timer);

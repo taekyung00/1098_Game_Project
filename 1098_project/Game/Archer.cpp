@@ -2,7 +2,7 @@
 #include "Player.h"
 
 Archer::Archer(Math::ivec2 index) : 
-	Enemy(index),
+	Enemy(index,{scale_const.x,scale_const.y/1.5}),
 	//movable("Assets/Movable.spt", this),
 	arrow(nullptr)
 {
@@ -106,10 +106,8 @@ void Archer::Draw(Math::TransformationMatrix camera_matrix) {
 	//	movable.Draw(camera_matrix * GetMatrix());
 	//}
 }
+
 void Archer::Defeated()
 {
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacked));
 }
-//void Archer::ResolveCollision(GameObject* other_object) {
-//
-//}

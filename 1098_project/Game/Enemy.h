@@ -15,6 +15,7 @@
 class Enemy : public CS230::GameObject {
 public:
 	Enemy(Math::ivec2 start_index);
+	Enemy(Math::ivec2 start_index,Math::vec2 scale);
     void Update(double dt) override;
     GameObjectTypes Type() override { return GameObjectTypes::Enemy; }
     std::string TypeName() override { return "Enemy"; }

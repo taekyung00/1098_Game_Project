@@ -115,9 +115,10 @@ void ItemManager::ClearUseItem()
         }
 
         if (is_in_player == false) {
-            EraseUseItem(use_item);
+            use_item->Destroy();
         }
     }
+    use_items = player->GetUseItem();
 }
 
 void ItemManager::EraseDropItem(Item* item)
@@ -129,7 +130,13 @@ void ItemManager::EraseDropItem(Item* item)
 void ItemManager::EraseUseItem(Item* item)
 {
     item->Destroy();
-    use_items.erase(std::remove(use_items.begin(), use_items.end(), item), use_items.end());
+    if (use_items.size() == 1) {
+        use_items.clear();
+    }
+    else {
+        use_items.erase(std::remove(use_items.begin(), use_items.end(), item), use_items.end());
+    }
+    
 }
 
 void ItemManager::PushUseItemToPlayer(Item* item)
