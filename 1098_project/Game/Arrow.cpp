@@ -2,12 +2,13 @@
 #include "Player.h"
 
 Arrow::Arrow(Math::ivec2 start_index, Math::ivec2 dest_index) :
-	 Enemy(start_index),
-	dest_index(dest_index)
+	 Enemy(dest_index),
+	dest_index(dest_index),
+	start_index(start_index)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Arrow.spt", this));
 	
-	dest_pos = { start_position.x + dest_index.x * tile_size.x * scale_const.x , start_position.y + dest_index.y * tile_size.y * scale_const.y };
+	//dest_pos = { start_position.x + dest_index.x * tile_size.x * scale_const.x , start_position.y + dest_index.y * tile_size.y * scale_const.y };
 	//temp_pos = GetPosition();
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(0);
 	
@@ -15,33 +16,34 @@ Arrow::Arrow(Math::ivec2 start_index, Math::ivec2 dest_index) :
 
 void Arrow::Update([[maybe_unused]] double dt) {
 	GameObject::Update(dt);
-	if (dest_index != GetIndex())
+	if (dest_index != start_index)
 	{
-		if (dest_index.x-GetIndex().x > 0) {
-			++SetIndex().x;
+		if (dest_index.x- start_index.x > 0) {
+			++start_index.x;
 		}
-		else if (dest_index.x - GetIndex().x < 0) {
-			--SetIndex().x;
+		else if (dest_index.x - start_index.x < 0) {
+			--start_index.x;
 		}
 
-		if (dest_index.y - GetIndex().y > 0) {
-			++SetIndex().y;
+		if (dest_index.y - start_index.y > 0) {
+			++start_index.y;
 		}
-		else if (dest_index.y - GetIndex().y < 0) {
-			--SetIndex().y;
+		else if (dest_index.y - start_index.y < 0) {
+			--start_index.y;
 		}
 		
 	}
 	else {
 		//ResolveCollision(Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>());
 		turn_ended = true;
+		//Destroyed();
 		
 	}
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if (turnmanager->GetCurrentTurn() == Turns::Player) {
 		Destroy();
 	}
-	SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
+	SetPosition({ start_position.x + start_index.x * tile_size.x * scale_const.x, start_position.y + start_index.y * tile_size.y * scale_const.y });
 }
 void Arrow::ResolveCollision(GameObject* other_object) {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
