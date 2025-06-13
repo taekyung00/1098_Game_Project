@@ -81,6 +81,7 @@ void Tutorial::Unload() {
 	//turn_texture = nullptr;
 	delete push_button_texture;
 	push_button_texture = nullptr;
+	CloseAudioDevice();
 	
 }
 

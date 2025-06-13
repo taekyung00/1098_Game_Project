@@ -64,6 +64,14 @@ void InGame::Load() {
 	stage3_audio_ptr->SetLooping(true);
 	AddGSComponent(stage3_audio_ptr);
 
+	boss_audio_ptr = new Audio("Sounds/Boss_bgm.mp3");
+	boss_audio_ptr->SetLooping(true);
+	AddGSComponent(boss_audio_ptr);
+
+	shop_audio_ptr = new Audio("Sounds/Shop.mp3");
+	shop_audio_ptr->SetLooping(true);
+	AddGSComponent(shop_audio_ptr);
+
 	current_audio_ptr = stage1_audio_ptr;
 	current_audio_ptr->Play();
 
@@ -98,6 +106,7 @@ void InGame::Unload() {
 	ClearGSComponents();
 	delete turncount_texture;
 	turncount_texture = nullptr;
+	CloseAudioDevice();
 	//delete turn_texture;
 	//turn_texture = nullptr;
 	//delete push_button_texture;
@@ -120,7 +129,10 @@ void InGame::ChangeAudio()
 {
 	current_audio_ptr->Stop();
 	Map* static_map_ptr = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
-	if (static_map_ptr->GetStage() == Stages::stage1) {
+	if (static_map_ptr->GetRoom() == Rooms::Store) {
+		current_audio_ptr = shop_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::stage1) {
 		current_audio_ptr = stage1_audio_ptr;
 	}
 	else if (static_map_ptr->GetStage() == Stages::stage2) {
@@ -128,6 +140,10 @@ void InGame::ChangeAudio()
 	}
 	else if (static_map_ptr->GetStage() == Stages::stage3) {
 		current_audio_ptr = stage3_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::Boss)
+	{
+		current_audio_ptr = boss_audio_ptr;
 	}
 	current_audio_ptr->Play();
 }

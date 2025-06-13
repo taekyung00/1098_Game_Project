@@ -6,7 +6,6 @@ Audio::Audio(const char* filePath) {
 
 Audio::~Audio() {
     UnloadMusicStream(music);
-    CloseAudioDevice();
 }
 
 void Audio::Play() {

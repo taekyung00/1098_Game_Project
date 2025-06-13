@@ -5,6 +5,7 @@
 #include "Tile.h"
 #include "TurnManager.h"
 #include "Turns.h"
+#include "../Engine/Audio.h"
 
 enum class ItemKind {
 	Drop,
@@ -41,6 +42,7 @@ public:
 
 	const UseItemRank GetUseItemRank() const{ return use_item_rank; }
 	CS230::Texture* LifeTexture() { return life_texture; }
+	Audio* getitem_sound_ptr;
 protected:
 	ItemKind item_kind;
 	UseItem use_item;

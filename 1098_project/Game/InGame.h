@@ -51,6 +51,8 @@ private:
     inline static Audio* stage1_audio_ptr;
     inline static Audio* stage2_audio_ptr;
     inline static Audio* stage3_audio_ptr;
+    inline static Audio* boss_audio_ptr;
+    inline static Audio* shop_audio_ptr;
     
     
     void update_turncount_text();

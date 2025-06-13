@@ -19,8 +19,8 @@ public:
 	void Defeated() override;
 private:
 	//CS230::Sprite movable;
-	const int max_turn_count = 1;
-	int current_turn = 1;
+	const int max_turn_count = 2;
+	int current_turn = 2;
 	//Arrow* arrow;
 	void make_arrow();
 	//void destroy_arrow();

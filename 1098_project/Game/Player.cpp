@@ -16,6 +16,10 @@ Player::Player() :
 	moving_sound_ptr = new Audio("Sounds/Moving_Sound.mp3");
 	moving_sound_ptr->SetLooping(false);
 	AddGOComponent(moving_sound_ptr);
+	player_attack_sound_ptr = new Audio("Sounds/Player_attack_ef.mp3");
+	player_attack_sound_ptr->SetLooping(false);
+	AddGOComponent(player_attack_sound_ptr);
+
 	map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	//after_move_timer = new CS230::Timer(0.0);
 	//AddGOComponent(after_move_timer);
@@ -45,6 +49,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::A)) {
 				if (use_items.size() != 0 && used_item == false) {
 					attack(CS230::Input::Keys::A);
+					player_attack_sound_ptr->Update();
 				}
 				if (used_item == false) {
 					move_left();
@@ -53,6 +58,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 				if (use_items.size() != 0 && used_item == false) {
 					attack(CS230::Input::Keys::S);
+					player_attack_sound_ptr->Update();
 				}
 				if (used_item == false) {
 					move_bottom();
@@ -62,6 +68,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::D)) {
 				if (use_items.size() != 0 && used_item == false) {
 					attack(CS230::Input::Keys::D);
+					player_attack_sound_ptr->Update();
 				}
 				if (used_item == false) {
 					move_right();
@@ -71,6 +78,7 @@ void Player::Update([[maybe_unused]]double dt) {
 			else if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 				if (use_items.size() != 0 && used_item == false) {
 					attack(CS230::Input::Keys::W);
+					player_attack_sound_ptr->Update();
 				}
 				if (used_item == false) {
 					move_top();
@@ -192,6 +200,7 @@ void Player::move_left()
 				//enemy_manager->EraseEnemy(enemy);
 				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Update();
 			}
 		}
 		if (enemy_attacked == false) {
@@ -234,6 +243,7 @@ void Player::move_right()
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Update();
 			}
 		}
 		if (enemy_attacked == false) {
@@ -274,6 +284,7 @@ void Player::move_top()
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Update();
 			}
 		}
 		if (enemy_attacked == false) {
@@ -289,7 +300,6 @@ void Player::move_top()
 		turn_manager->Sub();
 	}
 	is_moving = false;
-	
 }
 
 void Player::move_bottom()
@@ -314,6 +324,7 @@ void Player::move_bottom()
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Update();
 			}
 		}
 		if (enemy_attacked == false) {

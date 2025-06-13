@@ -39,10 +39,12 @@ void Shield::ResolveCollision(GameObject* other_object) {
 			item_manager->PushUseItemToPlayer(this);
 			turn_manager->Sub(cost);
 			is_get = true;
+			getitem_sound_ptr->Play();
 		}
 }
 
 void Shield::Update([[maybe_unused]] double dt) {
+	getitem_sound_ptr->Update();
 	ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if (life <= 0) {
