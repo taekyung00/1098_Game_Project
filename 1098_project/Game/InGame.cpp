@@ -128,26 +128,30 @@ void InGame::Draw() {
 void InGame::ChangeAudio()
 {
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
-	current_audio_ptr->Stop();
+	bool stage_change_check = false;
 	Map* static_map_ptr = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	if (static_map_ptr->GetRoom() == Rooms::Store) {
+		current_audio_ptr->Stop();
 		current_audio_ptr = shop_audio_ptr;
+		stage_change_check = true;
 	}
 	else if (static_map_ptr->GetStage() == Stages::stage1) {
 		current_audio_ptr = stage1_audio_ptr;
 	}
 	else if (static_map_ptr->GetStage() == Stages::stage2) {
-		turn_manager->Add(InGame::MaxTurn);
 		current_audio_ptr = stage2_audio_ptr;
 	}
 	else if (static_map_ptr->GetStage() == Stages::stage3) {
-		turn_manager->Add(InGame::MaxTurn);
 		current_audio_ptr = stage3_audio_ptr;
 	}
 	else if (static_map_ptr->GetStage() == Stages::Boss)
 	{
-		turn_manager->Add(InGame::MaxTurn);
 		current_audio_ptr = boss_audio_ptr;
+	}
+	
+	if (stage_change_check == true && static_map_ptr->GetRoom() != Rooms::Store)
+	{
+		turn_manager->Add(InGame::MaxTurn);
 	}
 	current_audio_ptr->Play();
 }

@@ -383,6 +383,7 @@ void Player::attack(CS230::Input::Keys input) {
 					is_moving = false;
 					did_axe_worked = true;
 					Engine::GetLogger().LogDebug("axe worked!");
+					player_attack_sound_ptr->Play();
 					++axe_killed_amount;
 					break;
 				}
@@ -458,6 +459,7 @@ void Player::attack(CS230::Input::Keys input) {
 					is_moving = false;
 					did_spear_worked = true;
 					Engine::GetLogger().LogDebug("spear worked!");
+					player_attack_sound_ptr->Play();
 					break;
 				}
 			}
