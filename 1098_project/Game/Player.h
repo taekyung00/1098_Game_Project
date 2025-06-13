@@ -45,6 +45,7 @@ private:
     Map* map;
     Audio* moving_sound_ptr;
     Audio* stage_sound_ptr;
+    Audio* player_attack_sound_ptr;
     //CS230::Timer* after_move_timer;
     //static constexpr double after_move_time = 0.65;
     const Math::ivec2 start_index = { 2,0 };

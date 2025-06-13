@@ -19,7 +19,7 @@ void Map::InitializeStage(Stages _stage)
         switch (room)
         {
         case Rooms::Room1:
-            designPath = "Game/tutorial/1.txt";
+            designPath = "Game/tutorial/6.txt";
             break;
         case Rooms::Room2:
             designPath = "Game/tutorial/2.txt";
@@ -34,7 +34,7 @@ void Map::InitializeStage(Stages _stage)
             designPath = "Game/tutorial/5.txt";
             break;
         case Rooms::Room6:
-            designPath = "Game/tutorial/6.txt";
+            designPath = "";
             break;
         }
     }

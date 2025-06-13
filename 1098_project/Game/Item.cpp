@@ -1,11 +1,14 @@
 #include "Item.h"
 
-Item::Item(Math::ivec2 start_index, ItemKind item_kind , UseItem use_item , UseItemRank use_item_rank , int life ) :
+Item::Item(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseItemRank use_item_rank, int life) :
 	item_kind(item_kind),
 	use_item(use_item),
 	use_item_rank(use_item_rank),
 	life(life),
-	GameObject(start_index, 0.0, scale_const){
+	GameObject(start_index, 0.0, scale_const) {
+	getitem_sound_ptr = new Audio("Sounds/Coin_ef.mp3");
+	getitem_sound_ptr->SetLooping(false);
+	AddGOComponent(getitem_sound_ptr);
 }
 
 bool Item::CanCollideWith(GameObjectTypes other_object_type) {

@@ -19,6 +19,9 @@ Player::Player() :
 	stage_sound_ptr = new Audio("Sounds/Stage_change_ef.mp3");
 	stage_sound_ptr->SetLooping(false);
 	AddGOComponent(stage_sound_ptr);
+	player_attack_sound_ptr = new Audio("Sounds/Player_attack_ef.mp3");
+	player_attack_sound_ptr->SetLooping(false);
+	AddGOComponent(player_attack_sound_ptr);
 	map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	//after_move_timer = new CS230::Timer(0.0);
 	//AddGOComponent(after_move_timer);
@@ -29,6 +32,7 @@ void Player::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	moving_sound_ptr->Update();
 	stage_sound_ptr->Update();
+	player_attack_sound_ptr->Update();
 	const std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->GetEnemies();
 
 	if (turn_manager->GetTurnCount() <= 0 && (GetGOComponent<CS230::Sprite>()->CurrentAnimation() != static_cast<int>(Animations::Defeated))) {
@@ -183,13 +187,15 @@ void Player::move_left()
 				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemy_manager->EraseEnemy(enemy);
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Play();
 			}
 		}
 		if (enemy_attacked == false) {
 			--SetIndex().x;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
+			moving_sound_ptr->Play();
 		}
 	}
 	else {
@@ -200,7 +206,6 @@ void Player::move_left()
 	}
 	
 	is_moving = false;
-	moving_sound_ptr->Play();
 }
 
 void Player::move_right()
@@ -216,13 +221,15 @@ void Player::move_right()
 				//enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Play();
 			}
 		}
 		if (enemy_attacked == false) {
 			++SetIndex().x;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
+			moving_sound_ptr->Play();
 		}
 	}
 	else {
@@ -232,7 +239,7 @@ void Player::move_right()
 		turn_manager->Sub();
 	}
 	is_moving = false;
-	moving_sound_ptr->Play();
+
 }
 
 void Player::move_top()
@@ -247,13 +254,15 @@ void Player::move_top()
 				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Play();
 			}
 		}
 		if (enemy_attacked == false) {
 			++SetIndex().y;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
+			moving_sound_ptr->Play();
 		}
 	}
 	else {
@@ -263,7 +272,7 @@ void Player::move_top()
 		turn_manager->Sub();
 	}
 	is_moving = false;
-	moving_sound_ptr->Play();
+
 }
 
 void Player::move_bottom()
@@ -278,13 +287,15 @@ void Player::move_bottom()
 				enemy->Defeated();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+				player_attack_sound_ptr->Play();
 			}
 		}
 		if (enemy_attacked == false) {
 			--SetIndex().y;
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
+			moving_sound_ptr->Play();
 		}
 	}
 	else {
@@ -299,6 +310,7 @@ void Player::move_bottom()
 
 void Player::attack(CS230::Input::Keys input) {
 	//ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+	player_attack_sound_ptr->Play();
 	EnemyManager* enemy_manager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
 	std::vector<Enemy*>& enemies = enemy_manager->SetEnemies();
 	std::vector<Item*>::iterator item_iter = std::find_if(use_items.begin(), use_items.end(),[](Item* item) {

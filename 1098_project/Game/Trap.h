@@ -22,7 +22,7 @@ public:
 private:
 	//CS230::Sprite* movable;
 	const int max_turn_count = 2;
-	int current_turn = 0;
+	int current_turn = 2;
 	bool is_alive = true;
 	//bool map_changed = true;
 	CS230::Timer* turn_timer;

@@ -106,6 +106,7 @@ void InGame::Unload() {
 	ClearGSComponents();
 	delete turncount_texture;
 	turncount_texture = nullptr;
+	CloseAudioDevice();
 	//delete turn_texture;
 	//turn_texture = nullptr;
 	//delete push_button_texture;

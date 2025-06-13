@@ -36,11 +36,14 @@ void Spear::ResolveCollision(GameObject* other_object) {
 			turn_manager->Sub(cost);
 			SetIndex() = { -10,-10 };
 			SetPosition({ -100.0, -100.0 });
+			getitem_sound_ptr->Play();
+
 		}
 }
 
 void Spear::Update([[maybe_unused]] double dt) {
 	ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+	getitem_sound_ptr->Update();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
 	if (life <= 0) {
 		item_manager->EraseUseItem(this);

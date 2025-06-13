@@ -44,10 +44,6 @@ void Trap::Update( [[maybe_unused]] double dt) {
 			is_alive = false;
 			
 		}
-
-		
-		
-
 		//SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
@@ -59,7 +55,6 @@ void Trap::Update( [[maybe_unused]] double dt) {
 			turn_ended = true;
 		}
 	}
-	
 }
 
 //void Trap::Draw(Math::TransformationMatrix camera_matrix) {
@@ -98,7 +93,5 @@ void Trap::ResolveCollision(GameObject* other_object) {
 			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 			did_attack = true;
 		}		
-		
-		
 	}
 }
