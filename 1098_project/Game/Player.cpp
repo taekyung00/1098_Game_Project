@@ -133,8 +133,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 			turn_manager->SetCurrentTurn() = Turns::Player;
 			if (map->GetStage() == Stages::Boss && map->GetRoom() == Rooms::Room1) {
 				Door* door = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Door>();
-				door->SetIndex() = { 2,5 };
-				door->SetPosition({ start_position.x + door->GetIndex().x * tile_size.x * scale_const.x, start_position.y + door->GetIndex().y * tile_size.y * scale_const.y });
+				door->Destroy();
 			}
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 			SetIndex() = start_index;
