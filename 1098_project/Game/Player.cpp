@@ -19,6 +19,9 @@ Player::Player() :
 	player_attack_sound_ptr = new Audio("Assets/Sounds/Player_attack_ef.mp3");
 	player_attack_sound_ptr->SetLooping(false);
 	AddGOComponent(player_attack_sound_ptr);
+	stage_change_sound_ptr = new Audio("Assets/Sounds/Stage_change_ef.mp3");
+	stage_change_sound_ptr->SetLooping(false);
+	AddGOComponent(stage_change_sound_ptr);
 
 	map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	//after_move_timer = new CS230::Timer(0.0);
@@ -30,6 +33,7 @@ void Player::Update([[maybe_unused]]double dt) {
 	GameObject::Update(dt);
 	moving_sound_ptr->Update();
 	player_attack_sound_ptr->Update();
+	stage_change_sound_ptr->Update();
 	const std::vector<Enemy*>& enemies = Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->GetEnemies();
 
 	if (turn_manager->GetTurnCount() <= 0 && (GetGOComponent<CS230::Sprite>()->CurrentAnimation() != static_cast<int>(Animations::Defeated))) {
@@ -126,6 +130,7 @@ void Player::ResolveCollision(GameObject* other_object) {
 	case GameObjectTypes::Door:
 		Engine::GetWindow().Clear(0x000000FF);
 		map->ChangeStageAndRoom();
+		stage_change_sound_ptr->Play();
 		if (!(map->GetStage() == Stages::End && map->GetRoom() == Rooms::Count)) {
 			turn_manager->SetCurrentTurn() = Turns::Player;
 			if (map->GetStage() == Stages::Boss && map->GetRoom() == Rooms::Room1) {
