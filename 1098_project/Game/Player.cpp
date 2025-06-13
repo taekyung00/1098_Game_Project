@@ -411,24 +411,20 @@ void Player::attack(CS230::Input::Keys input) {
 		switch (input)
 		{
 		case CS230::Input::Keys::A:
-			near_indices.push_back({ GetIndex().x - 1, GetIndex().y - 1 });
 			near_indices.push_back({ GetIndex().x - 1, GetIndex().y });
-			near_indices.push_back({ GetIndex().x - 1, GetIndex().y + 1});
+			near_indices.push_back({ GetIndex().x - 2, GetIndex().y });
 			break;
 		case CS230::Input::Keys::D:
-			near_indices.push_back({ GetIndex().x + 1, GetIndex().y - 1 });
 			near_indices.push_back({ GetIndex().x + 1, GetIndex().y });
-			near_indices.push_back({ GetIndex().x + 1, GetIndex().y + 1 });
+			near_indices.push_back({ GetIndex().x + 2, GetIndex().y });
 			break;
 		case CS230::Input::Keys::S:
-			near_indices.push_back({ GetIndex().x - 1, GetIndex().y - 1 });
 			near_indices.push_back({ GetIndex().x , GetIndex().y - 1 });
-			near_indices.push_back({ GetIndex().x + 1, GetIndex().y - 1 });
+			near_indices.push_back({ GetIndex().x , GetIndex().y - 2 });
 			break;
 		case CS230::Input::Keys::W:
-			near_indices.push_back({ GetIndex().x - 1, GetIndex().y + 1 });
 			near_indices.push_back({ GetIndex().x , GetIndex().y + 1 });
-			near_indices.push_back({ GetIndex().x + 1, GetIndex().y + 1 });
+			near_indices.push_back({ GetIndex().x , GetIndex().y + 2 });
 			break;
 		}
 		
