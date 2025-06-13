@@ -172,6 +172,9 @@
     <ClCompile Include="Game\Boots.cpp">
       <Filter>Game\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Game\King.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Animation.h">
@@ -350,6 +353,9 @@
     </ClInclude>
     <ClInclude Include="Game\Boots.h">
       <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\King.h">
+      <Filter>Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

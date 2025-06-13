@@ -123,7 +123,11 @@ void Player::ResolveCollision(GameObject* other_object) {
 		map->ChangeStageAndRoom();
 		if (!(map->GetStage() == Stages::End && map->GetRoom() == Rooms::Count)) {
 			turn_manager->SetCurrentTurn() = Turns::Player;
-
+			if (map->GetStage() == Stages::Boss && map->GetRoom() == Rooms::Room1) {
+				Door* door = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Door>();
+				door->SetIndex() = { 2,5 };
+				door->SetPosition({ start_position.x + door->GetIndex().x * tile_size.x * scale_const.x, start_position.y + door->GetIndex().y * tile_size.y * scale_const.y });
+			}
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 			SetIndex() = start_index;
 			map->InitializeStage(map->GetStage());
@@ -172,18 +176,27 @@ void Player::move_left()
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
-			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x - 1, GetIndex().y } == enemy->GetIndex())) {
+			if (((enemy->Type() == GameObjectTypes::Enemy) || (enemy->Type() == GameObjectTypes::King)) && (Math::ivec2{ GetIndex().x - 1, GetIndex().y } == enemy->GetIndex())) {
 				enemy_attacked = true;
 				
 				enemy->Defeated();
+				if (enemy->Type() == GameObjectTypes::King) {
+					if (map->GetRoom() != Rooms::Room3) {
+						SetIndex() = { 2,0 };
+						map->ChangeStageAndRoom();
+						map->InitializeStage(map->GetStage());
+						Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+					}
+				}
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemy_manager->EraseEnemy(enemy);
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
 		if (enemy_attacked == false) {
 			--SetIndex().x;
+			moving_sound_ptr->Play();
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
 	}
@@ -195,7 +208,7 @@ void Player::move_left()
 	}
 	
 	is_moving = false;
-	moving_sound_ptr->Play();
+	
 }
 
 void Player::move_right()
@@ -204,19 +217,28 @@ void Player::move_right()
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
-			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex())) {
+			if (((enemy->Type() == GameObjectTypes::Enemy) || (enemy->Type() == GameObjectTypes::King)) && (Math::ivec2{ GetIndex().x + 1, GetIndex().y } == enemy->GetIndex())) {
 				enemy_attacked = true;
 
 				enemy->Defeated();
+				if (enemy->Type() == GameObjectTypes::King) {
+					if (map->GetRoom() != Rooms::Room3) {
+						SetIndex() = { 2,0 };
+						map->ChangeStageAndRoom();
+						map->InitializeStage(map->GetStage());
+						Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+					}
+				}
 				//enemy->Destroy();
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
 		if (enemy_attacked == false) {
 			++SetIndex().x;
+			moving_sound_ptr->Play();
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
 	}
@@ -227,7 +249,7 @@ void Player::move_right()
 		turn_manager->Sub();
 	}
 	is_moving = false;
-	moving_sound_ptr->Play();
+	
 }
 
 void Player::move_top()
@@ -236,18 +258,27 @@ void Player::move_top()
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
-			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex())) {
+			if (((enemy->Type() == GameObjectTypes::Enemy) || (enemy->Type() == GameObjectTypes::King)) && (Math::ivec2{ GetIndex().x , GetIndex().y + 1 } == enemy->GetIndex())) {
 				enemy_attacked = true;
 
 				enemy->Defeated();
+				if (enemy->Type() == GameObjectTypes::King) {
+					if (map->GetRoom() != Rooms::Room3) {
+						SetIndex() = { 2,0 };
+						map->ChangeStageAndRoom();
+						map->InitializeStage(map->GetStage());
+						Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+					}
+				}
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
 		if (enemy_attacked == false) {
 			++SetIndex().y;
+			moving_sound_ptr->Play();
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
 	}
@@ -258,7 +289,7 @@ void Player::move_top()
 		turn_manager->Sub();
 	}
 	is_moving = false;
-	moving_sound_ptr->Play();
+	
 }
 
 void Player::move_bottom()
@@ -267,18 +298,27 @@ void Player::move_bottom()
 	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
 		bool enemy_attacked = false;
 		for (Enemy* enemy : enemies) {
-			if ((enemy->Type() == GameObjectTypes::Enemy) && (Math::ivec2{ GetIndex().x , GetIndex().y - 1 } == enemy->GetIndex())) {
+			if (((enemy->Type() == GameObjectTypes::Enemy) || (enemy->Type() == GameObjectTypes::King)) && (Math::ivec2{ GetIndex().x , GetIndex().y - 1 } == enemy->GetIndex())) {
 				enemy_attacked = true;
 
 				enemy->Defeated();
+				if (enemy->Type() == GameObjectTypes::King) {
+					if (map->GetRoom() != Rooms::Room3) {
+						SetIndex() = { 2,0 };
+						map->ChangeStageAndRoom();
+						map->InitializeStage(map->GetStage());
+						Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+					}
+				}
 				Engine::GetLogger().LogDebug("enemy is destroyed!");
 				//enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-				turn_manager->Add(2);
+				//turn_manager->Add(2);
 				GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			}
 		}
 		if (enemy_attacked == false) {
 			--SetIndex().y;
+			moving_sound_ptr->Play();
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Walking));
 		}
 	}
@@ -289,7 +329,7 @@ void Player::move_bottom()
 		turn_manager->Sub();
 	}
 	is_moving = false;
-	moving_sound_ptr->Play();
+	
 }
 
 void Player::attack(CS230::Input::Keys input) {
@@ -323,6 +363,14 @@ void Player::attack(CS230::Input::Keys input) {
 			for (int i = 0; i < near_indices.size(); ++i) {
 				if (near_indices[i] == idx) {
 					enemy->Defeated();
+					if (enemy->Type() == GameObjectTypes::King) {
+						if (map->GetRoom() != Rooms::Room3) {
+							SetIndex() = { 2,0 };
+							map->ChangeStageAndRoom();
+							map->InitializeStage(map->GetStage());
+							Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+						}
+					}
 					//enemy_manager->EraseEnemy(enemy);
 					used_item = true;
 					is_moving = false;
@@ -387,11 +435,21 @@ void Player::attack(CS230::Input::Keys input) {
 		//destroy enemies
 		bool did_spear_worked = false;
 		for (Enemy* enemy : enemies) {
-			
+			if (enemy->Type() == GameObjectTypes::Trap) {
+				continue;
+			}
 			Math::ivec2 idx = enemy->GetIndex();
 			for (int i = 0; i < near_indices.size(); ++i) {
 				if (near_indices[i] == idx) {
 					enemy->Defeated();
+					if (enemy->Type() == GameObjectTypes::King) {
+						if (map->GetRoom() != Rooms::Room3) {
+							SetIndex() = { 2,0 };
+							map->ChangeStageAndRoom();
+							map->InitializeStage(map->GetStage());
+							Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->SpawnEnemies();
+						}
+					}
 					//enemy_manager->EraseEnemy(enemy);
 					used_item = true;
 					is_moving = false;

@@ -11,6 +11,9 @@ UI::UI():
 	player_ptr(Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>())
 {}
 
+void UI::Update([[maybe_unused]] double dt) {
+
+}
 void UI::Draw() {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	const std::vector<Item*>& player_use_items = player_ptr->GetUseItem();
@@ -24,7 +27,7 @@ void UI::Draw() {
 	if (player_use_items.size() != 0) {
 		
 		for (int i = 0; i < player_use_items.size(); ++i) {
-			life_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(player_use_items[i]->GetLife()), 0xFFFFFFF7);
+			
 			Math::TransformationMatrix item_draw_matrix = Math::TranslationMatrix(draw_use_items_position[i]) * Math::ScaleMatrix(scale_const);
 			Math::TransformationMatrix life_draw_matrix = Math::TranslationMatrix(draw_use_items_position[i]) * Math::ScaleMatrix(scale_const/2);
 
@@ -43,7 +46,7 @@ void UI::Draw() {
 				boots_texture->Draw(item_draw_matrix, use_items_texel_positions[static_cast<int>(player_use_items[i]->GetUseItemRank())], use_items_frame_size);
 				break;
 			}
-			life_texture->Draw(life_draw_matrix);
+			player_use_items[i]->LifeTexture()->Draw(life_draw_matrix);
 		}
 	}
 	//Engine::GetLogger().LogDebug("ui drawing");

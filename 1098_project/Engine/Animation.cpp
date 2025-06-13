@@ -49,7 +49,10 @@ CS230::Animation::Animation() : Animation("./Assets/None.anm") {}
 CS230::Animation::~Animation()
 {
     for (Command* command : commands) {
-        delete command;
+        if (command != nullptr) {
+            delete command;
+            command = nullptr;
+        }        
     }
     commands.clear();
 }

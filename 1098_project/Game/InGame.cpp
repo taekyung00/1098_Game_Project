@@ -40,7 +40,7 @@ void InGame::Load() {
 	AddGSComponent(new ItemManager());
 
 	//AddGSComponent(new SpawnTrap());
-	map_ptr = new Map();
+	map_ptr = new Map(Stages::stage3,Rooms::Store);
 	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
 	
 

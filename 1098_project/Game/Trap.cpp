@@ -23,15 +23,15 @@ void Trap::Update( [[maybe_unused]] double dt) {
 		{
 		case 2:
 			//Engine::GetLogger().LogDebug("On start");
-			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::On));
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Off));
 			break;
 		case 1:
 			//Engine::GetLogger().LogDebug("Off start");
-			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Off));
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
 			break;
 		case 0:
 			//Engine::GetLogger().LogDebug("attackable start");
-			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::On));
 			break;
 		}
 		if (current_turn == 0) {

@@ -13,4 +13,5 @@ public:
 	void Draw(Math::TransformationMatrix camera_matrix) override;
 private:
 	CS230::Texture* cost_texture;
+	int temp_life;
 };

@@ -27,8 +27,9 @@ Axe::Axe(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseItemR
 		cost = 6;
 		break;
 	}
+	temp_life = life;
 	cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
-	
+	life_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(life), 0xFFFFFFF7);
 }
 
 void Axe::ResolveCollision(GameObject* other_object) {
@@ -51,6 +52,11 @@ void Axe::Update([[maybe_unused]]double dt) {
 		item_manager->EraseUseItem(this);
 		player->EraseUseItem(this);
 	}
+	if (temp_life != life) {
+		temp_life = life;
+		life_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(life), 0xFFFFFFF7);
+	}
+	
 }
 
 void Axe::Draw([[maybe_unused]] Math::TransformationMatrix camera_matrix) {

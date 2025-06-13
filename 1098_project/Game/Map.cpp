@@ -38,6 +38,20 @@ void Map::InitializeStage(Stages _stage)
             break;
         }
     }
+    else if (stage == Stages::Boss) {
+        switch (room)
+        {
+        case Rooms::Room1:
+            designPath = "Game/Boss/1.txt";
+            break;
+        case Rooms::Room2:
+            designPath = "Game/Boss/2.txt";
+            break;
+        case Rooms::Room3:
+            designPath = "Game/Boss/3.txt";
+            break;
+        }
+    }
     else {
         std::string folder;
 
@@ -46,9 +60,7 @@ void Map::InitializeStage(Stages _stage)
             //case Stages::Tutorial: 
         case Stages::stage1: folder = "Game/stage1"; break;
         case Stages::stage2: folder = "Game/stage2"; break;
-        case Stages::stage3: folder = "Game/stage3"; break;
-        case Stages::Boss: folder = "Game/Boss"; break;
-            
+        case Stages::stage3: folder = "Game/stage3"; break;            
         }
         // scan directory
         availablefiles.clear();
@@ -360,9 +372,18 @@ void Map::ChangeStageAndRoom()
         }
         break;
     case Stages::Boss:
-        stage = Stages::End;
-        room = Rooms::Count;
-        break;
+        switch (room)
+        {
+        case Rooms::Room1:
+            room = Rooms::Room2;
+            break;
+        case Rooms::Room2:
+            room = Rooms::Room3;
+            break;
+        case Rooms::Room3:
+            Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
+            break;
+        }
     default:
         break;
     }

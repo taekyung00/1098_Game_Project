@@ -11,6 +11,7 @@
 #include "Trap.h"
 #include "Archer.h"
 #include "InGame.h"
+#include "King.h"
 
 class EnemyManager : public CS230::Component {
 public:

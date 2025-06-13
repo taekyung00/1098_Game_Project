@@ -2,12 +2,34 @@
 #include "Enemy.h"
 void EnemyManager::SpawnEnemies()
 {
-	for (Enemy* enemy : enemies) {
-		enemy->Destroy();
-	}
-	enemies.clear();
+	//Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
 	Map* map_ptr = gameobjectmanager->GetGameObject<Map>();
+
+	if (map_ptr->GetStage() == Stages::Boss) {
+		Enemy* king = nullptr;
+		for (Enemy* enemy : enemies) {
+			if (enemy->Type() == GameObjectTypes::King) {
+				king = enemy;
+			}
+			else {
+				enemy->Destroy();
+			}
+		}
+		enemies.clear();
+		if (king != nullptr) {
+			enemies.push_back(king);
+		}		
+	}
+	else {
+		for (Enemy* enemy : enemies) {
+			enemy->Destroy();
+		}
+		enemies.clear();
+	}
+	
+	
+	
 	//[[maybe_unused]] const std::vector<std::vector<int>>& sp = map_ptr->GetSpawnLayer();
 	const std::string& designPath = map_ptr->GetDesignPath();
 
@@ -134,6 +156,11 @@ void EnemyManager::SpawnEnemies()
 				gameobjectmanager->Add(enemy);
 			}
 		}
+	}
+	if (map_ptr->GetStage() == Stages::Boss && map_ptr->GetRoom() == Rooms::Room1) {
+		Enemy* enemy = new King({ 2,4 });
+		enemies.push_back(enemy);
+		gameobjectmanager->Add(enemy);
 	}
 
 	//const std::vector<std::vector<int>>& spt = map_ptr->GetSpawnTrapLayer();

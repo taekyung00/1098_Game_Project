@@ -22,5 +22,6 @@ enum class GameObjectTypes {
     Spear,
     Shield,
     Boots,
+    King,
     Count
 };

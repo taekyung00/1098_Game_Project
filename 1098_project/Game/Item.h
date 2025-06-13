@@ -40,6 +40,7 @@ public:
 	int& SetCost() { return cost; }
 
 	const UseItemRank GetUseItemRank() const{ return use_item_rank; }
+	CS230::Texture* LifeTexture() { return life_texture; }
 protected:
 	ItemKind item_kind;
 	UseItem use_item;
@@ -47,4 +48,6 @@ protected:
 	int life;
 	int cost;
 	bool is_get;
+	CS230::Texture* life_texture;
+	
 };

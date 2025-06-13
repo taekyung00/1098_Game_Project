@@ -25,7 +25,9 @@ Spear::Spear(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseI
 		cost = 6;
 		break;
 	}
+	temp_life = life;
 	cost_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(cost), 0xFFFFFFF7);
+	life_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(life), 0xFFFFFFF7);
 }
 
 void Spear::ResolveCollision(GameObject* other_object) {
@@ -45,6 +47,11 @@ void Spear::Update([[maybe_unused]] double dt) {
 	if (life <= 0) {
 		item_manager->EraseUseItem(this);
 		player->EraseUseItem(this);
+	}
+
+	if (temp_life != life) {
+		temp_life = life;
+		life_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture(std::to_string(life), 0xFFFFFFF7);
 	}
 }
 
