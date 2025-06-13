@@ -461,9 +461,6 @@ void Player::attack(CS230::Input::Keys input) {
 					break;
 				}
 			}
-			if (did_spear_worked == true) {
-				break;
-			}
 		}
 		/*=========================================================================================*/
 		if (did_spear_worked == true) {
