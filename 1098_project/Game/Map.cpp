@@ -12,29 +12,29 @@ void Map::InitializeStage(Stages _stage)
 
     //make designpath
     if (room == Rooms::Store) {
-        designPath = "Game/store/s.txt";
+        designPath = "Assets/LevelDesign/store/s.txt";
         initialize_store();
     }
     else if (stage == Stages::Tutorial) {
         switch (room)
         {
         case Rooms::Room1:
-            designPath = "Game/tutorial/1.txt";
+            designPath = "Assets/LevelDesign/tutorial/1.txt";
             break;
         case Rooms::Room2:
-            designPath = "Game/tutorial/2.txt";
+            designPath = "Assets/LevelDesign/tutorial/2.txt";
             break;
         case Rooms::Room3:
-            designPath = "Game/tutorial/3.txt";
+            designPath = "Assets/LevelDesign/tutorial/3.txt";
             break;
         case Rooms::Room4:
-            designPath = "Game/tutorial/4.txt";
+            designPath = "Assets/LevelDesign/tutorial/4.txt";
             break;
         case Rooms::Room5:
-            designPath = "Game/tutorial/5.txt";
+            designPath = "Assets/LevelDesign/tutorial/5.txt";
             break;
         case Rooms::Room6:
-            designPath = "Game/tutorial/6.txt";
+            designPath = "Assets/LevelDesign/tutorial/6.txt";
             break;
         }
     }
@@ -42,13 +42,13 @@ void Map::InitializeStage(Stages _stage)
         switch (room)
         {
         case Rooms::Room1:
-            designPath = "Game/Boss/1.txt";
+            designPath = "Assets/LevelDesign/Boss/1.txt";
             break;
         case Rooms::Room2:
-            designPath = "Game/Boss/2.txt";
+            designPath = "Assets/LevelDesign/Boss/2.txt";
             break;
         case Rooms::Room3:
-            designPath = "Game/Boss/3.txt";
+            designPath = "Assets/LevelDesign/Boss/3.txt";
             break;
         }
     }
@@ -58,9 +58,9 @@ void Map::InitializeStage(Stages _stage)
         switch (stage)
         {
             //case Stages::Tutorial: 
-        case Stages::stage1: folder = "Game/stage1"; break;
-        case Stages::stage2: folder = "Game/stage2"; break;
-        case Stages::stage3: folder = "Game/stage3"; break;            
+        case Stages::stage1: folder = "Assets/LevelDesign/stage1"; break;
+        case Stages::stage2: folder = "Assets/LevelDesign/stage2"; break;
+        case Stages::stage3: folder = "Assets/LevelDesign/stage3"; break;            
         }
         // scan directory
         availablefiles.clear();

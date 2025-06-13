@@ -47,7 +47,7 @@ void Tutorial::Load() {
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
 	GetGSComponent<EnemyManager>()->SpawnEnemies();
 
-	tutorial_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
+	tutorial_audio_ptr = new Audio("Assets/Sounds/Drum,Metronom.mp3");
 	tutorial_audio_ptr->SetLooping(true);
 	AddGSComponent(tutorial_audio_ptr);
 

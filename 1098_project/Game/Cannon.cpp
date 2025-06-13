@@ -9,7 +9,7 @@ Cannon::Cannon(Math::ivec2 index) :
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::IdleHorizon));
 	turn_timer = new CS230::Timer(0.0);
 	AddGOComponent(turn_timer);
-	canon_attack_ptr = new Audio("Sounds/Canon_ef.mp3");
+	canon_attack_ptr = new Audio("Assets/Sounds/Canon_ef.mp3");
 	canon_attack_ptr->SetLooping(false);
 	AddGOComponent(canon_attack_ptr);
 }

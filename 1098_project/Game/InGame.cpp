@@ -52,23 +52,23 @@ void InGame::Load() {
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
 	GetGSComponent<EnemyManager>()->SpawnEnemies();	
 
-	stage1_audio_ptr = new Audio("Sounds/Drum,Metronom.mp3");
+	stage1_audio_ptr = new Audio("Assets/Sounds/Drum,Metronom.mp3");
 	stage1_audio_ptr->SetLooping(true);
 	AddGSComponent(stage1_audio_ptr);
 
-	stage2_audio_ptr = new Audio("Sounds/Forest_bgm_final.mp3");
+	stage2_audio_ptr = new Audio("Assets/Sounds/Forest_bgm_final.mp3");
 	stage2_audio_ptr->SetLooping(true);
 	AddGSComponent(stage2_audio_ptr);
 
-	stage3_audio_ptr = new Audio("Sounds/Castle_bgm_final.mp3");
+	stage3_audio_ptr = new Audio("Assets/Sounds/Castle_bgm_final.mp3");
 	stage3_audio_ptr->SetLooping(true);
 	AddGSComponent(stage3_audio_ptr);
 
-	boss_audio_ptr = new Audio("Sounds/Boss_bgm.mp3");
+	boss_audio_ptr = new Audio("Assets/Sounds/Boss_bgm.mp3");
 	boss_audio_ptr->SetLooping(true);
 	AddGSComponent(boss_audio_ptr);
 
-	shop_audio_ptr = new Audio("Sounds/Shop.mp3");
+	shop_audio_ptr = new Audio("Assets/Sounds/Shop.mp3");
 	shop_audio_ptr->SetLooping(true);
 	AddGSComponent(shop_audio_ptr);
 

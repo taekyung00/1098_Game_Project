@@ -12,7 +12,7 @@ Archer::Archer(Math::ivec2 index) :
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 	turn_timer = new CS230::Timer(0.0);
 	AddGOComponent(turn_timer);
-	arrow_attack_ptr = new Audio("Sounds/Arrow_ef.mp3");
+	arrow_attack_ptr = new Audio("Assets/Sounds/Arrow_ef.mp3");
 	arrow_attack_ptr->SetLooping(false);
 	AddGOComponent(arrow_attack_ptr);
 }
