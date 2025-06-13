@@ -36,7 +36,6 @@ public:
 	Stages&			SetStage() { return stage; }
 
 	void			InitializeStage(Stages _stage = Stages::stage1);
-	
 
 	const Rooms		GetRoom() const { return room; }
 	Rooms&			SetRoom() { return room; }
@@ -66,7 +65,7 @@ private:
 	size_t currentmapindex = 0;
 	//std::vector<std::vector<int>> spawn_layer;
 	//std::vector<std::vector<int>> spawn_trap_layer;
-	void			initialize_store();
+	void initialize_store();
 	Stages stage;
 	Rooms room;
 };

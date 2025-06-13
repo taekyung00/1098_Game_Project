@@ -61,7 +61,7 @@ void CS230::Animation::Update(double dt)
         current_frame->ResetTime();
         current_command++;
         if (commands[current_command]->Type() == CommandType::PlayFrame) {
-            current_frame = static_cast<PlayFrame*>(commands[current_command]);
+            current_frame = static_cast<PlayFrame*>(commands[current_command]);     
         }
         else if (commands[current_command]->Type() == CommandType::Loop) {
             Loop* loop_data = static_cast<Loop*>(commands[current_command]);

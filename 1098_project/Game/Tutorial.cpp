@@ -4,7 +4,7 @@ Tutorial::Tutorial() :
 	map_ptr(nullptr),
 	player_ptr(nullptr),
 	turncount_texture(nullptr),
-	turn_texture(nullptr),
+	//turn_texture(nullptr),
 	push_button_texture(nullptr)
 {
 
@@ -12,20 +12,20 @@ Tutorial::Tutorial() :
 void Tutorial::update_turncount_text()
 {
 	delete turncount_texture;
-	turncount_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("" + std::to_string(GetGSComponent<TurnManager>()->GetTurnCount()), 0xFFFFFFFF);
+	turncount_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Turn: " + std::to_string(GetGSComponent<TurnManager>()->GetTurnCount()), 0xFFFFFFFF);
 }
 void Tutorial::update_turn_text()
 {
-	delete turn_texture;
+	//delete turn_texture;
 	delete push_button_texture;
 	if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
-		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("", 0xFFFFFFFF);
+		//turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
 		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push WASD To Move", 0xFFFFFFFF);
 
 	}
 	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
-		turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("", 0xFFFFFFFF);
-		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE To Change Turn", 0xFFFFFFFF);
+		//turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
+		push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Please Wait To Change Turn", 0xFFFFFFFF);
 	}
 }
 void Tutorial::Load() {
@@ -42,6 +42,7 @@ void Tutorial::Load() {
 	player_ptr = new Player();
 	GetGSComponent<CS230::GameObjectManager>()->Add(player_ptr);
 	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({ 2,4 }));
+	AddGSComponent(new UI());
 
 	//GetGSComponent<SpawnTrap>()->SpawnTraps();
 	GetGSComponent<EnemyManager>()->SpawnEnemies();
@@ -63,7 +64,7 @@ void Tutorial::Update(double dt) {
 	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	update_turncount_text();
 	update_turn_text();
-	
+	Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	enemymanager->TurnChange();
 	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
 		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
@@ -76,8 +77,8 @@ void Tutorial::Unload() {
 	ClearGSComponents();
 	delete turncount_texture;
 	turncount_texture = nullptr;
-	delete turn_texture;
-	turn_texture = nullptr;
+	//delete turn_texture;
+	//turn_texture = nullptr;
 	delete push_button_texture;
 	push_button_texture = nullptr;
 	
@@ -86,7 +87,8 @@ void Tutorial::Unload() {
 void Tutorial::Draw() {
 	Engine::GetWindow().Clear(0x000000FF);
 	GetGSComponent<CS230::GameObjectManager>()->DrawAll(Math::TransformationMatrix());
+	GetGSComponent<UI>()->Draw();
 	turncount_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turncount_texture->GetSize().x, Engine::GetWindow().GetSize().y - turncount_texture->GetSize().y - 5 }));
-	turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
-	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - push_button_texture->GetSize().x, push_button_texture->GetSize().y }));
+	//turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
+	push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ 0, Engine::GetWindow().GetSize().y - push_button_texture->GetSize().y }));
 }

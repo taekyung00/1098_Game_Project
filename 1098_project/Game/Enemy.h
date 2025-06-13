@@ -4,15 +4,18 @@
 #include "../Engine/GameObject.h"
 #include "../Engine/GameObjectManager.h"
 #include "../Engine/Vec2.h"
+#include "../Engine/Timer.h"
 #include "Tile.h"
 #include "TurnManager.h"
 #include "Map.h"
+#include "Shield.h"
 
 
 
 class Enemy : public CS230::GameObject {
 public:
 	Enemy(Math::ivec2 start_index);
+	Enemy(Math::ivec2 start_index,Math::vec2 scale);
     void Update(double dt) override;
     GameObjectTypes Type() override { return GameObjectTypes::Enemy; }
     std::string TypeName() override { return "Enemy"; }
@@ -40,4 +43,6 @@ protected:
     //bool map_changed = false;
     void ChangeIndex();
     virtual void attack();
+    CS230::Timer* turn_timer;
+    static constexpr double turn_time = 1.0;
 };

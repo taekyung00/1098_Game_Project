@@ -1,56 +1,73 @@
 #include "InGame.h"
 #include "Trap.h"
 #include "Player.h"
+#include "Boots.h"
 
 Trap::Trap(Math::ivec2 index) : 
-	Enemy(index),
-	alive_sprite(new CS230::Sprite("Assets/TrapAlive.spt",this)),
-	dead_sprite(new CS230::Sprite("Assets/TrapDead.spt",this)),
-	movable(new CS230::Sprite("Assets/Movable.spt",this))
+	Enemy(index)
+	//movable(new CS230::Sprite("Assets/Movable.spt",this))
 
 {
-	AddGOComponent(alive_sprite);
-	AddGOComponent(dead_sprite);
-	AddGOComponent(movable);
-
+	AddGOComponent(new CS230::Sprite("Assets/Trap.spt", this));
+	//AddGOComponent(movable);
+	turn_timer = new CS230::Timer(0.0);
+	AddGOComponent(turn_timer);
+	//GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::On));
 }
 
 void Trap::Update( [[maybe_unused]] double dt) {
+	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
-
+		switch (current_turn)
+		{
+		case 2:
+			//Engine::GetLogger().LogDebug("On start");
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::On));
+			break;
+		case 1:
+			//Engine::GetLogger().LogDebug("Off start");
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Off));
+			break;
+		case 0:
+			//Engine::GetLogger().LogDebug("attackable start");
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+			break;
+		}
 		if (current_turn == 0) {
 			current_turn = max_turn_count;
 			is_alive = true;
+			
 		}
 		else {
 			--current_turn;
 			is_alive = false;
+			
 		}
+
+		
+		
 
 		//SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
 		is_outdated = false;
 		Engine::GetLogger().LogDebug("Enemy is updated");
+		turn_timer->Set(turn_time);
 	}
 	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
-		if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Space)) {
+		if (turn_timer->Remaining() == 0.0) {
 			is_outdated = true;
 			turn_ended = true;
 		}
 	}
 	
 }
-void Trap::Draw(Math::TransformationMatrix camera_matrix) {
-	if (is_alive == true) {
-		alive_sprite->Draw(camera_matrix * GetMatrix());
-	}
-	else {
-		dead_sprite->Draw(camera_matrix * GetMatrix());
-	}
-	if (current_turn == 0) {
-		//movable->Draw(camera_matrix * GetMatrix());
-	}
-}
+
+//void Trap::Draw(Math::TransformationMatrix camera_matrix) {
+//	//if (current_turn == 0) {
+//	//	movable->Draw(camera_matrix * GetMatrix());
+//	//}
+//}
+
 bool Trap::CanCollideWith(GameObjectTypes other_object_type) {
 	if ((Engine::GetGameStateManager().GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) && (other_object_type == GameObjectTypes::Player) &&(is_alive == true)) {
 		return true;
@@ -61,9 +78,27 @@ bool Trap::CanCollideWith(GameObjectTypes other_object_type) {
 void Trap::ResolveCollision(GameObject* other_object) {
 	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
-	if ((did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
-		turnmanager->Sub(3);
-		did_attack = true;
-		player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
+	if ((is_alive==true) && (did_attack == false) && (other_object->Type() == GameObjectTypes::Player) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
+		std::vector<Item*>& player_use_items = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>()->SetUseItem();
+		std::vector<Item*>::iterator item_iter = std::find_if(player_use_items.begin(), player_use_items.end(), [](Item* item) {
+			return item->Type() == GameObjectTypes::Boots;
+			});
+		if (item_iter != player_use_items.end()) {
+			Boots* boots = static_cast<Boots*>(*(item_iter));
+			--boots->SetLife();
+			if (boots->GetLife() == 0) {
+				ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+				//Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
+				item_manager->EraseUseItem(boots);
+				player->EraseUseItem(boots);
+			}
+		}
+		else {
+			turnmanager->Sub(3);
+			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
+			did_attack = true;
+		}		
+		
+		
 	}
 }

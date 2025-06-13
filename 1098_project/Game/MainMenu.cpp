@@ -11,10 +11,11 @@ Created:    May 6, 2025
 #include "MainMenu.h"
 #include "States.h"
 
-MainMenu::MainMenu() : 
-	current_option(Option::InGame),
-	title_texture(Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("10..9..8", title_color))
+MainMenu::MainMenu() :
+	current_option(Option::InGame)
+	//title_texture(Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("10..9..8", title_color))
 {
+	
 	InGame_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("INGAME", ingame_color);
 	Tutorial_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("TUTORIAL", tutorial_color);
 	exit_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("EXIT", exit_color);
@@ -23,6 +24,7 @@ MainMenu::MainMenu() :
 
 void MainMenu::Load()
 {
+	title = Engine::GetTextureManager().Load("Assets/Title.png");
 	update_textures();
 }
 
@@ -81,9 +83,10 @@ void MainMenu::Unload()
 void MainMenu::Draw()
 {
 	Engine::GetWindow().Clear(0x000000FF);
-	title_texture->Draw(Math::TranslationMatrix(Math::ivec2{ 
-		Engine::GetWindow().GetSize().x/2  - title_texture->GetSize().x/2, 
-		Engine::GetWindow().GetSize().y - title_texture->GetSize().y - 10 }));
+	title->Draw(Math::TranslationMatrix(Math::ivec2{0,0}));
+	//title_texture->Draw(Math::TranslationMatrix(Math::ivec2{ 
+		//Engine::GetWindow().GetSize().x/2  - title_texture->GetSize().x/2, 
+		//Engine::GetWindow().GetSize().y - title_texture->GetSize().y - 10 }));
 
 
 	InGame_texture->Draw(Math::TranslationMatrix(Math::ivec2{
@@ -97,6 +100,8 @@ void MainMenu::Draw()
 	exit_texture->Draw(Math::TranslationMatrix(Math::ivec2{
 		Engine::GetWindow().GetSize().x / 2 - 10 - exit_texture->GetSize().x / 2,
 		Engine::GetWindow().GetSize().y - exit_texture->GetSize().y - 420 }));
+
+	
 
 }
 

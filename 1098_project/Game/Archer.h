@@ -1,6 +1,8 @@
 #pragma once
+#include "../Engine/Timer.h"
 #include "Enemy.h"
 #include "Arrow.h"
+#include "../Engine/Audio.h"
 class Archer : public Enemy {
 public:
 	Archer(Math::ivec2 index);
@@ -17,10 +19,13 @@ public:
 	};
 	void Defeated() override;
 private:
-	CS230::Sprite movable;
-	const int max_turn_count = 2;
-	int current_turn = 2;
-	Arrow* arrow;
+	//CS230::Sprite movable;
+	const int max_turn_count = 1;
+	int current_turn = 1;
+	//Arrow* arrow;
 	void make_arrow();
-	void destroy_arrow();
+	//void destroy_arrow();
+	CS230::Timer* turn_timer;
+	static constexpr double turn_time = 1.5;
+	inline static Audio* archer_attack_ptr;
 };

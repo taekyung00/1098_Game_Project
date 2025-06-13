@@ -74,8 +74,7 @@ void Map::InitializeStage(Stages _stage)
         size_t count = std::min<size_t>(3, availablefiles.size());
         selectedfiles.assign(availablefiles.begin(), availablefiles.begin() + count);
 
-        //designPath = selectedfiles[currentmapindex];
-        designPath = designPath = "Game/stage3/9.txt";
+        designPath = selectedfiles[currentmapindex];
     }
     
     //designPath = designPath = "Game/stage1/4.txt";
@@ -89,7 +88,7 @@ void Map::InitializeStage(Stages _stage)
     width_amount = 0;
     height_amount = 0;
 
-    std::ifstream file_stream_design;   
+    std::ifstream file_stream_design;
 
     file_stream_design.open(designPath.c_str());
     if (file_stream_design.is_open() == false) {
@@ -295,7 +294,11 @@ void Map::ChangeStageAndRoom()
             break;
         case Rooms::Room5:
             room = Rooms::Room6;
+            break;
         case Rooms::Room6:
+            room = Rooms::Store;
+            break;
+        case Rooms::Store:
             Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
             break;
         }

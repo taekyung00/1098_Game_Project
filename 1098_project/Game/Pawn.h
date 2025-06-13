@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "../Engine/Timer.h"
 
 class Pawn : public Enemy {
 public:
@@ -17,7 +18,8 @@ public:
 	};
 	void Defeated() override;
 private:
-	CS230::Sprite movable;
+	//CS230::Sprite movable;
 	void attack() override;
-
+	CS230::Timer* turn_timer;
+	static constexpr double turn_time = 1.0;
 };

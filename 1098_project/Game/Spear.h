@@ -9,4 +9,8 @@ public:
 	GameObjectTypes Type() override { return GameObjectTypes::Spear; }
 	std::string TypeName() override { return "Spear"; }
 	void ResolveCollision(GameObject* other_object) override;
+	void Update(double dt) override;
+	void Draw(Math::TransformationMatrix camera_matrix) override;
+private:
+	CS230::Texture* cost_texture;
 };
