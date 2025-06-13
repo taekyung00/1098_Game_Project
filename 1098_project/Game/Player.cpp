@@ -13,10 +13,10 @@ Player::Player() :
 	turn_manager(Engine::GetGameStateManager().GetGSComponent<TurnManager>())
 {
 	AddGOComponent(new CS230::Sprite("Assets/Player.spt", this));
-	moving_sound_ptr = new Audio("Sounds/Moving_Sound.mp3");
+	moving_sound_ptr = new Audio("Assets/Sounds/Moving_Sound.mp3");
 	moving_sound_ptr->SetLooping(false);
 	AddGOComponent(moving_sound_ptr);
-	player_attack_sound_ptr = new Audio("Sounds/Player_attack_ef.mp3");
+	player_attack_sound_ptr = new Audio("Assets/Sounds/Player_attack_ef.mp3");
 	player_attack_sound_ptr->SetLooping(false);
 	AddGOComponent(player_attack_sound_ptr);
 
