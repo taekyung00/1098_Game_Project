@@ -86,7 +86,12 @@
     <PostBuildEvent>
       <Command>if not exist "$(OutputPath)Assets" mkdir "$(OutputPath)Assets"
 xcopy /d /y Assets\* "$(OutputPath)Assets"
-</Command>
+
+if not exist "$(OutDir)Assets\LevelDesign" mkdir "$(OutDir)Assets\LevelDesign"
+xcopy /e /y /i "Assets\LevelDesign\*" "$(OutDir)Assets\LevelDesign\"
+
+if not exist "$(OutDir)Assets\Sounds" mkdir "$(OutDir)Assets\Sounds"
+xcopy /e /y /i "Assets\Sounds\*" "$(OutDir)Assets\Sounds\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,7 +114,12 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <PostBuildEvent>
       <Command>if not exist "$(OutputPath)Assets" mkdir "$(OutputPath)Assets"
 xcopy /d /y Assets\* "$(OutputPath)Assets"
-</Command>
+
+if not exist "$(OutDir)Assets\LevelDesign" mkdir "$(OutDir)Assets\LevelDesign"
+xcopy /e /y /i "Assets\LevelDesign\*" "$(OutDir)Assets\LevelDesign\"
+
+if not exist "$(OutDir)Assets\Sounds" mkdir "$(OutDir)Assets\Sounds"
+xcopy /e /y /i "Assets\Sounds\*" "$(OutDir)Assets\Sounds\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +138,12 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <PostBuildEvent>
       <Command>if not exist "$(OutputPath)Assets" mkdir "$(OutputPath)Assets"
 xcopy /d /y Assets\* "$(OutputPath)Assets"
-</Command>
+
+if not exist "$(OutDir)Assets\LevelDesign" mkdir "$(OutDir)Assets\LevelDesign"
+xcopy /e /y /i "Assets\LevelDesign\*" "$(OutDir)Assets\LevelDesign\"
+
+if not exist "$(OutDir)Assets\Sounds" mkdir "$(OutDir)Assets\Sounds"
+xcopy /e /y /i "Assets\Sounds\*" "$(OutDir)Assets\Sounds\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +166,12 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <PostBuildEvent>
       <Command>if not exist "$(OutputPath)Assets" mkdir "$(OutputPath)Assets"
 xcopy /d /y Assets\* "$(OutputPath)Assets"
-</Command>
+
+if not exist "$(OutDir)Assets\LevelDesign" mkdir "$(OutDir)Assets\LevelDesign"
+xcopy /e /y /i "Assets\LevelDesign\*" "$(OutDir)Assets\LevelDesign\"
+
+if not exist "$(OutDir)Assets\Sounds" mkdir "$(OutDir)Assets\Sounds"
+xcopy /e /y /i "Assets\Sounds\*" "$(OutDir)Assets\Sounds\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
