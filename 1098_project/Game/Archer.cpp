@@ -12,12 +12,16 @@ Archer::Archer(Math::ivec2 index) :
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Idle));
 	turn_timer = new CS230::Timer(0.0);
 	AddGOComponent(turn_timer);
+	arrow_attack_ptr = new Audio("Sounds/Arrow_ef.mp3");
+	arrow_attack_ptr->SetLooping(false);
+	AddGOComponent(arrow_attack_ptr);
 }
 
 void Archer::Update([[maybe_unused]]double dt) {
 	if (Destroyed() == true) {
 		return;
 	}
+	arrow_attack_ptr->Update();
 	GameObject::Update(dt);
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
@@ -88,6 +92,7 @@ void Archer::make_arrow()
 		//destroy_arrow();
 		//arrow = ;
 		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+		arrow_attack_ptr->Play();
 		gameobjectmanager->Add(new Arrow(GetIndex(), reachable_indices[0]));
 		did_attack = true;
 	}

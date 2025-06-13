@@ -16,6 +16,7 @@ Arrow::Arrow(Math::ivec2 start_index, Math::ivec2 dest_index) :
 
 void Arrow::Update([[maybe_unused]] double dt) {
 	GameObject::Update(dt);
+	
 	if (dest_index != start_index)
 	{
 		if (dest_index.x- start_index.x > 0) {
@@ -67,7 +68,7 @@ void Arrow::ResolveCollision(GameObject* other_object) {
 			}
 		}
 		else {
-			turnmanager->Sub(3);
+			turnmanager->Sub(2);
 			did_attack = true;
 			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 			Destroy();

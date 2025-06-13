@@ -28,7 +28,7 @@ public:
 private:
 	//CS230::Sprite movable;
 	const int max_turn_count = 2;
-	int current_turn = 2;
+	int current_turn = 1;
 	std::vector<CannonBall*>cannonballs;
 	void make_cannonball();
 	void destroy_cannonball();
@@ -36,4 +36,5 @@ private:
 	bool is_flipped = false;
 	CS230::Timer* turn_timer;
 	static constexpr double turn_time = 1.0;
+	Audio* canon_attack_ptr;
 };

@@ -136,7 +136,7 @@ void Rook::attack() {
 			}
 		}
 		else {
-			turnmanager->Sub(3);
+			turnmanager->Sub(2);
 			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
 			did_attack = true;
 			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));

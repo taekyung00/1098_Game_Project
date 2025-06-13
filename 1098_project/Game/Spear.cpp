@@ -10,19 +10,19 @@ Spear::Spear(Math::ivec2 start_index, ItemKind item_kind, UseItem use_item, UseI
 	{
 	case UseItemRank::Common:
 		life = 1;
-		cost = 3;
+		cost = 1;
 		break;
 	case UseItemRank::Rare:
 		life = 2;
-		cost = 4;
+		cost = 2;
 		break;
 	case UseItemRank::Unique:
 		life = 3;
-		cost = 5;
+		cost = 3;
 		break;
 	case UseItemRank::Legendary:
 		life = 5;
-		cost = 6;
+		cost = 4;
 		break;
 	}
 	temp_life = life;

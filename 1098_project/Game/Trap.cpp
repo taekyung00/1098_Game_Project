@@ -94,7 +94,7 @@ void Trap::ResolveCollision(GameObject* other_object) {
 			}
 		}
 		else {
-			turnmanager->Sub(3);
+			turnmanager->Sub(1);
 			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 			did_attack = true;
 		}		

@@ -2,6 +2,7 @@
 #include "../Engine/Timer.h"
 #include "Enemy.h"
 #include "Arrow.h"
+#include "../Engine/Audio.h"
 class Archer : public Enemy {
 public:
 	Archer(Math::ivec2 index);
@@ -25,5 +26,6 @@ private:
 	void make_arrow();
 	//void destroy_arrow();
 	CS230::Timer* turn_timer;
+	Audio* arrow_attack_ptr;
 	static constexpr double turn_time = 1.5;
 };

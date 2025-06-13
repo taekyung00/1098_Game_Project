@@ -9,10 +9,14 @@ Cannon::Cannon(Math::ivec2 index) :
 	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::IdleHorizon));
 	turn_timer = new CS230::Timer(0.0);
 	AddGOComponent(turn_timer);
+	canon_attack_ptr = new Audio("Sounds/Canon_ef.mp3");
+	canon_attack_ptr->SetLooping(false);
+	AddGOComponent(canon_attack_ptr);
 }
 
 void Cannon::Update([[maybe_unused]] double dt) {
 	GameObject::Update(dt);
+	canon_attack_ptr->Update();
 	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
 	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::DefeatedHorizon)) ||
 		(GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::DefeatedVertical))) {
@@ -214,6 +218,7 @@ void Cannon::ReachableIndexPush() {
 void Cannon::make_cannonball()
 {
 	if (did_attack == false) {
+		canon_attack_ptr->Play();
 		CS230::GameObjectManager* gameobjectmanager = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>();
 		destroy_cannonball();
 		for (Math::ivec2 _index : reachable_indices) {

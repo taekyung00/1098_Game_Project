@@ -31,7 +31,7 @@ void CannonBall::ResolveCollision(GameObject* other_object) {
 			}
 		}
 		else {
-			turnmanager->Sub(4);
+			turnmanager->Sub(3);
 			did_attack = true;
 			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 			Destroy();
