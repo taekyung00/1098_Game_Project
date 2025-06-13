@@ -30,7 +30,7 @@ void MainMenu::Load()
 
 void MainMenu::Update([[maybe_unused]] double dt)
 {
-	if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Down)) {
+	if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::S)) {
 		switch (current_option)
 		{
 		case Option::InGame:
@@ -45,7 +45,7 @@ void MainMenu::Update([[maybe_unused]] double dt)
 		}
 	}
 
-	if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::Up)) {
+	if (Engine::GetInput().KeyJustPressed(CS230::Input::Keys::W)) {
 		switch (current_option)
 		{
 		case MainMenu::Option::InGame:

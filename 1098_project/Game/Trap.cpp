@@ -98,7 +98,5 @@ void Trap::ResolveCollision(GameObject* other_object) {
 			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
 			did_attack = true;
 		}		
-		
-		
 	}
 }
