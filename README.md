@@ -1,88 +1,95 @@
--♔Team Name♔- Natural Disaster
+# 10..9..8..
 
--♖Game Name♖- 10..9..8..
+## English
 
--♘Team Member List + Roles♘- 
-Dongyun Lee : Producer 
-Taekyung Ho : Tech lead 
-oungwoo Lee : Art lead 
-Sanghyuk Kim : QA
+### ♔ Team Name
+Natural Disaster
 
--♙Compilation Instructions♙-
+### ♖ Game Name
+10..9..8..
 
-After unzip our game file
-Open the 1098.sln solution in visual studio
-Set the configuration to debug or release and the platform to x64
-Make sure the project is not located in a folder with Korean characters in the path
--♗Explanation of what the game is and how to play♗-
+### ♘ Team Member List + Roles
+- Dongyun Lee : Producer
+- Taekyung Ho : Tech lead
+- oungwoo Lee : Art lead
+- Sanghyuk Kim : QA
 
+### ♙ Compilation Instructions
+1. After unzip our game file
+2. Open the `1098.sln` solution in visual studio
+3. Set the configuration to debug or release and the platform to x64
+4. Make sure the project is not located in a folder with Korean characters in the path
+
+### ♗ Explanation of what the game is and how to play
 "10..9..8.." is a dungeon exploration game where you can only move 10 steps per room. Avoid or defeat the chess pieces and eventually take down the Chess King!
 
--features-
+#### Features
+- The number above top right shows how many moves you have left in the current room.
+- Every time you move, enemies will chase after you.
+- Not a fan of chess pieces? Don’t worry — you can preview their next move on your turn.
 
--The number above top right shows how many moves you have left in the current room. -Every time you move, enemies will chase after you. -Not a fan of chess pieces? Don’t worry — you can preview their next move on your turn
+#### Control
+- **W** - Up
+- **A** - Left
+- **S** - Down
+- **D** - Right
+- **R** - Restart
+- **ESC** - Exit
 
--Control-
-
-W - Up 
-A - Left 
-S - Down 
-D - Right 
-R - Restart 
-ESC - Exit
-
--If an enemy is close enough, pressing the direction key will attack instead of move. Whether you choose to fight or avoid is up to you.
-
--If your attack hits and defeats a chess piece, you’ll be rewarded with extra moves!
-
--Reach the stairs to escape each room.
-
--If you have remaining steps you can purchase the items using your remaining steps at the store.
+#### Gameplay Notes
+- If an enemy is close enough, pressing the direction key will attack instead of move. Whether you choose to fight or avoid is up to you.
+- If your attack hits and defeats a chess piece, you’ll be rewarded with extra moves!
+- Reach the stairs to escape each room.
+- If you have remaining steps you can purchase the items using your remaining steps at the store.
 
 Good Luck.
 
--♔ 팀명 ♔- Natural Disaster
+---
+
+## 한국어 (Korean)
+
+### ♔ 팀명
+Natural Disaster
 자연재해
 
--♖ 게임 이름 ♖-
+### ♖ 게임 이름
 10..9..8..
 
--♘ 팀 구성 ♘-
-이동윤 : 프로듀서
-허태경 : 테크 리드
-이영우 : 아트 리드
-김상혁 : QA
+### ♘ 팀 구성
+- 이동윤 : 프로듀서
+- 허태경 : 테크 리드
+- 이영우 : 아트 리드
+- 김상혁 : QA
 
--♙ 실행 절차 ♙-
+### ♙ 실행 절차
+1. zip을 해제합니다다
+2. `1098.sln`을 비쥬얼스튜디오로 실행합니다.
+3. 디버그 모드 혹은 릴리르 모드로 설정후 플랫폼을 x64로 실행합니다.
+4. 만약 파일이 실행되는 경로에 한글이 있다면 다른 곳에서 실행하는걸 추천합니다.
 
-zip을 해제합니다다
-1098.sln을 비쥬얼스튜디오로 실행합니다.
-디버그 모드 혹은 릴리르 모드로 설정후 플랫폼을 x64로 실행합니다.
-만약 파일이 실행되는 경로에 한글이 있다면 다른 곳에서 실행하는걸 추천합니다.
--♗ 게임 설명 ♗-
-
-"10..9..8.."은 방에서 오직 10걸음만 움직일 수 있는 던전 탐험 게임입니다.
-기물들에게 맞서거나 물러서는 건 당신의 몫.
+### ♗ 게임 설명
+"10..9..8.."은 방에서 오직 10걸음만 움직일 수 있는 던전 탐험 게임입니다.  
+기물들에게 맞서거나 물러서는 건 당신의 몫.  
 목숨을 잘 간수하여 체스 킹에게 도달하세요!
 
-- 기능 -
+#### 기능
+- 오른쪽 위의 숫자는 방에서 남아 있는 걸음 수를 의미합니다.
+- 당신의 턴이 지나면 기물들은 당신을 추적합니다.
+- 체스 기물을 잘 모른다고요? 걱정 마세요! 당신의 턴에 Tab 키를 누르면 기물들이 어디로 움직일지 보입니다.
 
-오른쪽 위의 숫자는 방에서 남아 있는 걸음 수를 의미합니다.//
-당신의 턴이 지나면 기물들은 당신을 추적합니다.
-체스 기물을 잘 모른다고요?
-걱정 마세요! 당신의 턴에 Tab 키를 누르면 기물들이 어디로 움직일지 보입니다.
-- 조작 -
-W - 위쪽
-A - 왼쪽
-S - 아래
-D - 오른쪽
-R - 재시작
-ESC - 나가기
+#### 조작
+- **W** - 위쪽
+- **A** - 왼쪽
+- **S** - 아래
+- **D** - 오른쪽
+- **R** - 재시작
+- **ESC** - 나가기
 
-적이 충분히 가까이 있다면, 이동 대신 그 기물을 공격합니다!
-적에게 맞서거나 물러서는 건 당신의 선택입니다.
-만약 당신의 훌륭한 수로 상대 기물을 쓰러뜨렸다면, 추가적인 걸음 수를 얻습니다!
-계단을 통해 다음 방으로 이동할 수 있습니다!
-만약 다음 스테이지로 넘어가기전에 걸음이 남아있다면 
-상점에서 남은 걸음을 통해 아이템을 살 수 있습니다!
+#### 안내 사항
+- 적이 충분히 가까이 있다면, 이동 대신 그 기물을 공격합니다!
+- 적에게 맞서거나 물러서는 건 당신의 선택입니다.
+- 만약 당신의 훌륭한 수로 상대 기물을 쓰러뜨렸다면, 추가적인 걸음 수를 얻습니다!
+- 계단을 통해 다음 방으로 이동할 수 있습니다!
+- 만약 다음 스테이지로 넘어가기전에 걸음이 남아있다면 상점에서 남은 걸음을 통해 아이템을 살 수 있습니다!
+
 Good luck!
