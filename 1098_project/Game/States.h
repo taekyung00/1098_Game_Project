@@ -10,5 +10,7 @@ Created:    March 12, 2025
 #pragma once
 enum class States {
     Splash,
+    MainMenu,
+    Tutorial,
     InGame
 };

@@ -1,5 +1,13 @@
+/*
+Copyright (C) 2023 DigiPen Institute of Technology
+Reproduction or distribution of this file or its contents without
+prior written consent is prohibited
+File Name:  Vec2.cpp
+Project:    CS230 Engine
+Author:     Taekyung Ho
+Created:    March 18, 2025
+*/
 #include "Vec2.h"
-#include <tuple>
 
 
 bool Math::vec2::operator==(const vec2& v)
@@ -27,13 +35,6 @@ Math::vec2& Math::vec2::operator+=(const vec2& v) {
     return *this;
 }
 
-Math::vec2& Math::vec2::operator+=(const ivec2& v)
-{
-    x += double(v.x);
-    y += double(v.y);
-    return *this;
-}
-
 Math::vec2 Math::vec2::operator-(const vec2& v)
 {
     return { x - v.x, y - v.y };
@@ -51,13 +52,6 @@ Math::vec2& Math::vec2::operator-=(const vec2& v)
     return *this;
 }
 
-Math::vec2& Math::vec2::operator-=(const ivec2& v)
-{
-    x -= double(v.x);
-    y -= double(v.y);
-    return *this;
-}
-
 Math::vec2 Math::vec2::operator*(double scale)
 {
     return { x * scale, y * scale };
@@ -72,13 +66,6 @@ Math::vec2& Math::vec2::operator*=(double scale)
 {
     x *= scale;
     y *= scale;
-    return *this;
-}
-
-Math::vec2& Math::vec2::operator*=(const ivec2& v)
-{
-    x *= double(v.x);
-    y *= double(v.y);
     return *this;
 }
 
@@ -101,26 +88,32 @@ Math::vec2& Math::vec2::operator/=(double divisor)
     return *this;
 }
 
-Math::vec2& Math::vec2::operator/=(const ivec2& v)
+Math::vec2 Math::vec2::operator-()
 {
-    x /= double(v.x);
-    y /= double(v.y);
-    return *this;
+    return { -x,-y };
 }
 
-bool Math::operator==(const vec2& lv, const vec2& rv)
+Math::vec2 Math::vec2::operator-() const
 {
-    return { (lv.x == rv.x) && (lv.y == rv.y) };
+    return { -x,-y };
 }
 
-bool Math::operator!=(const vec2& lv, const vec2& rv)
+
+
+Math::vec2 Math::operator-(const vec2& v1, const vec2& v2)
 {
-    return !operator==(lv,rv);
+    return { v1.x - v2.x,v1.x - v2.y };
 }
 
 Math::vec2 Math::operator*(double scale, const vec2& v)
 {
     return { scale * v.x ,scale * v.y };
+}
+
+double Math::GetDistanceSquaredBetweenIndices(const Math::ivec2 index1, const Math::ivec2 index2)
+{
+    return ((index1.x - index2.x) * (index1.x - index2.x) +
+        (index1.y - index2.y) * (index1.y - index2.y));
 }
 
 /*======================================================*/
@@ -135,14 +128,6 @@ bool Math::ivec2::operator!=(const ivec2& v)
     return !operator==(v);
 }
 
-bool Math::ivec2::operator<(const ivec2& v)const
-{
-    return std::tie(x, y) < std::tie(v.x, v.y);
-}
-bool Math::ivec2::operator>(const ivec2& v)const
-{
-    return std::tie(x, y) > std::tie(v.x, v.y);
-}
 Math::ivec2 Math::ivec2::operator+(const ivec2& v) {
     return { x + v.x, y + v.y };
 }
@@ -157,7 +142,6 @@ Math::ivec2& Math::ivec2::operator+=(const ivec2& v) {
     y += v.y;
     return *this;
 }
-
 
 Math::ivec2 Math::ivec2::operator-(const ivec2& v)
 {
@@ -176,8 +160,6 @@ Math::ivec2& Math::ivec2::operator-=(const ivec2& v)
     return *this;
 }
 
-
-
 Math::ivec2 Math::ivec2::operator*(int scale)
 {
     return { x * scale, y * scale };
@@ -195,7 +177,6 @@ Math::ivec2& Math::ivec2::operator*=(int scale)
     return *this;
 }
 
-
 Math::ivec2 Math::ivec2::operator/(int divisor)
 {
     return { x / divisor, y / divisor };
@@ -212,7 +193,6 @@ Math::ivec2& Math::ivec2::operator/=(int divisor)
     y /= divisor;
     return *this;
 }
-
 
 Math::vec2 Math::ivec2::operator*(double scale)
 {
@@ -234,15 +214,15 @@ Math::vec2 Math::ivec2::operator/(double divisor) const
     return { x / divisor, y / divisor };
 }
 
-bool Math::operator==(const ivec2& lv, const ivec2& rv)
+Math::ivec2 Math::ivec2::operator-()
 {
-    return { (lv.x == rv.x) && (lv.y == rv.y) };
+    return { -x, -y };
 }
 
-bool Math::operator!=(const ivec2& lv, const ivec2& rv)
-{
-    return !operator==(lv,rv);
-}
+//Math::ivec2 Math::operator-(const ivec2& v)
+//{
+//    return { -v.x, -v.y };
+//}
 
 Math::ivec2 Math::operator*(int scale, const ivec2& v)
 {

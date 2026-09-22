@@ -12,15 +12,18 @@ Created:    March 8, 2023
 
 #include "Vec2.h"
 #include "Rect.h"
+#include "Matrix.h"
+#include "Component.h"
 
 namespace CS230 {
-    class Camera {
+    class Camera : public Component{
     public:
         Camera(Math::rect player_zone);
         void SetPosition(Math::vec2 new_position);
         const Math::vec2& GetPosition() const;
         void SetLimit(Math::irect new_limit);
         void Update(const Math::vec2& player_position);
+        Math::TransformationMatrix GetMatrix();
     private:
         Math::irect limit;
         Math::vec2 position;

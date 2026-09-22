@@ -1,65 +1,60 @@
-#ifndef PLAYER_H
-#define PLAYER_H
 #pragma once
 
-#include <fstream>
-
-#include "../Engine/Camera.h"
-#include "../Engine/Engine.h"
+#include <vector>
+#include <string>
+#include "../Engine/GameObject.h"
 #include "../Engine/Vec2.h"
+#include "../Engine/GameObjectManager.h"
+#include "../Engine/Audio.h"
+#include "../Engine/Timer.h"
 
+#include "States.h"
+#include "GameObjectTypes.h"
+#include "Tile.h"
 #include "Map.h"
 #include "TurnManager.h"
-#include "Enemy.h"
+#include "Turns.h"
+#include "EnemyManager.h"
 
+#include "ItemManager.h"
 
-class Enemy;
-class Player {
+class Player : public CS230::GameObject {
 public:
-    Player(Math::ivec2 start_index, TurnManager& turnmanager, Map& map);
-    void Load();
-    void Update(double dt/*,  Enemy& enemy*/);
-    void Draw();
-    void Unload();
-
-    const Math::ivec2& GetCurrentIndex() const { return current_index; }
-    const Math::vec2& GetPosition() const { return player_position; }
-    const double& GetTimeLimit() const { return time_limit; }
-    //const bool& GetIsAttacked() const { return is_attacked; }
-    //bool& SetIsAttacked() { return is_attacked; }
-    const int& GetMovingCount() const { return moving_count; }
-    int& SetMovingCount() { return moving_count; }
-    bool& SetIsAlive() { return is_alive; }
-    const bool& GetIsAlive() const { return is_alive; }
-
-    const Rectangle& GetPlayerRect() const { return player_rect; }
-
-    static void SetEnemiesReference(std::vector<Enemy*>& e);
-
+	Player();
+    void Update(double dt) override;
+    GameObjectTypes Type() override { return GameObjectTypes::Player; }
+    std::string TypeName() override { return "Player"; }
+    int DrawPriority() const override { return 20; }
+    bool CanCollideWith(GameObjectTypes other_object_type) override;
+    void ResolveCollision(GameObject* other_object) override;
+    void EraseUseItem(Item* item);
+    std::vector<Item*>& SetUseItem() { return use_items; }
+    const std::vector<Item*>& GetUseItem() const { return use_items; }
+    enum class Animations {
+        Idle,
+        Walking,
+        Attacking,
+        Attacked,
+        Defeated
+    };
+    void ChangeAnimation(int new_anime);
 private:
-    TurnManager& turnmanager;
-    Map& map;
-    static std::vector<Enemy*>* enemies;
-    CS230::Sprite sprite;
-
-    // CS230::Camera& camera;
-
-    Math::ivec2 index_start;
-    Math::ivec2 current_index;
-    Math::ivec2 start_index;
-    Math::vec2 player_position;
-
-    Rectangle player_rect;
-
-    //int radius;
-
-    const int max_moving_count = 100;
-    int moving_count;
-    double start_time_limit = 5;
-    double max_time_limit = 2;
-    double time_limit;
-    bool is_moving;
-    bool did_attack = false;
-    bool is_alive = true;
+    TurnManager* turn_manager ;
+    bool is_moving = true;
+    bool did_nothing = false;
+    Map* map;
+    Audio* moving_sound_ptr;
+    Audio* player_attack_sound_ptr;
+    Audio* stage_change_sound_ptr;
+    //CS230::Timer* after_move_timer;
+    //static constexpr double after_move_time = 0.65;
+    const Math::ivec2 start_index = { 2,0 };
+    std::vector<Item*> use_items;
+    void move_left();
+    void move_right();
+    void move_top();
+    void move_bottom();
+    void attack(CS230::Input::Keys input);
+    bool used_item = false;
+    
 };
-#endif  // !PLAYER_H

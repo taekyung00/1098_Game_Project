@@ -9,8 +9,8 @@ Created:    March 12, 2025
 */
 
 #pragma once
-#include "../Engine/GameState.h"
-#include "../Engine/Texture.h"
+#include "..\Engine\GameState.h"
+#include "..\Engine\Texture.h"
 
 class Splash : public CS230::GameState {
 public:
@@ -20,11 +20,12 @@ public:
     void Unload() override;
     void Draw() override;
 
+
     std::string GetName() override {
         return "Splash";
     }
 
 private:
     double counter = 0;
-    CS230::Texture texture;
+    CS230::Texture* texture;
 };
