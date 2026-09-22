@@ -15,15 +15,23 @@ Engine::Engine() :
 #ifdef _DEBUG
     logger(CS230::Logger::Severity::Debug, true,last_tick)
 #else
-    logger(CS230::Logger::Severity::Event, false, last_tick )
+    logger(CS230::Logger::Severity::Event, true, last_tick )
 #endif
 {}
+
+void Engine::AddFont(const std::filesystem::path& file_name)
+{
+    fonts.push_back(CS230::Font(file_name));
+}
 
 void Engine::Start(std::string window_title) {
     logger.LogEvent("Engine Started"); //why use logevent? --> we can use this either severity is debug or severity is event, and it is just important event..
     window.Start(window_title);
     //Start other services
     last_test = last_tick;
+    unsigned int seed = static_cast<unsigned int>(time(NULL));
+    srand(seed);
+    logger.LogEvent("Seed stored :" + std::to_string(seed));
 }
 
 void Engine::Stop() {

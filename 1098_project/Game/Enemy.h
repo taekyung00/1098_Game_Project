@@ -1,101 +1,48 @@
-#ifndef ENEMY_H
-#define ENEMY_H
-
 #pragma once
-
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
 #include <map>
-
+#include <vector>
+#include "../Engine/GameObject.h"
+#include "../Engine/GameObjectManager.h"
 #include "../Engine/Vec2.h"
-#include "Map.h"
-
+#include "../Engine/Timer.h"
+#include "Tile.h"
 #include "TurnManager.h"
+#include "Map.h"
+#include "Shield.h"
 
-class Player;
 
-class Enemy {
+
+class Enemy : public CS230::GameObject {
 public:
-	Enemy(Math::ivec2 index, std::string sprite_path);
-	virtual void Load() = 0;
-	virtual void Update(double dt) = 0;
-	virtual void Draw();
-	virtual void Unload();
-	virtual void UpdateNearIndex();
-	virtual void ReachableTest() = 0;
-	virtual void ChangeIndex();
-	virtual ~Enemy()  = 0;
+	Enemy(Math::ivec2 start_index);
+	Enemy(Math::ivec2 start_index,Math::vec2 scale);
+    void Update(double dt) override;
+    GameObjectTypes Type() override { return GameObjectTypes::Enemy; }
+    std::string TypeName() override { return "Enemy"; }
+    int DrawPriority() const override { return 7; }
+    bool CanCollideWith(GameObjectTypes other_object_type) override;
+    //void ResolveCollision(GameObject* other_object) override;
+    virtual void ReachableIndexPush() = 0;
+    virtual void ChangeMapDesign();
 
-	static void SetPlayerReference(Player& p);
-	static void SetMapReference(Map& m);
-	bool& SetIsOutdated() { return is_outdated; }
-	const bool& GetIsOutdated() const { return is_outdated; }
-	bool& SetIsAlive() { return is_alive; }
-	const bool& GetIsAlive() const { return is_alive; }
-	const Math::ivec2& GetCurrentIndex() const { return current_index; }
-	const Math::vec2& GetPosition() const{ return position; }
-	const Rectangle& GetRect() const{ return rect; }
-	const std::map<std::string, Math::ivec2>& GetNearIndex() const { return near_index; }
-	std::map<std::string, Math::ivec2>& SetNearIndex()  { return near_index; }
+    virtual void Defeated() {};
+    const bool GetIsOutdated() const { return is_outdated; }
+    bool& SetIsOutdated() { return is_outdated; }
+    const bool GetDidAttact() const { return did_attack; }
+    //const bool GetMapChanged() const { return map_changed; }
+    //bool& SetMapChanged() { return map_changed; }
+    bool& SetDidAttact() { return did_attack; }
+
+    const bool GetTurnEnded() const { return turn_ended; }
+    bool& SetTurnEnded() { return turn_ended; }
 protected:
-	static Map* map;
-	static Player* player;
-	std::string sprite_path;
-	CS230::Sprite sprite;	
-	Math::ivec2 current_index;
-	//std::vector < Math::ivec2 > near_index;
-	std::map<std::string, Math::ivec2>near_index;
-	Math::vec2 position;
-	Rectangle sprite_rect;
-	Rectangle rect;
-	bool is_outdated = true;
-	bool is_alive = true;
-	std::vector<Math::ivec2> reachable_indices;
-	std::map<Math::ivec2, double> distances_between_enemy_player;
-private:
-
-	
-	
+    std::vector<Math::ivec2> reachable_indices;
+    bool is_outdated = true;
+    bool turn_ended = false;
+    bool did_attack = false;
+    //bool map_changed = false;
+    void ChangeIndex();
+    virtual void attack();
+    CS230::Timer* turn_timer;
+    static constexpr double turn_time = 1.0;
 };
-//class Enemy {
-//public:
-//	struct attackarm;
-//
-//	Enemy(TurnManager& turnmanager, Map& map, Player& player);
-//	void Load();
-//	void Update(double dt);
-//	void Draw();
-//	void Unload();
-//	void Attack();
-//	Math::ivec2 GetIndex() const { return index; }
-//	const std::vector<attackarm>& GetArms() const { return attackarms; }
-//	bool& GetIsAlive() { return is_alive; }
-//
-//private:
-//	TurnManager& turnmanager;
-//	Map& map;
-//	Player& player;
-//
-//	Math::ivec2 index_start;
-//	Math::ivec2 index;
-//
-//	Math::ivec2 position;
-//
-//	bool is_attacking;
-//	double attcak_count;
-//
-//
-//	struct attackarm {
-//		Vector2 center;
-//		int radius;
-//	};
-//
-//	std::vector<attackarm> attackarms;
-//	bool is_alive = true;
-//
-//};
-
-#endif // !ENEMY_H
-
-

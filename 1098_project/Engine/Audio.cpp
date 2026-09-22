@@ -1,13 +1,11 @@
 #include "Audio.h"
 
 Audio::Audio(const char* filePath) {
-    InitAudioDevice(); 
-    music = LoadMusicStream(filePath); 
+    music = LoadMusicStream(filePath);
 }
 
 Audio::~Audio() {
-    UnloadMusicStream(music); 
-    CloseAudioDevice(); 
+    UnloadMusicStream(music);
 }
 
 void Audio::Play() {

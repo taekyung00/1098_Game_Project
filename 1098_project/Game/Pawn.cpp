@@ -1,93 +1,125 @@
 #include "Pawn.h"
-#include "InGame.h"
+#include "Rook.h"
+#include "TurnManager.h"
+#include "Player.h"
+
+Pawn::Pawn(Math::ivec2 index) :
+	Enemy(index) 
+	//movable("Assets/Movable.spt", this)
+{
+	AddGOComponent(new CS230::Sprite("Assets/Pawn.spt", this));
+	ReachableIndexPush();
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+	//ChangeMapDesign();
+	turn_timer = new CS230::Timer(0.0);
+	AddGOComponent(turn_timer);
+}
 
 
-Pawn::Pawn(Math::ivec2 index, std::string sprite_path) : 
-	Enemy(index, sprite_path) {
-	sprite.Load(sprite_path.c_str(),{0,0});
-	
-	
-}
-void Pawn::Load()
-{
-	rect = { static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
-}
-void Pawn::Update([[maybe_unused]]double dt)
-{
-	if (is_outdated == true) {
-		near_index.clear();
-		ReachableTest();
-		ChangeIndex();
-		UpdateNearIndex();
-		ReachableTest();
-		position =
-			Math::vec2{ static_cast<double>(start_position.x), static_cast<double>(start_position.y) } +
-			Math::vec2{ static_cast<double>(current_index.y * tile_size.y), static_cast<double>(current_index.x * tile_size.x) };
-		//rect = { 0.f, 0.f, static_cast<float>(tile_size.x), static_cast<float>(tile_size.y) };
-		is_outdated = false;
-		rect = { static_cast<float>(position.x),static_cast<float>(position.y),static_cast<float>(tile_size.x),static_cast<float>(tile_size.y) };
+void Pawn::Update(double dt) {
+	if (Destroyed() == true) {
+		return;
 	}
-	
-	
-}
+	GameObject::Update(dt);
+	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacked)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Defeated));
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Defeated))) {
+		if ((GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+			Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->EraseEnemy(this);
+			Destroy();
+			Engine::GetGameStateManager().GetGSComponent<ItemManager>()->DropItem(GetIndex());
+		}
+		return;
+	}
+	if ((GetGOComponent<CS230::Sprite>()->CurrentAnimation() == static_cast<int>(Animations::Attacking)) && (GetGOComponent<CS230::Sprite>()->AnimationEnded() == true)) {
+		GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attackable));
+	}
+	if ((turn_ended == false) && (is_outdated == true) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+		ReachableIndexPush();
+		ChangeIndex();
+		ReachableIndexPush();
 
-void Pawn::ReachableTest()
-{
-	/*for (Math::ivec2 index : reachable_indices) {
-		map->SetTileDesign()[index.x][index.y].isPawnReachable = false;
-	}*/
-
-	for (int i = 0; i < map->GetTileDesign().size(); ++i) {
-		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
-			map->SetTileDesign()[i][j].isPawnReachable = false;
+		SetPosition({ start_position.x + GetIndex().x * tile_size.x * scale_const.x, start_position.y + GetIndex().y * tile_size.y * scale_const.y });
+		is_outdated = false;
+		Engine::GetLogger().LogDebug("Enemy is updated");
+		turn_timer->Set(turn_time);
+	}
+	if ((turn_ended == false) && (turn_manager->GetCurrentTurn() == Turns::Enemy)) {
+		if (turn_timer->Remaining() == 0.0) {
+			turn_ended = true;
+			is_outdated = true;
 		}
 	}
+	ChangeMapDesign();
+}
 
+void Pawn::ReachableIndexPush()
+{
+	Map* map = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
 	reachable_indices.clear();
-	distances_between_enemy_player.clear();
 
-	Math::ivec2 temp_index = current_index;
-	if (map->GetTileDesign()[current_index.x][current_index.y ].isLeftEdge == false) {
-		temp_index.y--;
-		reachable_indices.push_back(temp_index);
-	}
-
-	temp_index = current_index;
-	if (map->GetTileDesign()[current_index.x][current_index.y ].isRightEdge == false) {
-		temp_index.y++;
-		reachable_indices.push_back(temp_index);
-	}
-
-	temp_index = current_index;
-	if (map->GetTileDesign()[current_index.x ][current_index.y].isBottomEdge == false) {
-		temp_index.x++;
-		reachable_indices.push_back(temp_index);
-	}
-
-	temp_index = current_index;
-	if (map->GetTileDesign()[current_index.x ][current_index.y ].isTopEdge == false) {
+	Math::ivec2 temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isLeftEdge == false) {
 		temp_index.x--;
 		reachable_indices.push_back(temp_index);
 	}
 
-	for (Math::ivec2 index : reachable_indices) {
-		map->SetTileDesign()[index.x][index.y].isPawnReachable = true;
-		distances_between_enemy_player[index] = GetDistanceBetweenIndices(index,player->GetCurrentIndex());
+	temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isRightEdge == false) {
+		temp_index.x++;
+		reachable_indices.push_back(temp_index);
+	}
+
+	temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isBottomEdge == false) {
+		temp_index.y--;
+		reachable_indices.push_back(temp_index);
+	}
+
+	temp_index = GetIndex();
+	if (map->GetTileDesign()[GetIndex().x][GetIndex().y].isTopEdge == false) {
+		temp_index.y++;
+		reachable_indices.push_back(temp_index);
 	}
 }
 
-Pawn::~Pawn()
-{
-	reachable_indices.clear();
-	distances_between_enemy_player.clear();
-	for (int i = 0; i < map->GetTileDesign().size(); ++i) {
-		for (int j = 0; j < map->GetTileDesign()[i].size(); ++j) {
-			map->SetTileDesign()[i][j].isPawnReachable = false;
+void Pawn::Draw(Math::TransformationMatrix camera_matrix) {
+	GameObject::Draw(camera_matrix);
+	//movable.Draw(camera_matrix * GetMatrix());
+}
+
+void Pawn::attack() {
+	TurnManager* turnmanager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
+	if ((did_attack == false) && (turnmanager->GetCurrentTurn() == Turns::Enemy)) {
+		std::vector<Item*>& player_use_items = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>()->SetUseItem();
+		std::vector<Item*>::iterator item_iter = std::find_if(player_use_items.begin(), player_use_items.end(), [](Item* item) {
+			return item->Type() == GameObjectTypes::Shield;
+			});
+		if (item_iter != player_use_items.end()) {
+			Shield* shield = static_cast<Shield*>(*(item_iter));
+			--shield->SetLife();
+			if (shield->GetLife() == 0) {
+				ItemManager* item_manager = Engine::GetGameStateManager().GetGSComponent<ItemManager>();
+				//Player* player = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Player>();
+				item_manager->EraseUseItem(shield);
+				player->EraseUseItem(shield);
+			}
 		}
+		else {
+			turnmanager->Sub(1);
+			GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacking));
+			did_attack = true;
+			player->ChangeAnimation(static_cast<int>(Player::Animations::Attacked));
+		}		
+		
 	}
 }
 
-
-
-
-
+void Pawn::Defeated()
+{
+	GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Attacked));
+}

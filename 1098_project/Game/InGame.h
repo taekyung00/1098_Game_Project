@@ -1,71 +1,61 @@
-#ifndef INGAME_H
-#define INGAME_H
 #pragma once
+#include <vector>
+#include <raylib.h>
 
-
-
-#include "../Engine/Texture.h"
-#include "../Engine/Sprite.h"
-#include "../Engine/Camera.h"
 #include "../Engine/GameState.h"
+#include "../Engine/GameObjectManager.h"
 #include "../Engine/Audio.h"
 
 
-
-#include "TurnManager.h"
+#include "Fonts.h"
+#include "States.h"
 #include "Map.h"
-#include "Player.h"
-#include "Enemy.h"
+
+#include "Door.h"
+#include "Turns.h"
+#include "TurnManager.h"
 #include "Pawn.h"
 #include "Rook.h"
 #include "Bishop.h"
-#include "Trap.h"
-#include "CollisionManager.h"
+#include "EnemyManager.h"
+#include "UI.h"
 
-
-#include <vector>
-
-extern const Math::ivec2 tile_size;
-extern const Math::ivec2 start_position;
-extern double GetDistanceBetweenIndices(const Math::ivec2 index1, const Math::ivec2 index2);
-
-
+class Player;
 class InGame : public CS230::GameState {
 public:
-
+    static InGame& Instance() {
+        static InGame instance;
+        return instance; //why we have to keep track of "instance" ???
+    }
     InGame();
     void Load() override;
-    void Update(double) override;
+    void Update(double dt) override;
     void Unload() override;
     void Draw() override;
-    
 
+    static void ChangeAudio();
     std::string GetName() override {
         return "InGame";
     }
-
-
+    static constexpr int MaxTurn = 10;
+    
 private:
-    //static constexpr double max_turn_count = 3.0;
+    Map* map_ptr;
+    Player* player_ptr;
 
-    /*Math::ivec2 floor1_index = { 8,8 };
-    Math::ivec2 floor2_index = { 5,5 };*/
-    //Math::ivec2 current_map_index;
-    TurnManager turnmanager;
-    Map map;
-    Player player;
-    //Enemy enemy;
-    Camera2D camera;
-    Audio audio;
-    std::vector<Enemy*> enemies;
-    std::vector<Trap*> traps;
-    CollisionManager collisionmanager;
-    //std::vector<Rectangle*> trap_rects;
-    const std::vector<std::vector<Math::ivec2>> trap_index = {
-        {Math::ivec2{2,5}}//stage1
-    };
+    CS230::Texture* turncount_texture;
+    //CS230::Texture* turn_texture;
+    //CS230::Texture* push_button_texture;
+
+    inline static Audio* current_audio_ptr;
+    inline static Audio* stage1_audio_ptr;
+    inline static Audio* stage2_audio_ptr;
+    inline static Audio* stage3_audio_ptr;
+    inline static Audio* boss_audio_ptr;
+    inline static Audio* shop_audio_ptr;
+    
+    
+    void update_turncount_text();
+    void update_turn_text();
+    
 };
-
-#endif // !MODE_H
-
-

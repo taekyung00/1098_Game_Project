@@ -1,173 +1,162 @@
-
-#include <iostream>
-
+#include "Player.h"
 #include "InGame.h"
 
 
-extern const Math::ivec2 tile_size = { 32,32 };
-extern const Math::ivec2 start_position = { 50,50 };
-InGame::InGame() : 
-	//current_map_index(floor1_index), 
-	map(), 
-	player({3,3}, turnmanager, map),
-	//enemy(turnmanager, map, player), 
-	audio("Sounds/Drum,Metronom.wav") ,
-	collisionmanager(player,enemies,traps)
+void InGame::update_turncount_text()
 {
-	Enemy::SetPlayerReference(player);
-	Enemy::SetMapReference(map);
-	camera.target = { static_cast<float>(player.GetPosition().x),static_cast<float>(player.GetPosition().y) };
-	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
+	delete turncount_texture;
+	turncount_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Turn: " + std::to_string(GetGSComponent<TurnManager>()->GetTurnCount()), 0xFFFFFFFF);
+}
+void InGame::update_turn_text()
+{
+	//delete turn_texture;
+	//delete push_button_texture;
+	if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Player) {
+		//turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Player Turn", 0xFFFFFFFF);
+		//push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push WASD To Move", 0xFFFFFFFF);
 
-	camera.rotation = 0.f;
-	camera.zoom = 1.f;
+	}
+	else if (GetGSComponent<TurnManager>()->GetCurrentTurn() == Turns::Enemy) {
+		//turn_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Enemy Turn", 0xFFFFFFFF);
+		//push_button_texture = Engine::GetFont(static_cast<int>(Fonts::Simple)).PrintToTexture("Push SPACE To Change Turn", 0xFFFFFFFF);
+	}
+}
+
+InGame::InGame() :
+	turncount_texture(nullptr),
+	//turn_texture(nullptr),
+	//push_button_texture(nullptr),
+	map_ptr(nullptr),
+	player_ptr(nullptr)
+{
+	
 }
 
 void InGame::Load() {
-	map.initializestage(Stages::stage1);
-	enemies.clear();
-	traps.clear();
-	map.Load();
-	map.GetCurrentStage();
-	enemies.push_back(new Pawn({ 1,1 },"Assets/pawn.png"));
-	/*enemies.push_back(new Rook({ 8,8 },"Assets/pawn.png"));
-	enemies.push_back(new Bishop({ 4,8 }, "Assets/pawn.png"));*/
+	InitAudioDevice();
+	AddGSComponent(new TurnManager(MaxTurn,Turns::Player));
+	AddGSComponent(new CS230::GameObjectManager());
+	AddGSComponent(new EnemyManager());
+	AddGSComponent(new ItemManager());
 
-	player.SetEnemiesReference(enemies);
-	for (Math::ivec2 index : trap_index[static_cast<int>(map.GetCurrentStage()) ]) {
-		traps.push_back(new Trap(index));
-	}
-	for (Trap* trap : traps) {
-		trap->Load();
-	}
-	/*for (Enemy* enemy : enemies) {
-		enemy->Load();
-	}*/
-	turnmanager.Load();
+	//AddGSComponent(new SpawnTrap());
+	map_ptr = new Map();
+	GetGSComponent<CS230::GameObjectManager>()->Add(map_ptr);
 	
-	player.Load();
-	//enemy.Load();
 
-	camera.offset = { Engine::GetWindow().GetSize().x / 2.f ,Engine::GetWindow().GetSize().y / 2.f };
-	audio.SetLooping(true);
-	audio.Play();
+	player_ptr = new Player();
+	GetGSComponent<CS230::GameObjectManager>()->Add(player_ptr);
+	GetGSComponent<CS230::GameObjectManager>()->Add(new Door({2,4}));
+	AddGSComponent(new UI());
+	
+	//GetGSComponent<SpawnTrap>()->SpawnTraps();
+	GetGSComponent<EnemyManager>()->SpawnEnemies();	
+
+	stage1_audio_ptr = new Audio("Assets/Sounds/Drum,Metronom.mp3");
+	stage1_audio_ptr->SetLooping(true);
+	AddGSComponent(stage1_audio_ptr);
+
+	stage2_audio_ptr = new Audio("Assets/Sounds/Forest_bgm_final.mp3");
+	stage2_audio_ptr->SetLooping(true);
+	AddGSComponent(stage2_audio_ptr);
+
+	stage3_audio_ptr = new Audio("Assets/Sounds/Castle_bgm_final.mp3");
+	stage3_audio_ptr->SetLooping(true);
+	AddGSComponent(stage3_audio_ptr);
+
+	boss_audio_ptr = new Audio("Assets/Sounds/Boss_bgm.mp3");
+	boss_audio_ptr->SetLooping(true);
+	AddGSComponent(boss_audio_ptr);
+
+	shop_audio_ptr = new Audio("Assets/Sounds/Shop.mp3");
+	shop_audio_ptr->SetLooping(true);
+	AddGSComponent(shop_audio_ptr);
+
+	current_audio_ptr = stage1_audio_ptr;
+	current_audio_ptr->Play();
+
+	update_turncount_text();
+	update_turn_text();
 }
 
 void InGame::Update(double dt) {
-	turnmanager.Update(dt);
-	map.Update(dt);
+	map_ptr->ClearEnemiesReachable();
+	current_audio_ptr->Update();
+	EnemyManager* enemymanager = Engine::GetGameStateManager().GetGSComponent<EnemyManager>();
+	//std::vector<Enemy*>& enemies = enemymanager->SetEnemies();
+	UpdateGSComponents(dt);
+	GetGSComponent<CS230::GameObjectManager>()->UpdateAll(dt);
 	
-	if (turnmanager.GetCurrentTurn() == TurnManager::Turns::player) {
-		for (Enemy* enemy : enemies) {
-			enemy->SetIsOutdated() = true;
-			//enemy->UpdateNearIndex();
-		}
-		for (Trap* trap : traps) {
-			trap->SetIsOutdated() = true;
-		}
-		player.Update(dt);
-	}
-	else if(turnmanager.GetCurrentTurn() == TurnManager::Turns::enemy){
-		for (int i = 0; i < enemies.size(); ++i) {
-			if (enemies[i]->GetIsAlive() == false) {
-				delete enemies[i];
-				enemies.erase( enemies.begin()+i);
-			}
-			else {
-				enemies[i]->Update(dt);
-			}
-			
-		}
-	}
+	update_turncount_text();
+	update_turn_text();
+	Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->SortForDraw();
 	
-	else if (turnmanager.GetCurrentTurn() == TurnManager::Turns::traps) {
-		
-		for (Trap* trap : traps) {
-			trap->Update(dt);
-		}
+	enemymanager->TurnChange();
+	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
+		Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::MainMenu));
 	}
-	collisionmanager.CollisionCheck();
-	//temperate collisioncheck
-	
-	/*for(Trap* trap: traps){
-		if (trap->GetIsAlive() == true) {
-			if (CheckCollisionRecs(player.GetPlayerRect(), trap->GetTrapRect()) &&
-				player.GetIsAttacked() == false) {
-				player.SetMovingCount()--;
-				player.SetIsAttacked() = true;
-				Engine::GetLogger().LogDebug("player attacked!");
-				turnmanager.SetCurrentTurn() =  TurnManager::Turns::enemy;
-			}
-		}
-		
-	}*/
-
-	audio.Update();
-
-	if (player.GetTimeLimit() > 2) {
-		camera.zoom = 2.f;
-	}
-	else if (player.GetTimeLimit() <= 2 && player.GetTimeLimit() > 1) {
-		camera.zoom = 3.f;
-	}
-	else {
-		camera.zoom = 4.f;
-	}
-	camera.target = { float(player.GetPosition().x),float(player.GetPosition().y) };
-
 	if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::R)) {
 		Engine::GetGameStateManager().ReloadState();
-		std::cout << "RR\n";
-	}
-
-	if (player.GetCurrentIndex() == map.GetExitIndex()) {
-		Engine::GetGameStateManager().ReloadState();
-
 	}
 }
 
 void InGame::Unload() {
-	for (Enemy* enemy : enemies) {
-		delete enemy;
-	}
-	enemies.clear();
-	for (Trap* trap : traps) {
-		delete trap;
-	}
-	traps.clear();
-	map.Unload();
-	player.Unload();
-	//enemy.Unload();
-	audio.Stop();
+	current_audio_ptr->Stop();
+	GetGSComponent<CS230::GameObjectManager>()->Unload();
+	ClearGSComponents();
+	delete turncount_texture;
+	turncount_texture = nullptr;
+	CloseAudioDevice();
+	//delete turn_texture;
+	//turn_texture = nullptr;
+	//delete push_button_texture;
+	//push_button_texture = nullptr;
+	//Engine::GetGameStateManager().GetGSComponent<EnemyManager>()->ClearEnemies();
+	
+
 }
 
 void InGame::Draw() {
-	BeginMode2D(camera);
-	/*if (turnmanager.isplayerturn == true) {
-		Engine::GetLogger().LogDebug("player turn");
-	}
-	else if (turnmanager.isenemyturn == true) {
-		Engine::GetLogger().LogDebug("enemy turn");
-	}*/
-	//Engine::GetLogger().LogDebug(std::to_string(enemy.GetArms().size()));
-	Engine::GetWindow().Clear(0x00000000);
-	map.Draw();
-	
-	for (Trap* trap : traps) {
-		trap->Draw();
-	}
-	for (Enemy* enemy : enemies) {
-		enemy->Draw();
-	}
-	player.Draw();
-	//enemy.Draw();
-	EndMode2D();
+	Engine::GetWindow().Clear(0x000000FF);
+	GetGSComponent<CS230::GameObjectManager>()->DrawAll(Math::TransformationMatrix());
+	GetGSComponent<UI>()->Draw();
+	turncount_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turncount_texture->GetSize().x, Engine::GetWindow().GetSize().y - turncount_texture->GetSize().y - 5 }));
+	//turn_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - turn_texture->GetSize().x, Engine::GetWindow().GetSize().y - turn_texture->GetSize().y - 15 - turncount_texture->GetSize().y }));
+	//push_button_texture->Draw(Math::TranslationMatrix(Math::ivec2{ Engine::GetWindow().GetSize().x - 10 - push_button_texture->GetSize().x, push_button_texture->GetSize().y}));
 }
 
-
-
-double GetDistanceBetweenIndices(const Math::ivec2 index1, const Math::ivec2 index2)
+void InGame::ChangeAudio()
 {
-	return sqrt((index1.x - index2.x) * (index1.x - index2.x) +
-		(index1.y - index2.y) * (index1.y - index2.y));
+	TurnManager* turn_manager = Engine::GetGameStateManager().GetGSComponent<TurnManager>();
+	bool stage_change_check = false;
+	Map* static_map_ptr = Engine::GetGameStateManager().GetGSComponent<CS230::GameObjectManager>()->GetGameObject<Map>();
+	if (static_map_ptr->GetRoom() == Rooms::Room1) {
+		stage_change_check = true;
+	}
+	if (static_map_ptr->GetRoom() == Rooms::Store)
+	{
+		current_audio_ptr->Stop();
+		current_audio_ptr = shop_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::stage1) {
+		current_audio_ptr = stage1_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::stage2) {
+		current_audio_ptr = stage2_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::stage3) {
+		current_audio_ptr = stage3_audio_ptr;
+	}
+	else if (static_map_ptr->GetStage() == Stages::Boss)
+	{
+		current_audio_ptr = boss_audio_ptr;
+	}
+	
+	if (stage_change_check == true)
+	{
+		turn_manager->Add(InGame::MaxTurn);
+		stage_change_check = false;
+	}
+	current_audio_ptr->Play();
 }
+
