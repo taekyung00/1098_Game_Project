@@ -7,15 +7,21 @@ Project:    CS230 Engine
 Author:     Taekyung Ho
 Created:    March 11, 2025
 */
+
 #pragma once
+
+#include <chrono>
+#include <string>
+
 #include "Logger.h"
 #include "Window.h"
 #include "GameStateManager.h"
 #include "Input.h"
-#include <chrono>
-#include <string>
+#include "TextureManager.h"
+#include "Font.h"
 
 //don't use CS230 namespace to get access to engine globally..????even if use namespace, ....
+
 class Engine {
 public:
     static Engine& Instance() {
@@ -39,6 +45,15 @@ public:
         return Instance().input;
     }
 
+    static CS230::TextureManager& GetTextureManager(){
+        return Instance().texturemanager;
+    }
+
+    static CS230::Font& GetFont(int index) {
+        return Instance().fonts[index];
+    }
+
+    void AddFont(const std::filesystem::path& file_name);
 
     void Start(std::string window_title);
     void Stop();
@@ -62,4 +77,7 @@ private:
     CS230::Window window;
     CS230::GameStateManager gamestatemanager;
     CS230::Input input;
+    CS230::TextureManager texturemanager;
+
+    std::vector<CS230::Font> fonts;
 };

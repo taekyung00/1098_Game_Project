@@ -1,43 +1,30 @@
-#ifndef TRAPS_H
-#define TRAPS_H
 #pragma once
+#include "States.h"
+#include "Enemy.h"
+#include "../Engine/Timer.h"
 
-#include <vector>
-#include <raylib.h>
-
-#include "../Engine/Sprite.h"
-#include "../Engine/Vec2.h"
-
-#include "Map.h"
-
-class Trap {
+class Trap : public Enemy {
 public:
-	Trap(Math::ivec2 index) ;
-	void Load();
-	void Update(double dt);
-	void Draw();
-	void Unload();
-	bool& SetIsAlive() { return is_alive; }
-	//bool& SetDidAttack() { return did_attack; }
-	const bool& GetIsAlive() const { return is_alive; }
-	Rectangle& SetTrapRect() { return trap_rect; }
-	const Rectangle& GetTrapRect() const { return trap_rect; }
-	bool& SetIsOutdated() { return is_outdated; }
-	
-
+	Trap(Math::ivec2 index);
+	void ReachableIndexPush() override {};
+	void Update(double dt) override;
+	//void Draw(Math::TransformationMatrix camera_matrix) override;
+	GameObjectTypes Type() override { return GameObjectTypes::Trap; }
+	std::string TypeName() override { return "Trap"; }
+	int DrawPriority() const override { return 5; }
+	bool CanCollideWith(GameObjectTypes other_object_type) override;
+	void ResolveCollision(GameObject* other_object) override;
+	enum class Animations {
+		On,
+		Off,
+		Attackable
+	};
 private:
-	
-	CS230::Sprite sprite_trap_dead;
-	CS230::Sprite sprite_trap_alive;
-	Math::ivec2 index;
-	Rectangle trap_rect;
-	
-	//bool did_attack = false;
+	//CS230::Sprite* movable;
+	const int max_turn_count = 2;
+	int current_turn = 0;
 	bool is_alive = true;
-	bool is_outdated = true;
-	/*const double trap_max_count = 1.0;
-	double trap_count = 1.0;*/
+	//bool map_changed = true;
+	CS230::Timer* turn_timer;
+	static constexpr double turn_time = 1.0;
 };
-
-#endif // !TRAPS_H
-

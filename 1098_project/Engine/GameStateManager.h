@@ -23,6 +23,10 @@ namespace CS230 {
         void ReloadState();
         bool HasGameEnded();
 
+
+        template<typename T>
+        T* GetGSComponent() { return current_gamestate->GetGSComponent<T>(); }
+
     private:
         enum class Status {
             STARTING,
